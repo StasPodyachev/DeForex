@@ -34,7 +34,6 @@ interface IFactory {
     function getAlp(
         address tokenA,
         address tokenB,
-        uint24 fee
     ) external view returns (address pool);
 
     /// @notice Creates a pool for the given two tokens and fee
@@ -48,7 +47,6 @@ interface IFactory {
     function createAlp(
         address tokenA,
         address tokenB,
-        uint24 fee
     ) external returns (address pool);
 
     /// @notice Updates the owner of the factory

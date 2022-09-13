@@ -1,7 +1,6 @@
 pragma solidity ^0.8.9;
 
 contract ALP {
-    uint public constant MINIMUM_LIQUIDITY = 10**3;
     bytes4 private constant SELECTOR = bytes4(keccak256(bytes('transfer(address,uint256)')));
 
     address public factory;
@@ -13,6 +12,7 @@ contract ALP {
     uint32  private blockTimestampLast; // uses single storage slot, accessible via getReserves
 
     uint private unlocked = 1;
+    uint private constant SHOULDER = 100;
 
     modifier lock() {
         require(unlocked == 1, 'ALP: LOCKED');
@@ -47,6 +47,16 @@ contract ALP {
         token1 = _token1;
     }
 
+    function requestReserve(uint256 leverage, uint256 amount, address token) internal{
+        require(leverage <= SHOULDER, "ALP: too much leverage");
+
+        uint256 val = amount * SHOULDER;
+        uint256 reserve = token == token0 ? reserve0: reserve1;
+
+        require(reserve > val, "ALP: Insufficient funds in reserve");
+        _safeTransfer(token, msg.sender, val);
+    }
+
     function deposit(address token, uint val) external {
       require(token == token0 || token == token1, "ALP: Token don't support");
 
@@ -58,8 +68,6 @@ contract ALP {
 
     function withdraw(address token, uint val) external {
       require(token == token0 || token == token1, "ALP: Token don't support");
-
-      
 
       _safeTransfer(token, msg.sender, val);
 
