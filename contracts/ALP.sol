@@ -7,9 +7,9 @@ contract ALP {
     address public token0;
     address public token1;
 
-    uint112 private reserve0;           // uses single storage slot, accessible via getReserves
-    uint112 private reserve1;           // uses single storage slot, accessible via getReserves
-    uint32  private blockTimestampLast; // uses single storage slot, accessible via getReserves
+    uint256 private reserve0;           
+    uint256 private reserve1;           
+    uint32  private blockTimestampLast;
 
     uint private unlocked = 1;
     uint private constant LEVERAGE = 100;
@@ -21,7 +21,7 @@ contract ALP {
         unlocked = 1;
     }
 
-    function getReserves() public view returns (uint112 _reserve0, uint112 _reserve1, uint32 _blockTimestampLast) {
+    function getReserves() public view returns (uint256 _reserve0, uint256 _reserve1, uint32 _blockTimestampLast) {
         _reserve0 = reserve0;
         _reserve1 = reserve1;
         _blockTimestampLast = blockTimestampLast;
@@ -34,7 +34,7 @@ contract ALP {
 
     event Deposit(address indexed sender, address token, uint val);
     event Withdraw(address indexed sender, address token, uint val);
-    event Sync(uint112 reserve0, uint112 reserve1);
+    event Sync(uint256 reserve0, uint256 reserve1);
 
     constructor() public {
         factory = msg.sender;
@@ -50,17 +50,29 @@ contract ALP {
     function requestReserve(uint256 leverage, uint256 amount, address token) internal{
         require(leverage <= LEVERAGE, "ALP: too much leverage");
 
-        uint256 val = amount * LEVERAGE;
+        uint256 val = amount * (leverage - 1);
         uint256 reserve = token == token0 ? reserve0: reserve1;
 
         require(reserve > val, "ALP: Insufficient funds in reserve");
         _safeTransfer(token, msg.sender, val);
+
+        if(token0 == token){
+            reserve0 -= val;
+        }else{
+            reserve1 -= val;
+        }
     }
 
     function deposit(address token, uint val) external {
       require(token == token0 || token == token1, "ALP: Token don't support");
 
       _safeTransfer(token, msg.sender, val);
+
+      if(token0 == token){
+        reserve0 += val;
+      }else{
+        reserve1 += val;
+      }
 
       emit Deposit(msg.sender, token, val);
       emit Sync(reserve0, reserve1);
@@ -70,6 +82,12 @@ contract ALP {
       require(token == token0 || token == token1, "ALP: Token don't support");
 
       _safeTransfer(token, msg.sender, val);
+
+      if(token0 == token){
+        reserve0 -= val;
+      }else{
+        reserve1 -= val;
+      }
 
       emit Withdraw(msg.sender, token, val);
       emit Sync(reserve0, reserve1);
