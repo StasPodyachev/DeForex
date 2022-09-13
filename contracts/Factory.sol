@@ -17,6 +17,8 @@ contract Factory is IFactory, Ownable {
         return allPairs.length;
     }
 
+    // TODO: register Exchanges and other  
+
     function createAlp(address tokenA, address tokenB) external returns (address pair) {
         require(tokenA != tokenB, 'Factory: IDENTICAL_ADDRESSES');
         (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);

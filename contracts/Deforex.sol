@@ -28,15 +28,17 @@ abstract contract Deforex is IDeforex, Ownable {
 
     _orderId++;
 
+    // TODO: save more fields to OrderParams
+
     _orders[_orderId] = OrderParams(1, amount, leverage);
   }
 
   function closeOrder(uint256 id) external payable {
     OrderParams memory params = _orders[id];
 
-    _exchange.swap(SwapParams(1, UNISWAP));
+    _exchange.swap(params);
 
-    // swap
+    // TODO: return reserve to ALP
   }
 
   function setAlp(ALP alp){
