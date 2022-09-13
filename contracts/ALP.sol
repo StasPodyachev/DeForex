@@ -12,7 +12,7 @@ contract ALP {
     uint32  private blockTimestampLast; // uses single storage slot, accessible via getReserves
 
     uint private unlocked = 1;
-    uint private constant SHOULDER = 100;
+    uint private constant LEVERAGE = 100;
 
     modifier lock() {
         require(unlocked == 1, 'ALP: LOCKED');
@@ -48,9 +48,9 @@ contract ALP {
     }
 
     function requestReserve(uint256 leverage, uint256 amount, address token) internal{
-        require(leverage <= SHOULDER, "ALP: too much leverage");
+        require(leverage <= LEVERAGE, "ALP: too much leverage");
 
-        uint256 val = amount * SHOULDER;
+        uint256 val = amount * LEVERAGE;
         uint256 reserve = token == token0 ? reserve0: reserve1;
 
         require(reserve > val, "ALP: Insufficient funds in reserve");

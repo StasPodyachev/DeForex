@@ -4,10 +4,10 @@ pragma abicoder v2;
 
 import "./interfaces/IExchange.sol";
 
-contract Exchange is
+abstract contract Exchange is
     IExchange
 {
-    function swap(IExchange.SwapParams memory params) {
+    function swap(IExchange.SwapParams memory params) virtual external  {
         
     }
 }
