@@ -1,0 +1,41 @@
+.panel {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  padding: 12px 32px;
+  display: flex;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), linear-gradient(74.31deg, #59FFAF 0%, #9E4EFF 80.73%);
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.widget {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: bold;
+  color: #fff;
+  opacity: .6;
+  transition: all .3s;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 120%;
+}
+
+.active {
+  opacity: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-weight: bold;
+  color: #fff;
+  transition: all .3s;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 120%;
+}

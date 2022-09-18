@@ -1,0 +1,297 @@
+.deal {
+  padding-bottom: 40px;
+}
+
+.switchBtn {
+  margin-top: 14px;
+  margin-bottom: 86px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.switchItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  width: 60%;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+  color: #FFFFFF;
+  background: #1C1924;
+  border-radius: 100px;
+  z-index: 0;
+}
+
+.activeSwitch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  width: 60%;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+  color: #FFFFFF;
+  background: linear-gradient(74.31deg, #59FFAF 0%, #9E4EFF 80.73%);
+  border-radius: 100px;
+  border-radius: 100px;
+  z-index: 1;
+}
+
+.switchItem span {
+  background: linear-gradient(73.6deg, #85FFC4 2.11%, #5CC6FF 42.39%, #BC85FF 85.72%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.switchBtn div:last-child {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  height: 30px;
+}
+
+.switchBtn div:first-child {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 30px;
+}
+
+.block {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  background-color: #1C1924;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 120%;
+  background-color: #1C1924;
+  padding: 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+.icons {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.rightIcon {
+  margin-left: -4px;
+  display: flex;
+  align-items: center;
+}
+
+.leftIcon {
+  display: flex;
+  align-items: center;
+}
+
+.currencyDrop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.currencyDrop span {
+  font-family: 'Hebrew Bold';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 120%;
+  display: flex;
+  align-items: center;
+  color: #FFFFFF;
+}
+
+.dropdawn {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.dropdawn {
+  font-family: 'Hebrew Bold';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+  color: #A6A0BB;
+}
+
+.dropdawn .arrow {
+  transform: rotate(-90deg);
+  margin-left: 16px;
+}
+
+.units {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.units > div:first-child {
+  font-family: 'Hebrew Bold';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 120%;
+  color: #BDB7CC;
+}
+
+.units > div:last-child {
+  font-family: 'Open Sans Hebrew';
+  font-style: normal;
+  font-size: 12px;
+  line-height: 120%;
+  color: #BDB7CC;
+}
+
+.units > div:last-child span:last-child {
+  background: linear-gradient(96.96deg, #5EA0FD 100%, #0B6FFB 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+} 
+
+.units > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.loss, .profit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  color: #A6A0BB;
+}
+
+.loss div, .profit div {
+  text-align: right;
+}
+
+.loss > div div:last-child , .profit > div div:last-child {
+  font-family: 'Hebrew Bold';
+} 
+
+.loss span, .profit span {
+  font-family: 'Hebrew Bold';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.loss span {
+  background: linear-gradient(274.04deg, #FF8597 -17.72%, #FF3A58 113.66%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.profit span {
+  background: linear-gradient(96.96deg, #9DE7BD 21.34%, #36CD77 119.18%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.tabs {
+  display: flex;
+  margin: 24px 0;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.duration {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.duration > div div:first-child {
+  font-family: 'Open Sans Hebrew';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #A6A0BB;
+}
+
+.duration .arrow {
+  transform: rotate(-90deg);
+}
+
+.paymentSlipage {
+  text-align: center;
+  margin: 24px 0;
+  color: #A6A0BB;
+}
+
+.paymentSlipage span {
+  background: linear-gradient(96.96deg, #9DE7BD 21.34%, #36CD77 119.18%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.rate {
+  display: flex;
+  align-items:  center;
+  margin: 16px 0;
+}
+
+.rateTitle {
+  display: flex;
+  align-items: center;
+  margin-right: 24px;
+}
+
+.rateTitle span {
+  font-family: 'Hebrew Bold', sans-serif;
+  font-style: normal;
+  font-size: 14px;
+  line-height: 140%;
+  background: linear-gradient(73.6deg, #85FFC4 2.11%, #5CC6FF 42.39%, #BC85FF 85.72%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-right: 8px;
+}
+
+.rateIcon {
+  opacity: .7;
+  display: flex;
+  align-items: center;
+}
