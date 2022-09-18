@@ -49,8 +49,9 @@
 }
 
 .rateTitle span {
-  font-family: 'Hebrew Bold', sans-serif;
+  font-family: 'Source Code Pro', sans-serif;
   font-style: normal;
+  font-weight: 700;
   font-size: 14px;
   line-height: 140%;
   background: linear-gradient(73.6deg, #85FFC4 2.11%, #5CC6FF 42.39%, #BC85FF 85.72%);

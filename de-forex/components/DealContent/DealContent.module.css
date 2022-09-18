@@ -123,7 +123,7 @@
 }
 
 .currencyDrop span {
-  font-family: 'Hebrew Bold';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
@@ -140,7 +140,7 @@
 }
 
 .dropdawn {
-  font-family: 'Hebrew Bold';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 700;
   font-size: 14px;
@@ -160,7 +160,7 @@
 }
 
 .units > div:first-child {
-  font-family: 'Hebrew Bold';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 700;
   font-size: 12px;
@@ -169,7 +169,7 @@
 }
 
 .units > div:last-child {
-  font-family: 'Open Sans Hebrew';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-size: 12px;
   line-height: 120%;
@@ -201,11 +201,12 @@
 }
 
 .loss > div div:last-child , .profit > div div:last-child {
-  font-family: 'Hebrew Bold';
+  font-family: 'Source Code Pro';
+  font-weight: 700;
 } 
 
 .loss span, .profit span {
-  font-family: 'Hebrew Bold';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
@@ -241,7 +242,7 @@
 }
 
 .duration > div div:first-child {
-  font-family: 'Open Sans Hebrew';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -279,7 +280,7 @@
 }
 
 .rateTitle span {
-  font-family: 'Hebrew Bold', sans-serif;
+  font-family: 'Source Code Pro', sans-serif;
   font-style: normal;
   font-size: 14px;
   line-height: 140%;

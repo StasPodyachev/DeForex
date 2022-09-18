@@ -50,7 +50,7 @@
 }
 
 .wallet span {
-  font-family: 'Open Sans Hebrew';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -107,7 +107,7 @@
 
 .copy span {
   margin-right: 16px;
-  font-family: 'Open Sans Hebrew';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 12px;

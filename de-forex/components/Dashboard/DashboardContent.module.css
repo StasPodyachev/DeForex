@@ -14,7 +14,7 @@
 }
 
 .userInfo div:first-child {
-  font-family: 'Hebrew Bold';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-size: 14px;
   line-height: 120%;
@@ -25,7 +25,7 @@
 }
 
 .userInfo div:last-child {
-  font-family: 'Hebrew Bold';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-size: 14px;
   line-height: 120%;
@@ -45,7 +45,7 @@
 }
 
 .invested span {
-  font-family: 'Open Sans Hebrew';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -128,7 +128,7 @@
 }
 
 .currency {
-  font-family: 'Open Sans Hebrew';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -136,7 +136,7 @@
 }
 
 .available {
-  font-family: 'Open Sans Hebrew';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -145,7 +145,7 @@
 }
 
 .date div:first-child {
-  font-family: 'Open Sans Hebrew';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 10px;
@@ -154,7 +154,7 @@
 }
 
 .date div:last-child {
-  font-family: 'Open Sans Hebrew';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 10px;
@@ -182,7 +182,7 @@
 
 .tab, .activeTab {
   text-align: center;
-  font-family: 'Open Sans Hebrew';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -195,7 +195,7 @@
 .activeTab {
   color: #fff;
   border-bottom: 2px solid #fff;
-  font-family: 'Hebrew Bold';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 700;
   font-size: 12px;
@@ -216,7 +216,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-family: 'Open Sans Hebrew';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -228,7 +228,7 @@
 }
 
 .titleBuy div:first-child {
-  font-family: 'Open Sans Hebrew';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -295,7 +295,7 @@
 }
 
 div.historyTitle {
-  font-family: 'Hebrew Bold';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 700;
   font-size: 12px;
@@ -312,7 +312,7 @@ div.historyPayments, .historyPaymentsGreen {
 }
 
 div.historyPayments span:first-child, div.historyPaymentsGreen span:first-child {
-  font-family: 'Open Sans Hebrew';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -323,7 +323,7 @@ div.historyPayments span:first-child, div.historyPaymentsGreen span:first-child 
 }
 
 div.historyPayments span:last-child, div.historyPaymentsGreen span:last-child {
-  font-family: 'Open Sans Hebrew';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 8px;
@@ -345,7 +345,7 @@ div.historyPaymentsGreen span:first-child {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  font-family: 'Hebrew Bold';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-size: 12px;
   line-height: 120%;
@@ -354,11 +354,11 @@ div.historyPaymentsGreen span:first-child {
 
 .resultBuyer span {
   margin-right: 0 !important;
-  font-family: 'Open Sans Hebrew';
+  font-family: 'Source Code Pro';
 }
 
 .action {
-  font-family: 'Open Sans Hebrew';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -427,7 +427,7 @@ div.historyPaymentsGreen span:first-child {
 }
 
 .closeOracle > div:first-child span {
-  font-family: 'Open Sans Hebrew';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
@@ -435,7 +435,7 @@ div.historyPaymentsGreen span:first-child {
 }
 
 .countOracle > div:first-child p {
-  font-family: 'Hebrew Bold';
+  font-family: 'Source Code Pro';
   font-style: normal;
   font-weight: 700;
   font-size: 24px;
