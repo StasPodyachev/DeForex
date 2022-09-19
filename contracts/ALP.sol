@@ -36,7 +36,7 @@ contract ALP {
     event Withdraw(address indexed sender, address token, uint val);
     event Sync(uint256 reserve0, uint256 reserve1);
 
-    constructor() public {
+    constructor() {
         factory = msg.sender;
     }
 

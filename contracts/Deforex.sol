@@ -13,18 +13,26 @@ import "hardhat/console.sol";
 abstract contract Deforex is IDeforex, Ownable {
 
   uint256 public orderId;
-  ALP internal _alp;
-  Exchange internal _exchange;
+  IFactory internal _factory;
 
-  mapping(uint256 => mapping(address => address)) public _orders;
+  mapping(uint256 => OrderParams) public _orders;
 
+  function setFactory(IFactory factory){
+    _factory = factory;
+  }
 
   function createOrder(address tokenSell, address tokenBuy, uint256 amount, uint256 leverage, uint256 slippage) external payable {
 
     IERC20(tokenSell).transferFrom(msg.sender, this, amount);
+
+    address alpAddr = _factory.getAlp(tokenSell, tokenBuy);
+
+    require(alpAddr!=address(0), "Deforex: ZERO_ADDRESS");
+
+    ALP alp = ALP(alpAddr);
+    alp.requestReserve(leverage, amount, tokenSell);
     
-    _alp.requestReserve(leverage, amount, tokenSell);
-    _exchange.swap(SwapParams(1, UNISWAP));
+    _exchange.swap();
 
     _orderId++;
 
@@ -39,10 +47,6 @@ abstract contract Deforex is IDeforex, Ownable {
     _exchange.swap(params);
 
     // TODO: return reserve to ALP
-  }
-
-  function setAlp(ALP alp){
-    _alp = alp;
   }
 
   function openPosition() external {
