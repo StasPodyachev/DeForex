@@ -1,8 +1,7 @@
 .order {
-  margin: 24px 0;
   display: flex;
-  /* align-items: center; */
   flex-direction: column;
+  position: relative;
 }
 
 .title {
@@ -36,37 +35,6 @@
   align-items: center;
 }
 
-.rate {
-  display: flex;
-  align-items:  center;
-  margin-top: 16px;
-}
-
-.rateTitle {
-  display: flex;
-  align-items: center;
-  margin-right: 24px;
-}
-
-.rateTitle span {
-  font-family: 'Source Code Pro', sans-serif;
-  font-style: normal;
-  font-weight: 700;
-  font-size: 14px;
-  line-height: 140%;
-  background: linear-gradient(73.6deg, #85FFC4 2.11%, #5CC6FF 42.39%, #BC85FF 85.72%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-right: 8px;
-}
-
-.rateIcon {
-  opacity: .7;
-  display: flex;
-  align-items: center;
-}
-
 .days {
   display: flex;
   align-items: center;
@@ -81,14 +49,17 @@
 }
 
 .tabs {
-  display: flex;
   margin-top: 16px;
-  align-items: center;
-  justify-content: space-between;
+  overflow-x: auto;
+  gap: 8px;
+  display: flex;
+  scroll-snap-type: x mandatory;
+  z-index: 9999;
 }
 
-.tab {
-  width: 33%;
+.tabs::-webkit-scrollbar { /* chrome based */
+  width: 0px;  /* ширина scrollbar'a */
+  background: transparent;  /* опционально */
 }
 
 .content {
@@ -224,3 +195,156 @@
   opacity: .8;
 }
 
+.switchBtn {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.switchItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  width: 60%;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+  color: #FFFFFF;
+  background: #1C1924;
+  border-radius: 100px;
+  z-index: 0;
+}
+
+.activeSwitch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  width: 60%;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+  color: #FFFFFF;
+  background: linear-gradient(74.31deg, #59FFAF 0%, #9E4EFF 80.73%);
+  border-radius: 100px;
+  border-radius: 100px;
+  z-index: 1;
+}
+
+.switchItem span {
+  background: linear-gradient(73.6deg, #85FFC4 2.11%, #5CC6FF 42.39%, #BC85FF 85.72%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.switchBtn div:last-child {
+  position: absolute;
+  top: 16px;
+  bottom: 0;
+  right: 0;
+  height: 45px;
+}
+
+.switchBtn div:first-child {
+  position: absolute;
+  top: 16px;
+  bottom: 0;
+  left: 0;
+  height: 45px;
+}
+
+.rate {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.rate > span {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #C091F2;
+  margin-bottom: 12px;
+}
+
+.rateBody {
+  background: #1C1924;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 8px;
+  margin-bottom: -4px;
+}
+
+.icons > div:first-child {
+  z-index: 1;
+}
+
+.icons > div:last-child {
+  margin-left: -4px;
+  z-index: 0;
+}
+
+.rateAmount {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 120%;
+}
+
+.rateBody span {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  margin-left: auto;
+  color: #A6A0BB;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  margin: 24px 0;
+  color: #A6A0BB;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.options p {
+  margin: 4px 0;
+}
+
+.pool {
+  margin: 16px 0;
+}
+
+.pool > div {
+  margin-top: 16px;
+}
+
+.staked {
+  color: #C091F2;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 16px;
+  margin: 16px 0;
+}

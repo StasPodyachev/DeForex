@@ -1,28 +1,58 @@
 import Image from 'next/image'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Button from '../ui/Button'
-import Coin from '../ui/Coin'
+import {markets, ModelMarket} from '../../utils/markets'
 import Tab from '../ui/Tab'
 import styles from './Order.module.css'
-import WidgetOrder from './WidgetOrder'
-import { Book } from './Book'
+import Select from '../ui/Select/Select'
+import Input from './Input'
 
 const tabs = [
   {
     id: 0,
-    title: '10%',
+    title: 'x10',
     checked: false
   },
   {
     id: 1,
-    title: '15%',
+    title: 'x50',
     checked: true
   },
   {
     id: 2,
-    title: '20%',
+    title: 'x100',
     checked: false
+  },
+  {
+    id: 3,
+    title: 'x500',
+    checked: false
+  },
+  {
+    id: 4,
+    title: 'x1,000',
+    checked: false
+  },
+  {
+    id: 5,
+    title: 'x5,000',
+    checked: false
+  },
+  {
+    id: 6,
+    title: 'x10,000',
+    checked: false
+  }
+]
+
+const switchList = [
+  {
+    id: 0,
+    title: 'Trade'
+  },
+  {
+    id: 1,
+    title: 'Pool'
   }
 ]
 interface OrderModel {
@@ -37,67 +67,160 @@ interface OrderModel {
   orderLink: string,
   percent: string
 }
+
+const executions = [
+  {
+    id: 0,
+    title: 'Instant market execution'
+  },
+  {
+    id: 1,
+    title: 'Limit order'
+  }
+]
+
 const Order = ({order, coin} : {order : OrderModel, coin: any}) => {
+  const [ showMarket, setShowMarket ] = useState<ModelMarket>(markets[0])
+  const [ showExecution, setShowExecution ] = useState(executions[0])
   const [ checked, setChecket ] = useState(tabs[0])
-  const { push } = useRouter()
+  const [ active, setActive ] = useState(switchList[0])
+  const [ value, setValue ] = useState<string>('100')
+  const [ activeCurrency, setActiveCurrency ] = useState(markets[0].currency[0]);
+
+  const [ valueInputPool, setValuePool ] = useState("10.000")
+  const [ valueInputPoolSecond, setValuePoolSecond ] = useState('10.000')
+
+  useEffect(() => {
+    setActiveCurrency(showMarket.currency[0])
+  }, [showMarket])
+
   return (
     <div className={styles.order}>
-      <div className={styles.title}>
-        <div className={styles.icons}>
-          <div className={styles.leftIcon}>
-            <Image src="/icons/iconsCurrency/EthereumETH.svg" width={24} height={24} alt="eth" />
-          </div>
-          <div className={styles.rightIcon}>
-            <Image src="/icons/iconsCurrency/Tether.svg" width={24} height={24} alt="eth" />
-          </div>
-        </div>
-        <span>{order?.currencyName}</span>
+      <div className={styles.switchBtn}>
+        {switchList.map(item => {
+          return (
+            <div
+              onClick={() => setActive(item)}
+              key={item.id}
+              className={active?.id === item?.id ? styles.activeSwitch : styles.switchItem}>
+              <span>{item.title}</span>
+            </div>
+          )
+        })}
       </div>
+      <Select markets={markets} active={showMarket} setActive={setShowMarket}/>
+      { switchList[0] === active ?
+        <div>
+          <div className={styles.tabs}>
+            {
+              tabs?.map(tab => {
+                return <Tab
+                  setChecket={() => setChecket(tab)} key={tab?.id}
+                  tab={tab}
+                  checked={checked?.id === tab?.id} />
+              })
+            }
+          </div>
+          <Input
+            setActiveCurrency={setActiveCurrency}
+            activeCurrency={activeCurrency}
+            value={value}
+            setValue={setValue}
+            icon={showMarket.icons[0].icon}
+            currencies={showMarket?.currency} />
+          {/* <WidgetOrder /> */}
 
-      <div className={styles.rate}>
-        <div className={styles.rateTitle}>
-          <span>Last rate</span>
-          <div className={styles.rateIcon}>
-            <Image alt='icon' src="/icons/orderIcon/question.svg" width={18} height={18} />
+          <div className={styles.rate}>
+            <span style={{"color" : '#EB5757'}}>Stop loss at rate</span>
+            <div className={styles.rateBody}>
+              <div className={styles.icons}>
+                {
+                  showMarket?.icons?.map(icon => {
+                    return (
+                      <div key={icon?.icon}>
+                        <Image src={icon?.icon} height={24} width={24} alt="icon" />
+                      </div>
+                    )
+                  })
+                }
+              </div>
+              <div className={styles.rateAmount}>0.9988</div>
+              <span>
+                {showMarket.currency[0].title} for 1 {showMarket.currency[1].title}
+              </span>
+            </div>
+          </div>
+
+          <div className={styles.rate}>
+            <span style={{"color" : '#6FCF97'}}>Take profit at rate</span>
+            <div className={styles.rateBody}>
+              <div className={styles.icons}>
+                {
+                  showMarket?.icons?.map(icon => {
+                    return (
+                      <div key={icon?.icon}>
+                        <Image src={icon?.icon} height={24} width={24} alt="icon" />
+                      </div>
+                    )
+                  })
+                }
+              </div>
+              <div className={styles.rateAmount}>1.0096</div>
+              <span>
+                {showMarket.currency[0].title} for 1 {showMarket.currency[1].title}
+              </span>
+            </div>
+          </div>
+          
+          <div className={styles.options}>
+            <p>
+              My position <span style={{"color" : '#FFFFFF', "fontWeight" : '700'}}>10,000</span></p>
+            <p>
+              My potential loss <span style={{"color" : '#EB5757', "fontWeight" : '700'}}>99,325</span>
+            </p>
+            <p>
+            My potential profit <span style={{"color" : '#9DE7BD', "fontWeight" : '700'}}>98,675</span>
+            </p>
+          </div>
+          
+          <Select
+            execution
+            markets={executions}
+            active={showExecution}
+            setActive={setShowExecution}/>
+
+          <div className={styles.options}>
+            <p>Curent rate <span style={{"color" : '#9DE7BD', "fontWeight" : '700'}}>0,99979325</span> USDC for 1 DAI </p>
+            <p>Margin Call on rate <span style={{"color" : '#EB5757', "fontWeight" : '700'}}>0,99</span> tUSD for 1 DAI</p>
           </div>
         </div>
-        <div><Coin coin={coin}/></div>
-        <div className={styles.days}>
-          <div className={styles.rateIcon}>
-            <Image alt='icon' src="/icons/orderIcon/exchange.svg" width={18} height={18} />
-          </div>
-          <span>30 days</span>
-        </div>
-      </div>
+      :
+      <div className={styles.pool}>
+        <Input
+          pool
+          activeCurrency={showMarket.currency[0]}
+          value={valueInputPool}
+          setValue={setValuePool}
+          icon={showMarket.icons[0].icon} />
 
-      <div className={styles.tabs}>
-        {
-          tabs?.map(tab => {
-            return <Tab
-              setChecket={() => setChecket(tab)} key={tab?.id}
-              tab={tab}
-              checked={checked?.id === tab?.id} />
-          })
-        }
-      </div>
+        <Input
+          pool
+          activeCurrency={showMarket.currency[1]}
+          value={valueInputPool}
+          setValue={setValuePool}
+          icon={showMarket.icons[1].icon} />
+        <div className={styles.staked}>Staked amount <span style={{"color" : '#31C471', "fontWeight" : '700'}}>20,000</span> DAIUSDC</div>
 
-      <div className={styles.content}>
-        <div className={styles.buy}>
-          <div className={styles.titleBuy}>Buying orders</div>
-          <Book type="buy" coin={coin} checked={checked?.title} />
+        <div className={styles.options}>
+          <p>TVL <span style={{"color" : '#31C471', "fontWeight" : '700'}}>1,000,000,000</span> USD</p>
+          <p>My share <span style={{"color" : '#31C471', "fontWeight" : '700'}}>0.002% </span></p>
+          <p>Est. APY <span style={{"color" : '#31C471', "fontWeight" : '700'}}>17.84% </span></p>
         </div>
       </div>
-      <div className={styles.content}>
-        <div className={styles.sell}>
-          <div className={styles.titleSell}>Selling orders</div>
-          <Book type='sell' coin={coin} checked={checked?.title} />
-        </div>
-      </div>
-      
-      <WidgetOrder />
+      }
       
       <div className={styles.btn}>
-        <Button onClick={() => push('/deal')} title="Create Order" />
+        <Button onClick={() => console.log("order")} title="Create Order" />
       </div>
     </div>
   )
