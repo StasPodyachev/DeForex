@@ -1,0 +1,26 @@
+.priceG {
+  margin-left: auto;
+  margin-bottom: auto;
+  background: linear-gradient(96.96deg, #9DE7BD 21.34%, #36CD77 119.18%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.priceR {
+  margin-left: auto;
+  margin-bottom: auto;
+  background: linear-gradient(274.04deg, #FF8597 -17.72%, #FF3A58 113.66%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.priceG, .priceR {
+  display: flex;
+  align-items: center;
+}
+
+.priceG > p:first-child , .priceR > p:first-child {
+  margin-right: 8px;
+}

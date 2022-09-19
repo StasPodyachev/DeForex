@@ -1,0 +1,175 @@
+.header {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+}
+
+.header span {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 140%;
+  margin-right: 14px;
+}
+
+.priceSell, .priceBuy {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 140%;
+  margin-right: 14px;
+}
+
+.priceSell {
+  background: linear-gradient(274.04deg, #FF8597 -17.72%, #FF3A58 113.66%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.priceBuy {
+  background: linear-gradient(96.96deg, #9DE7BD 21.34%, #36CD77 119.18%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.rounded {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #BDB7CC;
+}
+
+.close, .arrow {
+  display: flex;
+  align-items: center;
+}
+
+.arrow {
+  margin-right: 8px;
+}
+
+.close {
+  margin-left: auto;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+}
+
+.contract {
+  background: #1C1924;
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 24px;
+}
+
+.contractHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.expires {
+  display: flex;
+  flex-direction: column;
+  text-align: end;
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 120%;
+  color: #A6A0BB;
+}
+
+.id {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 120%;
+}
+
+.contractBody {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.contractBody span {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 120%;
+}
+
+.contractRateSell > div, .contractRateSell > div {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 120%;
+}
+
+.contractRateBuy > div {
+  background: linear-gradient(96.96deg, #9DE7BD 21.34%, #36CD77 119.18%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.contractRateSell > div {
+  background: linear-gradient(274.04deg, #FF8597 -17.72%, #FF3A58 113.66%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.contractAvailableBuy, .contractAvailableSell {
+  text-align: center;
+}
+
+.contractAvailableBuy > div, .contractAvailableSell > div {
+  color: #D3CFDD;
+}
+
+
+
+.contractLeverageBuy, .contractLeverageSell {
+  text-align: right;
+}
+
+.contractLeverageBuy > div, .contractLeverageSell > div {
+  display: flex;
+  color: #D3CFDD;
+}
+
+.contractLeverageBuy > div > p, .contractLeverageSell > div > p {
+  margin-right: 4px;
+}
+
+.contractLeverageBuy > div > p {
+  background: linear-gradient(96.96deg, #9DE7BD 21.34%, #36CD77 119.18%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.contractLeverageSell > div > p {
+  background: linear-gradient(274.04deg, #FF8597 -17.72%, #FF3A58 113.66%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn {
+  margin-top: 24px;
+}

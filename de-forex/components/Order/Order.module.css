@@ -1,0 +1,226 @@
+.order {
+  margin: 24px 0;
+  display: flex;
+  /* align-items: center; */
+  flex-direction: column;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 120%;
+  background-color: #1C1924;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.icons {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.rightIcon {
+  margin-left: -4px;
+  display: flex;
+  align-items: center;
+}
+
+.leftIcon {
+  display: flex;
+  align-items: center;
+}
+
+.rate {
+  display: flex;
+  align-items:  center;
+  margin-top: 16px;
+}
+
+.rateTitle {
+  display: flex;
+  align-items: center;
+  margin-right: 24px;
+}
+
+.rateTitle span {
+  font-family: 'Source Code Pro', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 140%;
+  background: linear-gradient(73.6deg, #85FFC4 2.11%, #5CC6FF 42.39%, #BC85FF 85.72%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-right: 8px;
+}
+
+.rateIcon {
+  opacity: .7;
+  display: flex;
+  align-items: center;
+}
+
+.days {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.days span {
+  font-size: 14px;
+  line-height: 22px;
+  color: #EADAFB;
+  margin-left: 8px;
+}
+
+.tabs {
+  display: flex;
+  margin-top: 16px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tab {
+  width: 33%;
+}
+
+.content {
+  margin-top: 24px;
+  padding: 0 16px;
+  background-color: #1C1924;
+  border-radius: 8px;
+  max-height: 335px;
+  overflow-y: scroll;
+  border-bottom: 24px solid #1C1924;
+  border-top: 8px solid #1C1924;
+}
+
+.buy, .sell {
+  background-color: #1C1924;
+  font-size: 12px;
+}
+
+.titleBuy {
+  text-align: center;
+  font-family: "Poppins";
+  font-weight: 700;
+  font-size: 18px;
+  margin: 16px 0 24px;
+  background: linear-gradient(96.96deg, #9DE7BD 21.34%, #36CD77 119.18%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.titleSell {
+  text-align: center;
+  font-family: "Poppins";
+  font-weight: 700;
+  font-size: 18px;
+  margin: 16px 0 24px;
+  background: linear-gradient(274.04deg, #FF8597 -17.72%, #FF3A58 113.66%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.orderBuy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.orderBuy > div:first-child {
+  width: 40%;
+}
+.orderBuy > div:nth-child(2) {
+  width: 30%;
+  padding: 0 14px;
+}
+.orderBuy > div:nth-child(3) {
+  width: 30%;
+}
+
+
+.orderBuy > div:last-child {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* margin-left: auto; */
+}
+
+.orderBuyRate {
+  background: linear-gradient(96.96deg, #9DE7BD 21.34%, #36CD77 119.18%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.orderSellRate {
+  background: linear-gradient(274.04deg, #FF8597 -17.72%, #FF3A58 113.66%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.checkedBuy {
+  margin-left: 2px;
+  background: linear-gradient(96.96deg, #9DE7BD 21.34%, #36CD77 119.18%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+
+.checkedSell {
+  margin-left: 2px;
+  background: linear-gradient(274.04deg, #FF8597 -17.72%, #FF3A58 113.66%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn {
+  margin: 24px auto 0;
+  width: 320px;
+}
+
+.widget {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 16px;
+  background-color: #1C1924;
+  border-radius: 8px;
+  margin-top: 24px;
+}
+
+.itemWidget {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.itemWidget p {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 120%;
+  margin-top: 16px;
+  cursor: pointer;
+}
+
+.itemWidget p:hover {
+  opacity: .8;
+}
+

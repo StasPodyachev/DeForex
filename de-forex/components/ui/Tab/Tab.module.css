@@ -1,0 +1,45 @@
+
+.tab {
+  background-color: #1C1924;
+  padding: 8px 22px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .3s;
+  width: 100%;
+}
+
+.tab:nth-child(2), .activeTab:nth-child(2) {
+  margin: 0 8px;
+}
+
+.tab span {
+  font-family: "Poppins";
+  font-weight: 700;
+  font-size: 10px;
+  background: linear-gradient(74.31deg, #59FFAF 0%, #9E4EFF 80.73%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.activeTab {
+  background: linear-gradient(74.31deg, #59FFAF 0%, #9E4EFF 80.73%);
+  padding: 8px 22px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .3;
+  width: 100%;
+}
+
+.activeTab span {
+  font-family: "Poppins";
+  font-weight: 700;
+  color: #fff;
+  font-size: 10px;
+}

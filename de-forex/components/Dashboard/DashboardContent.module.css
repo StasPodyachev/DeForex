@@ -1,0 +1,471 @@
+.dashboard {
+  padding-bottom: 100px;
+}
+
+.user {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.userInfo {
+  margin-left: 16px;
+}
+
+.userInfo div:first-child {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-size: 14px;
+  line-height: 120%;
+  background: linear-gradient(73.6deg, #85FFC4 2.11%, #5CC6FF 42.39%, #BC85FF 85.72%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.userInfo div:last-child {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-size: 14px;
+  line-height: 120%;
+}
+
+.invested {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  margin-top: 14px;
+  background: 
+    linear-gradient(#1C1924, #1C1924) padding-box,
+    linear-gradient(to right, #85FFC4, #5CC6FF, #BC85FF) border-box;
+  border-radius: 8px;
+  border: 1px solid transparent;
+}
+
+.invested span {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 120%;
+}
+
+.invested span:first-child {
+  color: #A6A0BB;
+}
+
+.invested span:nth-child(3) {
+  color: #A6A0BB;
+}
+
+.invested span:last-child {
+  background: linear-gradient(274.04deg, #FF8597 -17.72%, #FF3A58 113.66%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.title {
+  display: flex;
+  margin-top: 24px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.radio {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.inactive {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 4px;
+  padding: 4px 8px; 
+  opacity: .7;
+}
+
+.active {
+  background-color: #1C1924;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 4px;
+  padding: 4px 8px; 
+}
+
+.title span {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.order {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background-color: #1C1924;
+  border-radius: 8px;
+}
+
+.toggle {
+  position: relative;
+  background-color: #2F2A3C;
+  padding: 8px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.currency {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.available {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 12px;
+  color: #31C471;
+}
+
+.date div:first-child {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 120%;
+  color: #C091F2;
+}
+
+.date div:last-child {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 120%;
+  color: #A869ED;
+}
+
+.notification {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 100px;
+  background: linear-gradient(274.04deg, #FF8597 -17.72%, #FF3A58 113.66%);
+  border: 1px solid #1C1924;
+  top: 0;
+  right: 0;
+}
+
+.tabs {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #09080C;
+}
+
+.tab, .activeTab {
+  text-align: center;
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 24px;  
+  color: #A6A0BB;
+  padding: 8px 16px;
+  width: 25%;
+}
+
+.activeTab {
+  color: #fff;
+  border-bottom: 2px solid #fff;
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 24px;
+}
+
+.tab {
+  border-bottom: 2px solid #09080C;
+}
+
+.tabsContent {
+  border-radius: 0 0 8px 8px;
+  background: #1C1924;
+  padding: 22px 16px;
+}
+
+.tabsContent > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 120%;
+}
+
+.tabsContent > div div:first-child {
+  color: #A6A0BB;
+}
+
+.titleBuy div:first-child {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 12px;
+  background: linear-gradient(275.86deg, #5EA0FD 19.06%, #0B6FFB 135.34%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.titleBuy div:last-child {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 24px;
+  text-align: center;
+  border-radius: 20px;
+  padding: 2px 16px;
+  background: linear-gradient(275.86deg, #5EA0FD 19.06%, #0B6FFB 135.34%);
+  border-radius: 100px;
+  cursor: pointer;
+}
+
+.positionBuy {
+  margin: 24px 0 16px;
+
+}
+
+.positionBuy div:last-child {
+  color: #6CDA9C;
+}
+
+.amountBuy div:last-child {
+  color: #6CDA9C;
+}
+
+.unitsBuy {
+  margin: 4px 0;
+}
+
+.duration {
+  margin-top: 16px;
+}
+
+.adress {
+  margin: 8px 0;
+}
+
+.adress div:last-child {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  opacity: .8;
+  transition: all .3s;
+}
+
+.adress div:last-child:hover {
+  opacity: 1;
+}
+
+.adress div:last-child span {
+  margin-right: 8px;
+}
+
+div.historyTitle {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 120%;
+  color: #FFFFFF;
+  margin: 24px 0 8px;
+}
+
+div.historyPayments, .historyPaymentsGreen {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end !important;
+}
+
+div.historyPayments span:first-child, div.historyPaymentsGreen span:first-child {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 120%;
+  text-align: right;
+  color: #FF8597;
+  margin-right: 0;
+}
+
+div.historyPayments span:last-child, div.historyPaymentsGreen span:last-child {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 8px;
+  line-height: 18px;
+  text-align: right;
+  color: #7A7099;
+  margin-right: 0;
+}
+
+div.historyPaymentsGreen span:first-child {
+  background: linear-gradient(96.96deg, #9DE7BD 21.34%, #36CD77 119.18%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.resultBuyer {
+  background: linear-gradient(96.96deg, #9DE7BD 21.34%, #36CD77 119.18%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-size: 12px;
+  line-height: 120%;
+  text-align: right;
+}
+
+.resultBuyer span {
+  margin-right: 0 !important;
+  font-family: 'Source Code Pro';
+}
+
+.action {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  color: #DEDBE6;
+}
+
+.btn {
+  margin-top: 24px;
+}
+
+.oracleBtn {
+  position: fixed;
+  bottom: 110px;
+  padding: 16px;
+  background-color: #A869ED;
+  border-radius: 100px;
+  right: 16px;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  z-index: 1;
+}
+
+.oracleModal {
+  background: #09080C;
+  padding: 24px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+}
+
+.oracleModalTitle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #A6A0BB;
+}
+
+.closeOracle {
+  width: 32px;
+  height: 32px;
+  border-radius: 100px;
+  background-color: #2F2A3C;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.countOracle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 24px;
+}
+
+.countOracle > div:first-child {
+  margin-right: 12px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.closeOracle > div:first-child span {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 120%;
+}
+
+.countOracle > div:first-child p {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 120%;
+  margin-right: 12px;
+}
+
+.btnCount {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  background-color: #1C1924;
+  border-radius: 100px;
+  margin-top: 24px;
+}
+
+.btnCount span {
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;  
+  background: linear-gradient(73.6deg, #85FFC4 2.11%, #5CC6FF 42.39%, #BC85FF 85.72%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.actionTitle span {
+  margin-left: 8px;
+}
