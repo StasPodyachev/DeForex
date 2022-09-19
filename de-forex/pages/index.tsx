@@ -6,7 +6,7 @@ const Market = dynamic(() =>  import('../components/Market/Market'),{ ssr: false
 const Home: NextPage = ({coin} : any) => {
   return (
     <Layout title="Market">
-      {/* <Market coin={coin} /> */}
+      <Market coin={coin} />
     </Layout>
   )
 }

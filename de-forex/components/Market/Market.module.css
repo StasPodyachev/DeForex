@@ -14,3 +14,42 @@
   -webkit-text-fill-color: transparent;
   font-weight: 800;
 }
+
+.select {
+  padding: 0 16px;
+  border-radius: 8px;
+  background-color: #1C1924;
+}
+
+.active {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  margin-bottom: 24px;
+  padding: 16px 0;
+}
+
+.active span {
+  margin: 0 auto;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.icons > div:first-child {
+  z-index: 1;
+}
+
+.icons > div:last-child {
+  margin-left: -4px;
+  z-index: 0;
+}
+
+.arrow {
+  transform: rotate(-90deg);
+  transition: all .3s;
+}

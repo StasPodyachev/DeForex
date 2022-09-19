@@ -4,6 +4,7 @@ import styles from './Nav.module.css'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useAccount } from 'wagmi'
+import ConnectWallet from './ConnectWallet'
 
 const navigation = [
   { name: 'Market', href: '/', current: true },
@@ -12,32 +13,13 @@ const navigation = [
   { name: 'FAQ', href: '/faq', current: false },
 ]
 
-const Nav = ({openAcc} : {openAcc: () => void}) => {
-  const { address } = useAccount()
+const Nav = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const [ newAdress, setNewAdress ] = useState('')
-
-  useEffect(() => {
-    address !== undefined && setNewAdress(`${address?.slice(0, 6)}...${address?.slice(address?.length - 4, address?.length)}`)
-  }, [address])
-
   return (
     <div>
       <div className={styles.burger}>
         <div className={styles.icons}>
-        { !newAdress ?
-          <div className={styles.wallet}>
-            {/* <Image src="/icons/orderIcon/wallet.svg" width={24} height={24} alt='wallet' /> */}
-            <Link href="/signin">
-              <a><span>Connect to Wallet</span></a>
-            </Link>
-          </div> : 
-          <div className={styles.user} onClick={() => openAcc()}>
-            <span>{newAdress}</span>
-            <Image src="/icons/iconsDashboard/avatar.png" width={24} height={24} alt='wallet' />
-          </div>
-          
-        }
+          <ConnectWallet />
           <div className={styles.burgeIcon} onClick={() => setIsOpen(!isOpen)}>
             <Hamburger size={20} color='#fff' /></div>
           </div>
