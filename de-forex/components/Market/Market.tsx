@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import { useState } from 'react'
 import Button from '../ui/Button'
 import styles from './Market.module.css'
-import Select from '../ui/Select'
+import Select from '../ui/Select/Select'
 import {markets, ModelMarket} from '../../utils/markets'
 
 const trades = [

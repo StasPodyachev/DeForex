@@ -1,24 +1,32 @@
 import Image from 'next/image'
 import { useState } from 'react'
-import styles from './Market.module.css'
+import styles from './Select.module.css'
 
 interface ModelMarket {
   id: number
-  icons: {
+  icons?: {
     icon: string
   }[]
   title: string,
-  orderName: string
+  orderName?: string
 }
 
-const Select = ({markets, active, setActive} : {
-  markets: ModelMarket[], active: ModelMarket, setActive: (ModelMarket) => void}) => {
+interface ModelProps {
+  markets: ModelMarket[]
+  execution?: boolean
+  active: ModelMarket
+  setActive: (ModelMarket) => void
+}
+
+const Select = ({markets, active, setActive, execution} : ModelProps) => {
   const [show, setShow] = useState(false)
     
   return (
     <div className={styles.select}>
       <div className={styles.active} onClick={() => setShow(!show)}>
-        <div className={styles.icons}>
+        {
+          !execution ?
+          <div className={styles.icons}>
           {
             active?.icons?.map(icon => {
               return (
@@ -28,7 +36,8 @@ const Select = ({markets, active, setActive} : {
               )
             })
           }
-        </div>
+        </div> : null
+        }
         <span>{active.title}</span>
         <div className={styles.arrow}
         style={!show ? {"transform": "rotate(-90deg)"} : {"transform": "rotate(90deg)"}}>

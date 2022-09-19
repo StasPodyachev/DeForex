@@ -1,0 +1,51 @@
+.select {
+  border-radius: 8px;
+}
+
+.active {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  padding: 16px;
+  background-color: #1C1924;
+  border-radius: 8px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+  padding: 16px;
+  background-color: #09080C;
+  border-radius: 8px;
+  margin-top: 16px;
+}
+
+.item span {
+  margin-left: 16px;
+}
+
+.active span {
+  margin: 0 auto;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+}
+
+.icons > div:first-child {
+  z-index: 1;
+}
+
+.icons > div:last-child {
+  margin-left: -4px;
+  z-index: 0;
+}
+
+.arrow {
+  transform: rotate(-90deg);
+  transition: all .3s;
+}
