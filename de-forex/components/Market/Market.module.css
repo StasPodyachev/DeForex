@@ -16,17 +16,31 @@
 }
 
 .select {
-  padding: 0 16px;
   border-radius: 8px;
-  background-color: #1C1924;
 }
 
 .active {
   display: flex;
   align-items: center;
   font-size: 12px;
+  padding: 16px;
+  background-color: #1C1924;
+  border-radius: 8px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  font-size: 12px;
   margin-bottom: 24px;
-  padding: 16px 0;
+  padding: 16px;
+  background-color: #09080C;
+  border-radius: 8px;
+  margin-top: 16px;
+}
+
+.item span {
+  margin-left: 16px;
 }
 
 .active span {

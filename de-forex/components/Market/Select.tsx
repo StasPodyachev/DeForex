@@ -37,15 +37,15 @@ const Select = ({markets, active, setActive} : {
       {
         show ? 
         markets?.map(item => {
-          return (
-            <div key={item?.id} className={styles.active}
+          return ( item?.id !== active?.id ?
+            <div key={item?.id} className={styles.item}
               onClick={() => {
                 setActive(item)
                 setShow(false)
               }}>
               <div className={styles.icons}>
                 {
-                  active?.icons?.map(icon => {
+                  item?.icons?.map(icon => {
                     return (
                       <div key={icon?.icon}>
                         <Image src={icon?.icon} height={24} width={24} alt="icon" />
@@ -54,9 +54,9 @@ const Select = ({markets, active, setActive} : {
                   })
                 }
               </div>
-              <span>{active.title}</span>
+              <span>{item.title}</span>
             </div>
-          )
+          : null)
         })
         : null
       }
