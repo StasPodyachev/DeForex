@@ -7,7 +7,8 @@ interface ModelMarket {
   icons: {
     icon: string
   }[]
-  title: string
+  title: string,
+  orderName: string
 }
 
 const Select = ({markets, active, setActive} : {

@@ -1,14 +1,15 @@
 
 .tab {
   background-color: #1C1924;
-  padding: 8px 22px;
+  padding: 12px 22px;
   border-radius: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all .3s;
-  width: 100%;
+  /* min-width: 70px; */
+  scroll-snap-align: start;
 }
 
 .tab:nth-child(2), .activeTab:nth-child(2) {
@@ -18,7 +19,7 @@
 .tab span {
   font-family: "Poppins";
   font-weight: 700;
-  font-size: 10px;
+  font-size: 12px;
   background: linear-gradient(74.31deg, #59FFAF 0%, #9E4EFF 80.73%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -27,7 +28,7 @@
 
 .activeTab {
   background: linear-gradient(74.31deg, #59FFAF 0%, #9E4EFF 80.73%);
-  padding: 8px 22px;
+  padding: 12px 22px;
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -35,11 +36,13 @@
   cursor: pointer;
   transition: all .3;
   width: 100%;
+  /* min-width: 70px; */
+  scroll-snap-align: start;
 }
 
 .activeTab span {
   font-family: "Poppins";
   font-weight: 700;
   color: #fff;
-  font-size: 10px;
+  font-size: 12px;
 }

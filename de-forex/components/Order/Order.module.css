@@ -1,7 +1,5 @@
 .order {
-  margin: 24px 0;
   display: flex;
-  /* align-items: center; */
   flex-direction: column;
 }
 
@@ -81,14 +79,17 @@
 }
 
 .tabs {
-  display: flex;
   margin-top: 16px;
-  align-items: center;
-  justify-content: space-between;
+  overflow-x: auto;
+  gap: 8px;
+  display: flex;
+  scroll-snap-type: x mandatory;
+  z-index: 9999;
 }
 
-.tab {
-  width: 33%;
+.tabs::-webkit-scrollbar { /* chrome based */
+  width: 0px;  /* ширина scrollbar'a */
+  background: transparent;  /* опционально */
 }
 
 .content {
@@ -224,3 +225,74 @@
   opacity: .8;
 }
 
+.switchBtn {
+  margin-top: 14px;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.switchItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  width: 60%;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+  color: #FFFFFF;
+  background: #1C1924;
+  border-radius: 100px;
+  z-index: 0;
+}
+
+.activeSwitch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  width: 60%;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+  color: #FFFFFF;
+  background: linear-gradient(74.31deg, #59FFAF 0%, #9E4EFF 80.73%);
+  border-radius: 100px;
+  border-radius: 100px;
+  z-index: 1;
+}
+
+.switchItem span {
+  background: linear-gradient(73.6deg, #85FFC4 2.11%, #5CC6FF 42.39%, #BC85FF 85.72%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: 'Poppins';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.switchBtn div:last-child {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  height: 45px;
+}
+
+.switchBtn div:first-child {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  height: 45px;
+}

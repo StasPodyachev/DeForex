@@ -1,28 +1,57 @@
 import Image from 'next/image'
-import { useRouter } from 'next/router'
 import { useState } from 'react'
 import Button from '../ui/Button'
-import Coin from '../ui/Coin'
+import {markets, ModelMarket} from '../../utils/markets'
 import Tab from '../ui/Tab'
 import styles from './Order.module.css'
-import WidgetOrder from './WidgetOrder'
-import { Book } from './Book'
+import Select from '../ui/Select'
 
 const tabs = [
   {
     id: 0,
-    title: '10%',
+    title: 'x10',
     checked: false
   },
   {
     id: 1,
-    title: '15%',
+    title: 'x50',
     checked: true
   },
   {
     id: 2,
-    title: '20%',
+    title: 'x100',
     checked: false
+  },
+  {
+    id: 3,
+    title: 'x500',
+    checked: false
+  },
+  {
+    id: 4,
+    title: 'x1,000',
+    checked: false
+  },
+  {
+    id: 5,
+    title: 'x5,000',
+    checked: false
+  },
+  {
+    id: 6,
+    title: 'x10,000',
+    checked: false
+  }
+]
+
+const switchList = [
+  {
+    id: 0,
+    title: 'Trade'
+  },
+  {
+    id: 1,
+    title: 'Pool'
   }
 ]
 interface OrderModel {
@@ -37,37 +66,24 @@ interface OrderModel {
   orderLink: string,
   percent: string
 }
+
 const Order = ({order, coin} : {order : OrderModel, coin: any}) => {
+  const [ showMarket, setShowMarket ] = useState<ModelMarket>(markets[0])
   const [ checked, setChecket ] = useState(tabs[0])
-  const { push } = useRouter()
+  const [ active, setActive ] = useState(switchList[0])
   return (
     <div className={styles.order}>
-      <div className={styles.title}>
-        <div className={styles.icons}>
-          <div className={styles.leftIcon}>
-            <Image src="/icons/iconsCurrency/EthereumETH.svg" width={24} height={24} alt="eth" />
-          </div>
-          <div className={styles.rightIcon}>
-            <Image src="/icons/iconsCurrency/Tether.svg" width={24} height={24} alt="eth" />
-          </div>
-        </div>
-        <span>{order?.currencyName}</span>
-      </div>
-
-      <div className={styles.rate}>
-        <div className={styles.rateTitle}>
-          <span>Last rate</span>
-          <div className={styles.rateIcon}>
-            <Image alt='icon' src="/icons/orderIcon/question.svg" width={18} height={18} />
-          </div>
-        </div>
-        <div><Coin coin={coin}/></div>
-        <div className={styles.days}>
-          <div className={styles.rateIcon}>
-            <Image alt='icon' src="/icons/orderIcon/exchange.svg" width={18} height={18} />
-          </div>
-          <span>30 days</span>
-        </div>
+      <div className={styles.switchBtn}>
+        {switchList.map(item => {
+          return (
+            <div
+              onClick={() => setActive(item)}
+              key={item.id}
+              className={active?.id === item?.id ? styles.activeSwitch : styles.switchItem}>
+              <span>{item.title}</span>
+            </div>
+          )
+        })}
       </div>
 
       <div className={styles.tabs}>
@@ -81,23 +97,10 @@ const Order = ({order, coin} : {order : OrderModel, coin: any}) => {
         }
       </div>
 
-      <div className={styles.content}>
-        <div className={styles.buy}>
-          <div className={styles.titleBuy}>Buying orders</div>
-          <Book type="buy" coin={coin} checked={checked?.title} />
-        </div>
-      </div>
-      <div className={styles.content}>
-        <div className={styles.sell}>
-          <div className={styles.titleSell}>Selling orders</div>
-          <Book type='sell' coin={coin} checked={checked?.title} />
-        </div>
-      </div>
-      
-      <WidgetOrder />
+      {/* <WidgetOrder /> */}
       
       <div className={styles.btn}>
-        <Button onClick={() => push('/deal')} title="Create Order" />
+        <Button onClick={() => console.log("order")} title="Create Order" />
       </div>
     </div>
   )

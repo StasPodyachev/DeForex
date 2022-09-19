@@ -23,8 +23,8 @@ export default function OrderBook({coin} : any) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const { orderName } = context.query;
-  const res = await fetch(`https://api.coingecko.com/api/v3/coins/${orderName}`);
+  const { orderName } = context?.query;
+  const res = await fetch(`https://api.coingecko.com/api/v3/coins/dai`);
   const data = await res.json();
   const price = data?.market_data?.current_price?.usd
   const percentChange = data?.market_data.price_change_24h_in_currency.usd.toFixed(2)

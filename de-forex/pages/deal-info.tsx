@@ -1,4 +1,3 @@
-import DashboardContent from '../components/Dashboard'
 import DealInfoContent from '../components/DealInfoContent'
 import Layout from '../components/Layouts/Layout'
 
