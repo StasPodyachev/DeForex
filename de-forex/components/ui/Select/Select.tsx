@@ -27,16 +27,16 @@ const Select = ({markets, active, setActive, execution} : ModelProps) => {
         {
           !execution ?
           <div className={styles.icons}>
-          {
-            active?.icons?.map(icon => {
-              return (
-                <div key={icon?.icon}>
-                  <Image src={icon?.icon} height={24} width={24} alt="icon" />
-                </div>
-              )
-            })
-          }
-        </div> : null
+            {
+              active?.icons?.map(icon => {
+                return (
+                  <div key={icon?.icon}>
+                    <Image src={icon?.icon} height={24} width={24} alt="icon" />
+                  </div>
+                )
+              })
+            }
+          </div> : null
         }
         <span>{active.title}</span>
         <div className={styles.arrow}

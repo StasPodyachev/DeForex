@@ -3,6 +3,8 @@ body {
   padding: 0;
   margin: 0;
   font-family: 'Source Code Pro','Poppins', sans-serif, monospace;
+  background: #131118;
+  color: #fff;
 }
 
 body {
@@ -10,6 +12,10 @@ body {
   margin: auto;
   position: relative;
   border-radius: 0 0 8px 8px;
+}
+
+input {
+  color: #fff;
 }
 
 a {
@@ -21,7 +27,7 @@ a {
   box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
@@ -29,4 +35,4 @@ a {
     color: white;
     background: #131118;
   }
-}
+} */
