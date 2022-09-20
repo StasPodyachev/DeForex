@@ -1,6 +1,7 @@
 pragma solidity ^0.8.9;
 
 import "@uniswap/lib/contracts/libraries/TransferHelper.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract ALP {
     bytes4 private constant SELECTOR = bytes4(keccak256(bytes('transfer(address,uint256)')));
@@ -42,10 +43,12 @@ contract ALP {
         token1 = _token1;
     }
 
-    function requestReserve(uint256 leverage, uint256 amount, address token) external{
+    function requestReserve(uint256 leverage, uint256 amount, address token) external returns(uint256 val, uint256 leverageAv){
         require(leverage <= LEVERAGE, "ALP: too much leverage");
 
-        uint256 val = amount * (leverage - 1);
+        leverageAv = leverage -1;
+        val = amount * leverageAv;
+        
         uint256 reserve = token == token0 ? reserve0: reserve1;
 
         require(reserve > val, "ALP: Insufficient funds in reserve");
@@ -63,7 +66,10 @@ contract ALP {
     function deposit(address token, uint val) external {
       require(token == token0 || token == token1, "ALP: Token don't support");
 
-      TransferHelper.safeTransferFrom(token, msg.sender, address(this), val);
+      // TransferHelper.safeTransferFrom(token, msg.sender, address(this), val);
+
+
+      IERC20(token).transferFrom(msg.sender, address(this), val);
 
       if(token0 == token){
         reserve0 += val;
@@ -77,6 +83,8 @@ contract ALP {
 
     function withdraw(address token, uint val) external {
       require(token == token0 || token == token1, "ALP: Token don't support");
+
+      // IERC20(token).transfer(msg.sender, val);
 
       TransferHelper.safeTransfer(token, msg.sender, val);
 

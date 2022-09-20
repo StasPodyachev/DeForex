@@ -12,7 +12,7 @@ import "./ALP.sol";
 
 import "hardhat/console.sol";
 
-abstract contract Deforex is IDeforex, Ownable {
+contract Deforex is IDeforex, Ownable {
 
   uint256 public _orderId;
   IFactory public _factory;
@@ -37,21 +37,25 @@ abstract contract Deforex is IDeforex, Ownable {
     require(alpAddr != address(0), "Deforex: ZERO_ADDRESS");
 
     ALP alp = ALP(alpAddr);
-    alp.requestReserve(leverage, amount, tokenSell);
+    (uint256 totalAmount, uint256 leverageAv) = alp.requestReserve(leverage, amount, tokenSell);
+
+    IExchange exchange = _factory.getExchange(IExchange.DEX.UNISWAP);
     
-    (, uint256 amountOut) = _exchange.swap(IExchange.SwapParams({
-      amountIn: amount,
+    require(address(exchange) != address(0), "Deforex: ZERO_ADDRESS");
+
+    TransferHelper.safeApprove(tokenSell, address(exchange), totalAmount);
+
+    (, uint256 amountOut) = exchange.swap(IExchange.SwapParams({
+      amountIn: totalAmount,
       amountOut: 0,
       tokenIn: tokenSell,
       tokenOut: tokenBuy,
       timestamp: block.timestamp
     }));
 
-    _orderId++;
-
-    _orders[_orderId] = OrderParams({
-        amount: amount,     // amount without leverage
-        leverage: leverage,
+    _orders[++_orderId] = OrderParams({
+        amount: totalAmount,     // amount without leverage
+        leverage: leverageAv,
         amountOut: amountOut, // amount tokens after swap
         tokenSell: tokenSell,
         tokenBuy: tokenBuy,
@@ -62,7 +66,10 @@ abstract contract Deforex is IDeforex, Ownable {
   function closeOrder(uint256 id) external payable {
     OrderParams memory params = _orders[id];
 
-    (, uint256 amountOut) = _exchange.swap(IExchange.SwapParams({
+    IExchange exchange = _factory.getExchange(IExchange.DEX.UNISWAP);  
+    TransferHelper.safeApprove(params.tokenBuy, address(exchange), params.amountOut);
+
+    (, uint256 amountOut) = exchange.swap(IExchange.SwapParams({
       amountIn: params.amountOut,
       amountOut: 0,
       tokenIn: params.tokenBuy,
@@ -78,9 +85,6 @@ abstract contract Deforex is IDeforex, Ownable {
 
     TransferHelper.safeApprove(params.tokenSell, alpAddr, amountOut);
     TransferHelper.safeTransfer(params.tokenSell, alpAddr, amountOut);
-  }
-
-  function openPosition() external {
   }
 
   function closePosition() external {

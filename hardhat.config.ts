@@ -9,13 +9,13 @@ import "hardhat-gas-reporter";
 import "solidity-coverage";
 import * as dotenv from "dotenv";
 
-// import "./tasks/deploy";
-// import "./tasks/deployAll";
+import "./tasks/deploy";
+import "./tasks/deployAll";
 
-// import "./tasks/configure";
-// import "./tasks/configureAll";
+import "./tasks/configure";
+import "./tasks/configureAll";
 
-// import "./tasks/dev";
+import "./tasks/dev";
 
 import "@nomiclabs/hardhat-etherscan";
 
@@ -34,12 +34,10 @@ const config = {
         interval: 100,
       },
     },
-    "optimism-kovan": {
-      url:
-        process.env.TESTNET_PROVIDER_URL ||
-        "https://opt-kovan.g.alchemy.com/v2/GAcaN3sfNl9B_d_Ef86aQBa62lh7tCdV",
-      chainId: 69,
-      accounts: [process.env.TESTNET_DEPLOY_PRIVATE_KEY || ""],
+    goerli: {
+      url: `https://goerli.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      chainId: 5,
+      accounts: [process.env.DEPLOY_PRIVATE_KEY || ""],
     },
   },
   abiExporter: {

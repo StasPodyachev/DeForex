@@ -17,7 +17,8 @@ interface IFactory {
     event AlpCreated(
         address indexed token0,
         address indexed token1,
-        address alp
+        address alp,
+        uint256 count
     );
 
     /// @notice Returns the current owner of the factory
