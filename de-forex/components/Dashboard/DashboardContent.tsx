@@ -1,47 +1,9 @@
-import Image from 'next/image'
-import { useRouter } from 'next/router'
-import { useState } from 'react'
-import Button from '../ui/Button'
+import Image from 'next/image';
+import { useState } from 'react';
+import Button from '../ui/Button';
+// import Chart from './Chart';
 import styles from './DashboardContent.module.css'
 import UserInfo from './UserInfo'
-
-interface OrderModel   {
-  id: number,
-  available: string,
-  dateStart: string,
-  dateEnd: string,
-  title: string,
-  icon: string,
-  buy: {
-    type: string,
-    amount: string,
-    units: string,
-    oracle: string,
-    duration: string,
-    slippage: string,
-    leverage: string,
-    exprosure: string,
-  },
-  etherscan: {
-    addressBuyer: string,
-    addressSeller: string,
-    transactionCreate: string,
-    transactionTake: string,
-    transactionComplete: string
-  },
-  history: {
-    created: string,
-    taken: string,
-    contractEnd: string,
-    sentCollateralWithSlippage: string[],
-    returnSlippage: string[],
-    receivePayoutBuyer: string[],
-    receivePayoutSeller: string[],
-    resultBuyer: string,
-    resultSeller: string,
-    sentCollateralCertaine: string[]
-  }
-}
 
 const radioList = [
   {
@@ -58,495 +20,274 @@ const radioList = [
   }
 ]
 
-const orderList = [
+const positionList = [
   {
-    id: 5890,
-    available: '1,231.05',
-    dateStart: '06.07 10:45',
-    dateEnd: '06.08 10:45',
-    title: 'ETHtUSD',
-    icon: '/icons/iconsCurrency/EthereumETH.svg',
-    buy: {
-      type: 'Buying',
-      amount: '10.000 tUSD',
-      units: '0.90872 ETH',
-      oracle: '1,270.00 ETH/tUSD',
-      duration: '1 day',
-      slippage: '12.31 tUSD',
-      leverage: 'X10',
-      exprosure: '100.000 tUSD',
-    },
-    etherscan: {
-      addressBuyer: '20xc3F...ED56',
-      addressSeller: '34xc3F...EА45',
-      transactionCreate: '0x5eb39...6884e',
-      transactionTake: '0x6eb48...7888n',
-      transactionComplete: '0x4eb97...6854e'
-    },
-    history: {
-      created: '2021.08.20 17:57',
-      taken: '2021.08.20 18:55',
-      contractEnd: '2021.08.30 18:55',
-      sentCollateralWithSlippage: ['-10,500.00 tUSD', '2021.08.20 17:57'],
-      returnSlippage: ['430.00 tUSD', '2021.08.20 17:57'],
-      receivePayoutBuyer: ['11,070.00 tUSD', '2021.08.20 17:57'],
-      receivePayoutSeller: ['430.00 tUSD', '2021.08.20 17:57'],
-      resultBuyer: '1,000.00 tUSD',
-      resultSeller: '1,000.00 tUSD',
-      sentCollateralCertaine: ['-10,500.00 tUSD', '2021.08.20 17:57']
-    }
-  },
-  {
-    id: 5894,
-    available: '1,231.05',
-    dateStart: '06.07 10:45',
-    dateEnd: '06.08 10:45',
-    title: 'ADA',
-    icon: '/icons/iconsCurrency/Cardano ADA.svg',
-    buy: {
-      type: 'Selling',
-      amount: '10.000 tUSD',
-      units: '0.90872 ETH',
-      oracle: '1,270.00 ETH/tUSD',
-      duration: '1 day',
-      slippage: '12.31 tUSD',
-      leverage: 'X10',
-      exprosure: '100.000 tUSD',
-    },
-    etherscan: {
-      addressBuyer: '20xc3F...ED56',
-      addressSeller: '34xc3F...EА45',
-      transactionCreate: '0x5eb39...6884e',
-      transactionTake: '0x6eb48...7888n',
-      transactionComplete: '0x4eb97...6854e'
-    },
-    history: {
-      created: '2021.08.20 17:57',
-      taken: '2021.08.20 18:55',
-      contractEnd: '2021.08.30 18:55',
-      sentCollateralWithSlippage: ['-10,500.00 tUSD', '2021.08.20 17:57'],
-      returnSlippage: ['430.00 tUSD', '2021.08.20 17:57'],
-      receivePayoutBuyer: ['11,070.00 tUSD', '2021.08.20 17:57'],
-      receivePayoutSeller: ['430.00 tUSD', '2021.08.20 17:57'],
-      resultBuyer: '1,000.00 tUSD',
-      resultSeller: '1,000.00 tUSD',
-      sentCollateralCertaine: ['-10,500.00 tUSD', '2021.08.20 17:57']
-    }
-  },
-  {
-    id: 5898,
-    available: '1,231.05',
-    dateStart: '06.07 10:45',
-    dateEnd: '06.08 10:45',
-    title: 'BTC',
-    icon: '/icons/iconsCurrency/Bitcoin.svg',
-    buy: {
-      type: 'Buying',
-      amount: '10.000 tUSD',
-      units: '0.90872 ETH',
-      oracle: '1,270.00 ETH/tUSD',
-      duration: '1 day',
-      slippage: '12.31 tUSD',
-      leverage: 'X10',
-      exprosure: '100.000 tUSD',
-    },
-    etherscan: {
-      addressBuyer: '20xc3F...ED56',
-      addressSeller: '34xc3F...EА45',
-      transactionCreate: '0x5eb39...6884e',
-      transactionTake: '0x6eb48...7888n',
-      transactionComplete: '0x4eb97...6854e'
-    },
-    history: {
-      created: '2021.08.20 17:57',
-      taken: '2021.08.20 18:55',
-      contractEnd: '2021.08.30 18:55',
-      sentCollateralWithSlippage: ['-10,500.00 tUSD', '2021.08.20 17:57'],
-      returnSlippage: ['430.00 tUSD', '2021.08.20 17:57'],
-      receivePayoutBuyer: ['11,070.00 tUSD', '2021.08.20 17:57'],
-      receivePayoutSeller: ['430.00 tUSD', '2021.08.20 17:57'],
-      resultBuyer: '1,000.00 tUSD',
-      resultSeller: '1,000.00 tUSD',
-      sentCollateralCertaine: ['-10,500.00 tUSD', '2021.08.20 17:57']
-    }
-  },
-  {
-    id: 5814,
-    available: '1,231.05',
-    dateStart: '06.07 10:45',
-    dateEnd: '06.08 10:45',
-    title: 'ETHtUSD',
-    icon: '/icons/iconsCurrency/Fantom.svg',
-    buy: {
-      type: 'Buying',
-      amount: '10.000 tUSD',
-      units: '0.90872 ETH',
-      oracle: '1,270.00 ETH/tUSD',
-      duration: '1 day',
-      slippage: '12.31 tUSD',
-      leverage: 'X10',
-      exprosure: '100.000 tUSD',
-    },
-    etherscan: {
-      addressBuyer: '20xc3F...ED56',
-      addressSeller: '34xc3F...EА45',
-      transactionCreate: '0x5eb39...6884e',
-      transactionTake: '0x6eb48...7888n',
-      transactionComplete: '0x4eb97...6854e'
-    },
-    history: {
-      created: '2021.08.20 17:57',
-      taken: '2021.08.20 18:55',
-      contractEnd: '2021.08.30 18:55',
-      sentCollateralWithSlippage: ['-10,500.00 tUSD', '2021.08.20 17:57'],
-      returnSlippage: ['430.00 tUSD', '2021.08.20 17:57'],
-      receivePayoutBuyer: ['11,070.00 tUSD', '2021.08.20 17:57'],
-      receivePayoutSeller: ['430.00 tUSD', '2021.08.20 17:57'],
-      resultBuyer: '1,000.00 tUSD',
-      resultSeller: '1,000.00 tUSD',
-      sentCollateralCertaine: ['-10,500.00 tUSD', '2021.08.20 17:57']
-    }
-  },
-  {
-    id: 5794,
-    available: '1,231.05',
-    dateStart: '06.07 10:45',
-    dateEnd: '06.08 10:45',
-    title: 'ETHtUSD',
-    icon: '/icons/iconsCurrency/Glow.svg',
-    buy: {
-      type: 'Selling',
-      amount: '10.000 tUSD',
-      units: '0.90872 ETH',
-      oracle: '1,270.00 ETH/tUSD',
-      duration: '1 day',
-      slippage: '12.31 tUSD',
-      leverage: 'X10',
-      exprosure: '100.000 tUSD',
-    },
-    etherscan: {
-      addressBuyer: '20xc3F...ED56',
-      addressSeller: '34xc3F...EА45',
-      transactionCreate: '0x5eb39...6884e',
-      transactionTake: '0x6eb48...7888n',
-      transactionComplete: '0x4eb97...6854e'
-    },
-    history: {
-      created: '2021.08.20 17:57',
-      taken: '2021.08.20 18:55',
-      contractEnd: '2021.08.30 18:55',
-      sentCollateralWithSlippage: ['-10,500.00 tUSD', '2021.08.20 17:57'],
-      returnSlippage: ['430.00 tUSD', '2021.08.20 17:57'],
-      receivePayoutBuyer: ['11,070.00 tUSD', '2021.08.20 17:57'],
-      receivePayoutSeller: ['430.00 tUSD', '2021.08.20 17:57'],
-      resultBuyer: '1,000.00 tUSD',
-      resultSeller: '1,000.00 tUSD',
-      sentCollateralCertaine: ['-10,500.00 tUSD', '2021.08.20 17:57']
-    }
+    id: 1,
+    leverage: 'x100',
+    deposit: '$156',
+    icons: [{icon: '/icons/iconsCurrency/DAI.svg'}, {icon: '/icons/iconsCurrency/USDC.svg',}],
+    orderName: 'DAIvsUSDC',
+    entryPrice: '$0.9995',
+    oraclePrice: '$0.9998',
+    liqPrice: '$0.9999',
+    state: '15$ (15,25%)'
   }
 ]
 
-const tabs = [
-  {
-    id: 0,
-    title: "Buy",
-  },
-  {
+const orderList = [
+{
     id: 1,
-    title: "Etherscan",
-  },
-  {
-    id: 2,
-    title: "History",
-  },
-  {
-    id: 3,
-    title: "Action",
-  },
+    leverage: 'Sell x100,000',
+    deposit: '$156',
+    icons: [{icon: '/icons/iconsCurrency/DAI.svg'},
+    {icon: '/icons/iconsCurrency/Tether.svg',}],
+    orderName: 'DAIvsUSDT',
+    entryPrice: '$0.9914',
+    oraclePrice: '$0.9901',
+    exitType: 'Liquidation',
+    state: 'Closed P&L -$13',
+    orderTime: '16:22:37'
+  }
 ]
 
-const ActiveContent = ({activeTab, order} : {activeTab : string, order: OrderModel}) => {
-  const {push} = useRouter()
+const stakingList = [
+  {
+    id: 11,
+    leverage: '20,000',
+    deposit: '$20,125.31',
+    icons: [{icon: '/icons/iconsCurrency/DAI.svg'},
+    {icon: '/icons/iconsCurrency/Tether.svg',}],
+    orderName: 'DAIvsUSDt',
+    orderTime: '13.09.2022 16:15:23',
+    state: 'APY 17,84%',
+  },
+  {
+    id: 12,
+    leverage: '30,000',
+    deposit: '$30,158.30',
+    icons: [{icon: '/icons/iconsCurrency/USDC.svg'},
+    {icon: '/icons/iconsCurrency/Tether.svg',}],
+    orderName: 'USDCUSDt',
+    orderTime: '04.09.2022 16:15:26',
+    state: 'APY 14,93%',
+  }
+]
+
+const Positions = () => {
+  const [checked, setChecked ] = useState(radioList[0]);
   return (
-    <div className={styles.tabsContent}>
+    <>
+    <div className={styles.title}>
+      <span>Positions</span>
+      <div className={styles.radio}>
+        {radioList?.map(icon => {
+          return (
+            <div
+              onClick={() => setChecked(icon)}
+              className={icon?.id === checked.id ? styles.active : styles.inactive }
+              key={icon?.id}>
+              <Image src={icon?.icon} width={20} height={20} alt='icon' />
+            </div>
+          )
+        })}
+      </div>
+    </div>
+    <div className={styles.list}>
+      {positionList?.map((item) => {
+          return (
+            <div key={item.id}>
+              <div className={styles.item}>
+                {<div className={styles.icons}>
+                  {item?.icons?.map(icon => {
+                    return (
+                      <div key={icon?.icon}>
+                        <Image src={icon?.icon} height={24} width={24} alt="icon"/>
+                      </div>
+                    )
+                  })}
+                </div>}
+                <div className={styles.orderName}>{item?.orderName}</div>
+                <div className={styles.leverage}>{item?.leverage}</div>
+                <div className={styles.price}>{item?.deposit}</div>
+                <div className={styles.state}>{item?.state}</div>
+              </div>
+              <Tab type='position'
+              data={{entryPrice: item.entryPrice, oraclePrice: item.oraclePrice, liqPrice: item.liqPrice}}/>
+            </div>
+          )
+        })}
+      </div>
+      </>
+  )
+}
+
+const Orders = () => {
+  const [checked, setChecked ] = useState(radioList[0]);
+  return (
+    <>
+    <div className={styles.title}>
+      <span>Orders</span>
+      <div className={styles.radio}>
+        {radioList?.map(icon => {
+          return (
+            <div
+              onClick={() => setChecked(icon)}
+              className={icon?.id === checked.id ? styles.active : styles.inactive }
+              key={icon?.id}>
+              <Image src={icon?.icon} width={20} height={20} alt='icon' />
+            </div>
+          )
+        })}
+      </div>
+    </div>
+      <div className={styles.list}>
+        {orderList?.map((item) => {
+            return (
+              <>
+              <div key={item.id} className={styles.item}>
+                {<div className={styles.icons}>
+                  {item?.icons?.map(icon => {
+                    return (
+                      <div key={icon?.icon}>
+                        <Image src={icon?.icon} height={24} width={24} alt="icon"/>
+                      </div>
+                    )
+                  })}
+                </div>}
+                <div className={styles.orderName}>{item?.orderName}</div>
+                <div className={styles.leverage}>{item?.leverage}</div>
+                <div className={styles.price}>{item?.deposit}</div>
+                <div className={styles.stateR}>{item?.state}</div>
+              </div>
+              <Tab type='order'
+              data={
+                {
+                  entryPrice: item?.entryPrice,
+                  oraclePrice: item?.oraclePrice,
+                  exitType:item?.exitType,
+                  orderTime: item?.orderTime
+                }}/>
+              </>
+            )
+          })}
+        </div>
+      </>
+  )
+}
+
+const Staking = () => {
+  const [checked, setChecked ] = useState(radioList[0]);
+  return (
+    <>
+    <div className={styles.title}>
+      <span>Staking</span>
+      <div className={styles.radio}>
+        {radioList?.map(icon => {
+          return (
+            <div
+              onClick={() => setChecked(icon)}
+              className={icon?.id === checked.id ? styles.active : styles.inactive }
+              key={icon?.id}>
+              <Image src={icon?.icon} width={20} height={20} alt='icon' />
+            </div>
+          )
+        })}
+      </div>
+    </div>
+      <div className={styles.list}>
+        {stakingList?.map((item) => {
+            return (
+              <>
+              <div key={item.id} className={styles.item}>
+                {<div className={styles.icons}>
+                  {item?.icons?.map(icon => {
+                    return (
+                      <div key={icon?.icon}>
+                        <Image src={icon?.icon} height={24} width={24} alt="icon"/>
+                      </div>
+                    )
+                  })}
+                </div>}
+                <div className={styles.orderName}>{item?.orderName}</div>
+                <div className={styles.leverage}>{item?.leverage}</div>
+                <div className={styles.price}>{item?.deposit}</div>
+                <div className={styles.state}>{item?.state}</div>
+                
+              </div>
+              <Tab type='staking'
+              data={{orderTime: item?.orderTime}}/>
+              </>
+            )
+          })}
+        </div>
+      </>
+  )
+}
+
+const Tab = ({type, data} : {type: string, data: any}) => {
+  return (
+    <div className={styles.tab}>
       {
-        activeTab === "Buy" ? 
+        type === "position" ? 
         <>
-          <div className={styles.titleBuy}>
-            <div>#{order.id}</div>
-            <div>Created</div>
-          </div>
-          <div className={styles.positionBuy}>
-            <div>Mу position</div>
-            <div>{order?.buy?.type}</div>
-          </div>
-          <div className={styles.amountBuy}>
-            <div>Amount</div>
-            <div>{order?.buy?.amount}</div>
-          </div>
-          <div className={styles.unitsBuy}>
-            <div>Units</div>
-            <div>{order?.buy?.units}</div>
-          </div>
-          <div className={styles.oracle}>
-            <div>Oracle</div>
-            <div>{order?.buy?.oracle}</div>
-          </div>
-
-          <div className={styles.duration}>
-            <div>Duration</div>
-            <div>{order?.buy?.duration}</div>
+          <div>
+            <span>Entry Price</span>
+            <span>{data?.entryPrice}</span>
           </div>
           <div>
-            <div>Slipagge</div>
-            <div>{order?.buy?.slippage}</div>
+            <span>Oracle Price</span>
+            <span>{data?.oraclePrice}</span>
           </div>
           <div>
-            <div>Leverage</div>
-            <div>{order?.buy?.leverage}</div>
+            <span>Liq. Price</span>
+            <span style={{"color" : '#EB5757'}}>{data?.liqPrice}</span>
           </div>
-          <div>
-            <div>Exprosure</div>
-            <div>{order?.buy?.exprosure}</div>
-          </div>
-        </> :
-        activeTab === "Etherscan" ?
-        <>
-          <div className={styles.adress}>
-            <div>Address Buyer</div>
-            <div>
-              <span>{order?.etherscan?.addressBuyer}</span>
-              <Image src="/icons/orderIcon/copy.svg" width={16} height={16} alt="copy" />
-            </div>
-          </div>
-          <div className={styles.adress}>
-            <div>Address Seller</div>
-            <div>
-              <span>{order?.etherscan?.addressSeller}</span>
-              <Image src="/icons/orderIcon/copy.svg" width={16} height={16} alt="copy" />
-            </div>
-          </div>
-          <div className={styles.adress}>
-            <div>Transaction Create</div>
-            <div>
-              <span>{order?.etherscan?.transactionCreate}</span>
-              <Image src="/icons/orderIcon/copy.svg" width={16} height={16} alt="copy" />
-            </div>
-          </div>
-          <div className={styles.adress}>
-            <div>Transaction Take</div>
-            <div>
-              <span>{order?.etherscan?.transactionTake}</span>
-              <Image src="/icons/orderIcon/copy.svg" width={16} height={16} alt="copy" />
-            </div>
-          </div>
-          <div className={styles.adress}>
-            <div>Transaction Complete</div>
-            <div>
-              <span>{order?.etherscan?.transactionComplete}</span>
-              <Image src="/icons/orderIcon/copy.svg" width={16} height={16} alt="copy" />
-            </div>
-          </div>
-        </> :
-        activeTab === "History" ?
-        <>
-          <div className={styles.adress}>
-            <div>Created</div>
-            <div>
-              {order?.history?.created}
-            </div>
-          </div>
-          <div className={styles.adress}>
-            <div>Taken</div>
-            <div>
-              {order?.history?.taken}
-            </div>
-          </div>
-          <div className={styles.adress}>
-            <div>Contract End</div>
-            <div>
-              {order?.history?.contractEnd}
-            </div>
-          </div>
-          <div className={styles.historyTitle}>Payments Buyer</div>
-          <div className={styles.adress}>
-            <div>Sent collateral with slippage</div>
-            <div className={styles.historyPayments}>
-              <span>{order?.history?.sentCollateralWithSlippage[0]}</span>
-              <span>{order?.history?.sentCollateralWithSlippage[1]}</span>
-            </div>
-          </div>
-
-          <div className={styles.adress}>
-            <div>Return slippage</div>
-            <div className={styles.historyPaymentsGreen}>
-              <span>{order?.history?.returnSlippage[0]}</span>
-              <span>{order?.history?.returnSlippage[1]}</span>
-            </div>
-          </div>
-
-          <div className={styles.adress}>
-            <div>Receive payout</div>
-            <div className={styles.historyPaymentsGreen}>
-              <span>{order?.history?.receivePayoutBuyer[0]}</span>
-              <span>{order?.history?.receivePayoutBuyer[1]}</span>
-            </div>
-          </div>
-
-          <div className={styles.adress}>
-            <div>Result</div>
-            <div className={styles.resultBuyer}>
-              <span>{order?.history?.resultBuyer}</span>
-            </div>
-          </div>
-
-          <div className={styles.historyTitle}>Payments Seller</div>
-          <div className={styles.adress}>
-            <div>Sent collateral certaine</div>
-            <div className={styles.historyPayments}>
-              <span>{order?.history?.sentCollateralCertaine[0]}</span>
-              <span>{order?.history?.sentCollateralCertaine[1]}</span>
-            </div>
-          </div>
-
-          <div className={styles.adress}>
-            <div>Receive payout</div>
-            <div className={styles.historyPaymentsGreen}>
-              <span>{order?.history?.receivePayoutSeller[0]}</span>
-              <span>{order?.history?.receivePayoutSeller[1]}</span>
-            </div>
-          </div>
-
-          <div className={styles.adress}>
-            <div>Result</div>
-            <div className={styles.resultBuyer}>
-              <span>{order?.history?.resultSeller}</span>
-            </div>
-          </div>
-        </> :
-         activeTab === "Action" ? 
-          <>
-            <div className={styles.actionTitle}>
-              <Image src="/icons/orderIcon/info.svg" width={16} height={16} alt="info" />
-              <span className={styles.action}>Finalise the contract to be able to withdraw payout.</span>
-            </div>
-            <p className={styles.btn}>
-              <Button title='Receive payout' onClick={() => push('/deal-info')}/>
-            </p>
-          </>
-        : null
-      }
-    </div>
-  )
-}
-
-const OracleButton = ({countContract} : {countContract : number}) => {
-  const [ show, setShow ] = useState(false)
-  return (
-    show ?
-    <div className={styles.oracleModal}>
-      <div className={styles.oracleModalTitle}>
-        <div>Waiting for Oracle</div>
-        <div onClick={() => setShow(false)} className={styles.closeOracle}>
-          <Image src="/icons/orderIcon/close.svg" width={24} height={24} alt="icon"/>
-        </div>
-      </div>
-      <div className={styles.countOracle}>
-        <div>
-          <p>{countContract}</p>
-          <span>Contracts</span>
-        </div>
-        <div className={styles.btnCount}><span>Run Oracle</span></div>
-      </div>
-    </div> :
-    <>
-      <div onClick={() => setShow(true)} className={styles.oracleBtn}>
-      <span>Wainitg Oracle</span>
-      </div>
-    </>
-  )
-}
-
-const Order = ({order} : {order: OrderModel}) => {
-  const [ isOpen, setOpen ] = useState(false);
-  const [ activeTab, setActiveTab ] = useState(tabs[0])
-
-  return (
-    <>
-    <div
-      style={isOpen ? {"background" : "#09080C", "borderRadius" : "8px 8px 0px 0px"} : {"background" : "#1C1924"}}
-      onClick={() => setOpen(!isOpen)}
-      className={styles.order}>
-      <Image src={order?.icon} width={24} height={24} alt="icon currency" />
-      <div className={styles.currency}>{order?.title}</div>
-      <div className={styles.available}>{order?.available}</div>
-      <div className={styles.date}>
-        <div>{order?.dateStart}</div>
-        <div>{order?.dateEnd}</div>
-      </div>
-      <div className={styles.toggle}>
-        {!isOpen ? <div className={styles.notification}/> : null}
-        <Image src={isOpen ? "/icons/orderIcon/close.svg" : "/icons/orderIcon/info.svg"} width={24} height={24} alt="icon"/>
-      </div>
-    </div>
-    { isOpen ?
-        <>
-        <div className={styles.tabs}>
-          {
-            tabs?.map(tab => {
-              return (
-                <div
-                  onClick={() => setActiveTab(tab)}
-                  key={tab?.id}
-                  className={tab?.id === activeTab?.id ? styles.activeTab : styles.tab}>
-                  {tab.title}
-                </div>
-              )
-            })
-          }
-        </div>
-        <ActiveContent order={order} activeTab={activeTab?.title} />
         </>
-        : null
-      }
-    </>
+        : type === "order" ?
+        <>
+          <div>
+            <span>Entry Price</span>
+            <span>{data?.entryPrice}</span>
+          </div>
+          <div>
+            <span>Oracle Price</span>
+            <span>{data?.oraclePrice}</span>
+          </div>
+          <div>
+            <span>Exit Type</span>
+            <span>{data?.exitType}</span>
+          </div>
+
+          <div style={{"marginTop" : '24px'}}>
+            <span>Order Time</span>
+            <span style={{"color" : '#7B61FF'}}>{data?.orderTime}</span>
+          </div>
+        </>
+        : type === "staking" ?
+          <>
+            <div className={styles.staking} style={{"marginTop" : '24px'}}>
+              <span>Date time</span>
+              <span style={{"color" : '#7B61FF'}}>{data?.orderTime}</span>
+            </div>
+          </> : null}
+    </div>
   )
 }
 
 const DashboardContent = () => {
-  const [checked, setChecked ] = useState(radioList[0]);
   return (
     <div className={styles.dashboard}>
-      <OracleButton countContract={orderList.length} />
       <UserInfo />
-      <div className={styles.invested}>
-        <span>Invested</span>
-        <span>1022.59 tUSD</span>
-        <span>P/L</span>
-        <span>102.87</span>
-      </div>
-
-      <div className={styles.title}>
-        <span>Orders</span>
-        <div className={styles.radio}>
-          {radioList?.map(icon => {
-            return (
-              <div
-                onClick={() => setChecked(icon)}
-                className={icon?.id === checked.id ? styles.active : styles.inactive }
-                key={icon?.id}>
-                <Image src={icon?.icon} width={20} height={20} alt='icon' />
-              </div>
-            )
-          })}
-        </div>
-      </div>
-
-      <div className={styles.orderList}>
-        {orderList?.map(order => <Order key={order.id} order={order}/>)}
+      {/* <Chart /> */}
+      <Positions />
+      <Orders />
+      <Staking />
+      <div className={styles.btns}>
+        <Button onClick={() => console.log('Deposit')} title='Deposit' />
+        <Button onClick={() => console.log('Withdraw')} title='Withdraw' />
       </div>
     </div>
   )
 }
 
-export default DashboardContent
+export default DashboardContent 

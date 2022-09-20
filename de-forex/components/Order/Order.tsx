@@ -6,6 +6,7 @@ import Tab from '../ui/Tab'
 import styles from './Order.module.css'
 import Select from '../ui/Select/Select'
 import Input from './Input'
+import Link from 'next/link'
 
 const tabs = [
   {
@@ -219,9 +220,13 @@ const Order = ({order, coin} : {order : OrderModel, coin: any}) => {
       </div>
       }
       
-      <div className={styles.btn}>
-        <Button onClick={() => console.log("order")} title="Create Order" />
-      </div>
+      <Link href="/dashboard">
+        <a>
+          <div className={styles.btn}>
+            <Button onClick={() => console.log("order")} title="Create Order" />
+          </div>
+        </a>
+      </Link>
     </div>
   )
 }
