@@ -28,7 +28,7 @@ contract Deforex is IDeforex, Ownable {
     _exchange = exchange;
   } 
 
-  function createOrder(address tokenSell, address tokenBuy, uint256 amount, uint256 leverage, uint256 slippage) external payable {
+  function createPosition(address tokenSell, address tokenBuy, uint256 amount, uint256 leverage, uint256 slippage) external payable {
 
     IERC20(tokenSell).transferFrom(msg.sender, address(this), amount);
 
@@ -43,6 +43,8 @@ contract Deforex is IDeforex, Ownable {
     
     require(address(exchange) != address(0), "Deforex: ZERO_ADDRESS");
 
+    totalAmount += amount;
+
     TransferHelper.safeApprove(tokenSell, address(exchange), totalAmount);
 
     (, uint256 amountOut) = exchange.swap(IExchange.SwapParams({
@@ -54,16 +56,16 @@ contract Deforex is IDeforex, Ownable {
     }));
 
     _orders[++_orderId] = OrderParams({
-        amount: totalAmount,     // amount without leverage
-        leverage: leverageAv,
+        amount: amount,     // amount without leverage
+        leverage: leverage,
         amountOut: amountOut, // amount tokens after swap
         tokenSell: tokenSell,
         tokenBuy: tokenBuy,
         trader: msg.sender
     });
   }
-
-  function closeOrder(uint256 id) external payable {
+  
+  function closePosition(uint256 id) external payable {
     OrderParams memory params = _orders[id];
 
     IExchange exchange = _factory.getExchange(IExchange.DEX.UNISWAP);  
@@ -87,6 +89,6 @@ contract Deforex is IDeforex, Ownable {
     TransferHelper.safeTransfer(params.tokenSell, alpAddr, amountOut);
   }
 
-  function closePosition() external {
+  function closeOrder() external {
   }
 }
