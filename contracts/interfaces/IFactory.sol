@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
+import "./IExchange.sol";
+
 interface IFactory {
 
    /// @notice Emitted when the owner of the factory is changed
@@ -27,11 +29,14 @@ interface IFactory {
     /// @dev tokenA and tokenB may be passed in either token0/token1 or token1/token0 order
     /// @param tokenA The contract address of either token0 or token1
     /// @param tokenB The contract address of the other token
-    /// @return pool The pool address
+    /// @return alp The pool address
     function getAlp(
         address tokenA,
         address tokenB
-    ) external view returns (address pool);
+    ) external view returns (address alp);
+
+    function getExchange(IExchange.DEX type_
+    ) external view returns (IExchange exchange);
 
     /// @notice Creates a pool for the given two tokens and fee
     /// @param tokenA One of the two tokens in the desired pool
@@ -39,11 +44,11 @@ interface IFactory {
     /// @dev tokenA and tokenB may be passed in either order: token0/token1 or token1/token0. tickSpacing is retrieved
     /// from the fee. The call will revert if the pool already exists, the fee is invalid, or the token arguments
     /// are invalid.
-    /// @return pool The address of the newly created pool
+    /// @return alp The address of the newly created pool
     function createAlp(
         address tokenA,
         address tokenB
-    ) external returns (address pool);
+    ) external returns (address alp);
 
     /// @notice Updates the owner of the factory
     /// @dev Must be called by the current owner

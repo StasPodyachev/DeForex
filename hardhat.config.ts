@@ -9,13 +9,13 @@ import "hardhat-gas-reporter";
 import "solidity-coverage";
 import * as dotenv from "dotenv";
 
-import "./tasks/deploy";
-import "./tasks/deployAll";
+// import "./tasks/deploy";
+// import "./tasks/deployAll";
 
-import "./tasks/configure";
-import "./tasks/configureAll";
+// import "./tasks/configure";
+// import "./tasks/configureAll";
 
-import "./tasks/dev";
+// import "./tasks/dev";
 
 import "@nomiclabs/hardhat-etherscan";
 

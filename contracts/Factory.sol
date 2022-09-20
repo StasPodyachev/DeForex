@@ -1,14 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "@openzeppelin/contracts/access/Ownable.sol";
 import "./interfaces/IFactory.sol";
+import "./interfaces/IExchange.sol";
 import "./ALP.sol";
 
-contract Factory is IFactory, Ownable {
+contract Factory is IFactory {
     
-    address public override owner;
-    mapping(address => mapping(address => address)) internal alpsMap;
+    address public owner;
+    mapping(address => mapping(address => address)) private alpsMap;
+    mapping(IExchange.DEX => IExchange) private exchanges;
     address[] public alps;
 
     event AlpCreated(address indexed token0, address indexed token1, address alp, uint);
@@ -17,10 +18,18 @@ contract Factory is IFactory, Ownable {
         return alps.length;
     }
 
-    function getAlp(address tokenA, address tokenB){
+    function getAlp(address tokenA, address tokenB) external view returns (address alp){
         (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
 
         return alpsMap[token0][token1];
+    }
+
+    function getExchange(IExchange.DEX type_) external view returns(IExchange){
+       return exchanges[type_];
+    }
+
+    function registerExchange(IExchange.DEX type_, IExchange exchange) external{
+        exchanges[type_] = exchange;
     }
 
     // TODO: register Exchanges and other  
