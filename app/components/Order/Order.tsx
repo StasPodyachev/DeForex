@@ -7,6 +7,7 @@ import styles from './Order.module.css'
 import Select from '../ui/Select/Select'
 import Input from './Input'
 import Link from 'next/link'
+import { useContract } from 'wagmi'
 
 const tabs = [
   {
@@ -94,6 +95,11 @@ const Order = ({order, coin} : {order : OrderModel, coin: any}) => {
   useEffect(() => {
     setActiveCurrency(showMarket.currency[0])
   }, [showMarket])
+
+  // const contract = useContract({
+  //   addressOrName: '0x79057B7d5342486a3197401aF64b3189D33baf2d',
+  //   contractInterface: 
+  // })
 
   return (
     <div className={styles.order}>
@@ -207,8 +213,8 @@ const Order = ({order, coin} : {order : OrderModel, coin: any}) => {
         <Input
           pool
           activeCurrency={showMarket.currency[1]}
-          value={valueInputPool}
-          setValue={setValuePool}
+          value={valueInputPoolSecond}
+          setValue={setValuePoolSecond}
           icon={showMarket.icons[1].icon} />
         <div className={styles.staked}>Staked amount <span style={{"color" : '#31C471', "fontWeight" : '700'}}>20,000</span> DAIUSDC</div>
 
