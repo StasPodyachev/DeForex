@@ -4,16 +4,16 @@ pragma abicoder v2;
 
 import "./Exchange.sol";
 import "@uniswap/lib/contracts/libraries/TransferHelper.sol";
-import "@uniswap/swap-router-contracts/contracts/interfaces/IV3SwapRouter.sol";
+import "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
 
 contract UniswapExchange is
     Exchange
 {
-    IV3SwapRouter public immutable _swapRouter;
+    ISwapRouter public immutable _swapRouter;
 
     uint24 public constant POOL_FEE = 3000;
 
-    constructor(IV3SwapRouter swapRouter) {
+    constructor(ISwapRouter swapRouter) {
         _swapRouter = swapRouter;
     }
 
@@ -23,11 +23,13 @@ contract UniswapExchange is
 
         // Return result tokens to Deforex after swap
 
-        TransferHelper.safeTransfer(
-            params.tokenOut,
-            msg.sender,
-            amountOut
-        );   
+        // TransferHelper.safeApprove(params.tokenOut, msg.sender, amountOut);
+
+        // TransferHelper.safeTransfer(
+        //     params.tokenOut,
+        //     msg.sender,
+        //     amountOut
+        // );   
     }
 
     function safeTransferWithApprove(uint256 amountIn, address routerAddress, address token)
@@ -49,12 +51,13 @@ contract UniswapExchange is
     {
         safeTransferWithApprove(amountIn, address(_swapRouter), tokenIn);
 
-        IV3SwapRouter.ExactInputSingleParams memory params = IV3SwapRouter
+        ISwapRouter.ExactInputSingleParams memory params = ISwapRouter
             .ExactInputSingleParams({
                 tokenIn: tokenIn,
                 tokenOut: tokenOut,
                 fee: POOL_FEE,
                 recipient: msg.sender,
+                deadline: block.timestamp,
                 amountIn: amountIn,
                 amountOutMinimum: amountOutMinimum,
                 sqrtPriceLimitX96: 0
@@ -71,12 +74,13 @@ contract UniswapExchange is
         // In production, you should choose the maximum amount to spend based on oracles or other data sources to acheive a better swap.
         TransferHelper.safeApprove(tokenIn, address(_swapRouter), amountInMaximum);
 
-        IV3SwapRouter.ExactOutputSingleParams memory params =
-            IV3SwapRouter.ExactOutputSingleParams({
+        ISwapRouter.ExactOutputSingleParams memory params =
+            ISwapRouter.ExactOutputSingleParams({
                 tokenIn: tokenIn,
                 tokenOut: tokenOut,
                 fee: POOL_FEE,
                 recipient: msg.sender,
+                deadline: block.timestamp,
                 amountOut: amountOut,
                 amountInMaximum: amountInMaximum,
                 sqrtPriceLimitX96: 0

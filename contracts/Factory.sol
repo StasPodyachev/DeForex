@@ -12,8 +12,6 @@ contract Factory is IFactory {
     mapping(IExchange.DEX => IExchange) private exchanges;
     address[] public alps;
 
-    event AlpCreated(address indexed token0, address indexed token1, address alp, uint);
-
     function countAlp() external view returns (uint) {
         return alps.length;
     }

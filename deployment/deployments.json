@@ -1,0 +1,39 @@
+{
+  "5": {
+    "Factory": {
+      "proxy": "",
+      "implementation": ["0x5FC8e400ac068d0550ac1952C700660a32089982"],
+      "address": "0x5FC8e400ac068d0550ac1952C700660a32089982",
+      "creationTime": 1663747787614,
+      "updatedTime": [1663747787614]
+    },
+    "Deforex": {
+      "proxy": "",
+      "implementation": ["0x79057B7d5342486a3197401aF64b3189D33baf2d"],
+      "address": "0x79057B7d5342486a3197401aF64b3189D33baf2d",
+      "creationTime": 1663747788974,
+      "updatedTime": [1663747788974]
+    },
+    "Exchange": {
+      "proxy": "",
+      "implementation": ["0x3Ae730Cb337a971992459f3268978F59020e3A41"],
+      "address": "0x3Ae730Cb337a971992459f3268978F59020e3A41",
+      "creationTime": 1663747790303,
+      "updatedTime": [1663747790303]
+    },
+    "UniswapExchange": {
+      "proxy": "",
+      "implementation": ["0xe8e9AD50ECCc956b7bC6f7fbC92C886035cf4c76"],
+      "address": "0xe8e9AD50ECCc956b7bC6f7fbC92C886035cf4c76",
+      "creationTime": 1663747791658,
+      "updatedTime": [1663747791658]
+    },
+    "ALP": {
+      "proxy": "",
+      "implementation": ["0xf300a6ab5eea16bf09ca649c56da75e278062c8f"],
+      "address": "0xf300a6ab5eea16bf09ca649c56da75e278062c8f",
+      "creationTime": 1663686750649,
+      "updatedTime": [1663686750649]
+    }
+  }
+}

@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@uniswap/lib/contracts/libraries/TransferHelper.sol";
 
@@ -12,7 +11,7 @@ import "./ALP.sol";
 
 import "hardhat/console.sol";
 
-abstract contract Deforex is IDeforex, Ownable {
+contract Deforex is IDeforex, Ownable {
 
   uint256 public _orderId;
   IFactory public _factory;
@@ -28,28 +27,34 @@ abstract contract Deforex is IDeforex, Ownable {
     _exchange = exchange;
   } 
 
-  function createOrder(address tokenSell, address tokenBuy, uint256 amount, uint256 leverage, uint256 slippage) external payable {
+  function createPosition(address tokenSell, address tokenBuy, uint256 amount, uint256 leverage, uint256 slippage) external payable {
 
-    IERC20(tokenSell).transferFrom(msg.sender, address(this), amount);
+    TransferHelper.safeTransferFrom(tokenSell, msg.sender, address(this), amount);
 
     address alpAddr = _factory.getAlp(tokenSell, tokenBuy);
 
     require(alpAddr != address(0), "Deforex: ZERO_ADDRESS");
 
     ALP alp = ALP(alpAddr);
-    alp.requestReserve(leverage, amount, tokenSell);
+    (uint256 totalAmount, uint256 leverageAv) = alp.requestReserve(leverage, amount, tokenSell);
+
+    IExchange exchange = _factory.getExchange(IExchange.DEX.UNISWAP);
     
-    (, uint256 amountOut) = _exchange.swap(IExchange.SwapParams({
-      amountIn: amount,
+    require(address(exchange) != address(0), "Deforex: ZERO_ADDRESS");
+
+    totalAmount += amount;
+
+    TransferHelper.safeApprove(tokenSell, address(exchange), totalAmount);
+
+    (, uint256 amountOut) = exchange.swap(IExchange.SwapParams({
+      amountIn: totalAmount,
       amountOut: 0,
       tokenIn: tokenSell,
       tokenOut: tokenBuy,
       timestamp: block.timestamp
     }));
 
-    _orderId++;
-
-    _orders[_orderId] = OrderParams({
+    _orders[++_orderId] = OrderParams({
         amount: amount,     // amount without leverage
         leverage: leverage,
         amountOut: amountOut, // amount tokens after swap
@@ -58,11 +63,14 @@ abstract contract Deforex is IDeforex, Ownable {
         trader: msg.sender
     });
   }
-
-  function closeOrder(uint256 id) external payable {
+  
+  function closePosition(uint256 id) external payable {
     OrderParams memory params = _orders[id];
 
-    (, uint256 amountOut) = _exchange.swap(IExchange.SwapParams({
+    IExchange exchange = _factory.getExchange(IExchange.DEX.UNISWAP);  
+    TransferHelper.safeApprove(params.tokenBuy, address(exchange), params.amountOut);
+
+    (, uint256 amountOut) = exchange.swap(IExchange.SwapParams({
       amountIn: params.amountOut,
       amountOut: 0,
       tokenIn: params.tokenBuy,
@@ -80,9 +88,6 @@ abstract contract Deforex is IDeforex, Ownable {
     TransferHelper.safeTransfer(params.tokenSell, alpAddr, amountOut);
   }
 
-  function openPosition() external {
-  }
-
-  function closePosition() external {
+  function closeOrder() external {
   }
 }

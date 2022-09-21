@@ -12,7 +12,7 @@ interface IDeforex {
         address trader;
     }
 
-    function createOrder(address tokenSell, address tokenBuy, uint256 amount, uint256 leverage, uint256 slippage) external payable;
+    function createPosition(address tokenSell, address tokenBuy, uint256 amount, uint256 leverage, uint256 slippage) external payable;
 
-    function closeOrder(uint256 id) external payable;
+    function closePosition(uint256 id) external payable;
 }

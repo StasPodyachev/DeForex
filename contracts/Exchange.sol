@@ -6,7 +6,7 @@ import "./interfaces/IExchange.sol";
 import "./interfaces/IFactory.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-abstract contract Exchange is
+contract Exchange is
     IExchange, Ownable
 {
     IFactory public _factory;
