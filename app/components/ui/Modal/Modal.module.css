@@ -1,0 +1,21 @@
+.modal {
+  display: flex;
+  background-color: rgba(19,17,24, 0.9);
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: 4;
+}
+
+.modalBody {
+  width: 100%;
+  max-width:  400px;
+  background-color: #131118;
+  border-radius: 8px;
+  padding: 24px;
+  position: relative;
+  height: auto;
+}
