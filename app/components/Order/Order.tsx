@@ -7,8 +7,10 @@ import styles from './Order.module.css'
 import Select from '../ui/Select/Select'
 import Input from './Input'
 import Link from 'next/link'
-import { useContract } from 'wagmi'
-
+import { useContractWrite, usePrepareContractWrite,useContract } from 'wagmi'
+import addresses from '../../contracts/addresses'
+import DEFOREX_ABI from '../../contracts/ABI/Deforex.sol/Deforex.json'
+// import {  } from 'wagmi'
 const tabs = [
   {
     id: 0,
@@ -97,9 +99,29 @@ const Order = ({order, coin} : {order : OrderModel, coin: any}) => {
   }, [showMarket])
 
   // const contract = useContract({
-  //   addressOrName: '0x79057B7d5342486a3197401aF64b3189D33baf2d',
-  //   contractInterface: 
+  //   addressOrName: addresses?.deforex?.address,
+  //   contractInterface: DEFOREX_ABI as any
   // })
+  // const contract = useContract({
+  //   addressOrName: '0x00000000000C2E074eC69A0dFb2997BA6C7d2e1e',
+  //   contractInterface: ensRegistryABI,
+  // })
+
+  const dataontract = {
+    tokenSell: addresses?.USDC?.address,
+    tokenBuy: addresses?.DAI?.address,
+    amount: 100,
+    leverage: 100,
+    slippage: "0.001"
+  }
+
+  const { config } = usePrepareContractWrite({
+    addressOrName: addresses?.deforex?.address,
+    contractInterface: [`function createPosition()`],
+    functionName: 'createPosition',
+  })
+
+  const { write } = useContractWrite(config)
 
   return (
     <div className={styles.order}>
@@ -180,8 +202,7 @@ const Order = ({order, coin} : {order : OrderModel, coin: any}) => {
           </div>
           
           <div className={styles.options}>
-            <p>
-              My position <span style={{"color" : '#FFFFFF', "fontWeight" : '700'}}>10,000</span></p>
+            <p>My position <span style={{"color" : '#FFFFFF', "fontWeight" : '700'}}>10,000 </span>{activeCurrency?.title}</p>
             <p>
               My potential loss <span style={{"color" : '#EB5757', "fontWeight" : '700'}}>99,325</span>
             </p>
@@ -205,7 +226,7 @@ const Order = ({order, coin} : {order : OrderModel, coin: any}) => {
       <div className={styles.pool}>
         <Input
           pool
-          activeCurrency={showMarket.currency[0]}
+          activeCurrency={showMarket?.currency[0]}
           value={valueInputPool}
           setValue={setValuePool}
           icon={showMarket.icons[0].icon} />
@@ -229,7 +250,7 @@ const Order = ({order, coin} : {order : OrderModel, coin: any}) => {
       <Link href="/dashboard">
         <a>
           <div className={styles.btn}>
-            <Button onClick={() => console.log("order")} title="Create Order" />
+            <Button onClick={() => console.log(write?.())} title="Open Position" />
           </div>
         </a>
       </Link>

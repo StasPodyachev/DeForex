@@ -36,7 +36,7 @@ const positionList = [
 
 const orderList = [
 {
-    id: 1,
+    id: 2,
     leverage: 'Sell x100,000',
     deposit: '$156',
     icons: [{icon: '/icons/iconsCurrency/DAI.svg'},
@@ -52,7 +52,7 @@ const orderList = [
 
 const stakingList = [
   {
-    id: 11,
+    id: 3,
     leverage: '20,000',
     deposit: '$20,125.31',
     icons: [{icon: '/icons/iconsCurrency/DAI.svg'},
@@ -62,7 +62,7 @@ const stakingList = [
     state: 'APY 17,84%',
   },
   {
-    id: 12,
+    id: 4,
     leverage: '30,000',
     deposit: '$30,158.30',
     icons: [{icon: '/icons/iconsCurrency/USDC.svg'},
@@ -144,7 +144,7 @@ const Orders = () => {
         {orderList?.map((item) => {
             return (
               <>
-              <div key={item.id} className={styles.item}>
+              <div key={item?.id} className={styles.item}>
                 {<div className={styles.icons}>
                   {item?.icons?.map(icon => {
                     return (

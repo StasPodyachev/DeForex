@@ -42,9 +42,9 @@ const Nav = () => {
               })
             }
           </div>
-          <div className={styles.imageBurgerMenu}>
+          {/* <div className={styles.imageBurgerMenu}>
             <Image src='/images/burger-menu.png' layout='fill' alt="bg" />
-          </div>
+          </div> */}
         </div> : null
       }
     </div>

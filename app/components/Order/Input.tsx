@@ -4,10 +4,10 @@ import styles from './Input.module.css'
 interface InputModel {
   value: string
   icon: string
-  currencies?: {id: number, title: string}[]
+  currencies?: {id: number, title: string, icon: string}[]
   setValue: (str: string) => void
-  activeCurrency?: {id: number, title: string}
-  setActiveCurrency?: ({id, title} : {id: number, title: string}) => void
+  activeCurrency?: {id: number, title: string, icon: string}
+  setActiveCurrency?: ({id, title, icon } : {id: number, title: string, icon: string}) => void
   pool?: boolean
 }
 
@@ -21,7 +21,7 @@ const Input = ({value, pool, icon, currencies, setValue, activeCurrency, setActi
     <div className={styles.input}>
       <Image
         alt="currency"
-        src={icon}
+        src={activeCurrency?.icon}
         width={24} height={24}
         />
       <input type="number" value={value} onChange={changeValue} />
@@ -41,8 +41,7 @@ const Input = ({value, pool, icon, currencies, setValue, activeCurrency, setActi
             </div>
             {
               showCurrency ?
-              <div className={styles.currency}
-                >
+              <div className={styles.currency}>
                 {
                   currencies?.map((currency) => {
                     return(

@@ -7,11 +7,13 @@ export const markets = [
     currency: [
       {
         id: 0,
-        title: 'DAI'
+        title: 'DAI',
+        icon: '/icons/iconsCurrency/DAI.svg',
       },
       {
         id: 1,
-        title: 'USDC'
+        title: 'USDC',
+        icon: '/icons/iconsCurrency/USDC.svg'
       }
     ]
   },
@@ -23,11 +25,13 @@ export const markets = [
     currency: [
       {
         id: 0,
-        title: 'DAI'
+        title: 'DAI',
+        icon: '/icons/iconsCurrency/DAI.svg'
       },
       {
         id: 2,
-        title: 'USDT'
+        title: 'USDT',
+        icon: '/icons/iconsCurrency/Tether.svg'
       }
     ]
   },
@@ -39,11 +43,13 @@ export const markets = [
     currency: [
       {
         id: 2,
-        title: 'USDT'
+        title: 'USDT',
+        icon: '/icons/iconsCurrency/Tether.svg'
       },
       {
         id: 1,
-        title: 'USDC'
+        title: 'USDC',
+        icon: '/icons/iconsCurrency/USDC.svg'
       }
     ]
   },
@@ -57,5 +63,5 @@ export interface ModelMarket {
   }[]
   title: string
   orderName: string
-  currency: {id: number, title: string}[]
+  currency: {id: number, title: string, icon: string}[]
 }
