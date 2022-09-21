@@ -2,29 +2,36 @@
   "5": {
     "Factory": {
       "proxy": "",
-      "implementation": ["0x8C0a75f833692b9Ae110c2c3831acce737D6F45e"],
-      "address": "0x8C0a75f833692b9Ae110c2c3831acce737D6F45e",
-      "creationTime": 1663682511099,
-      "updatedTime": [1663682511099]
+      "implementation": ["0x5FC8e400ac068d0550ac1952C700660a32089982"],
+      "address": "0x5FC8e400ac068d0550ac1952C700660a32089982",
+      "creationTime": 1663747787614,
+      "updatedTime": [1663747787614]
     },
     "Deforex": {
       "proxy": "",
-      "implementation": ["0xD42980De25E80d8ca6122C68d5fee28E39113B96"],
-      "address": "0xD42980De25E80d8ca6122C68d5fee28E39113B96",
-      "creationTime": 1663683785123,
-      "updatedTime": [1663683785123]
+      "implementation": ["0x79057B7d5342486a3197401aF64b3189D33baf2d"],
+      "address": "0x79057B7d5342486a3197401aF64b3189D33baf2d",
+      "creationTime": 1663747788974,
+      "updatedTime": [1663747788974]
     },
     "Exchange": {
       "proxy": "",
-      "implementation": ["0x41486314912564cEB0E058aD2Ec3148FE2cb4159"],
-      "address": "0x41486314912564cEB0E058aD2Ec3148FE2cb4159",
-      "creationTime": 1663683395155,
-      "updatedTime": [1663683395155]
+      "implementation": ["0x3Ae730Cb337a971992459f3268978F59020e3A41"],
+      "address": "0x3Ae730Cb337a971992459f3268978F59020e3A41",
+      "creationTime": 1663747790303,
+      "updatedTime": [1663747790303]
     },
     "UniswapExchange": {
       "proxy": "",
-      "implementation": ["0xC64D69239B68f47cd8d87a4FcaD869b141d43135"],
-      "address": "0xC64D69239B68f47cd8d87a4FcaD869b141d43135",
+      "implementation": ["0xe8e9AD50ECCc956b7bC6f7fbC92C886035cf4c76"],
+      "address": "0xe8e9AD50ECCc956b7bC6f7fbC92C886035cf4c76",
+      "creationTime": 1663747791658,
+      "updatedTime": [1663747791658]
+    },
+    "ALP": {
+      "proxy": "",
+      "implementation": ["0xf300a6ab5eea16bf09ca649c56da75e278062c8f"],
+      "address": "0xf300a6ab5eea16bf09ca649c56da75e278062c8f",
       "creationTime": 1663686750649,
       "updatedTime": [1663686750649]
     }

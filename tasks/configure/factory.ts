@@ -25,10 +25,10 @@ task("configure:factory").setAction(async function (
   // 0xdc31Ee1784292379Fbb2964b3B9C4124D8F89C60 - DAI
   // 0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C - USDC
 
-  // await factory.createAlp(
-  //   "0xdc31Ee1784292379Fbb2964b3B9C4124D8F89C60",
-  //   "0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C"
-  // ); // DAI/USDC
+  await factory.createAlp(
+    "0xdc31Ee1784292379Fbb2964b3B9C4124D8F89C60",
+    "0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C"
+  ); // DAI/USDC
 
   await await factory.registerExchange(0, uniswapExchange.address);
 });

@@ -16,6 +16,8 @@ task("dev:deposit").setAction(async function (
 ) {
   const network = await hre.getChainId();
 
+  const alpDeployed = deployments[network]["ALP"];
+
   // 0xf3cc0d1aa68d2f15cd99862bd5f58bdc0657486d - alp
   // 0x7850d400366ce643bdb2fefb2315e7e15cc84ed1
   // 0xb2ee4d34b28d06f3b0e717ec874e18de134232b4
@@ -23,7 +25,7 @@ task("dev:deposit").setAction(async function (
 
   const alp = (await hre.ethers.getContractAt(
     "ALP",
-    "0xd13fb1fcb425327f51ef80e5cb622f6b4454f8a8"
+    alpDeployed.address
   )) as ALP;
 
   const dai = (await hre.ethers.getContractAt(

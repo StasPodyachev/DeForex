@@ -49,7 +49,5 @@ task("dev:order").setAction(async function (
 
   await dai.approve(deforex.address, amount);
 
-  await deforex.createOrder(dai.address, usdc.address, amount, 90, 0, {
-    gasLimit: 500000,
-  });
+  await deforex.createPosition(dai.address, usdc.address, amount, 90, 0);
 });

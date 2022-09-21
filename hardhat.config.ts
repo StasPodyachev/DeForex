@@ -1,6 +1,7 @@
 // import "hardhat-typechain";
 import "@nomiclabs/hardhat-waffle";
 import "@typechain/hardhat";
+import "@nomiclabs/hardhat-etherscan";
 import "hardhat-contract-sizer";
 import "hardhat-deploy";
 import "hardhat-deploy-ethers";
@@ -73,6 +74,9 @@ const config = {
   //   runOnCompile: true,
   //   disambiguatePaths: false,
   // },
+  etherscan: {
+    apiKey: process.env.ETHERSCAN_API_KEY,
+  },
   typechain: {
     outDir: "typechain",
     target: "ethers-v5",

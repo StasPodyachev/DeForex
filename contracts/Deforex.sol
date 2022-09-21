@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@uniswap/lib/contracts/libraries/TransferHelper.sol";
 
@@ -30,7 +29,7 @@ contract Deforex is IDeforex, Ownable {
 
   function createPosition(address tokenSell, address tokenBuy, uint256 amount, uint256 leverage, uint256 slippage) external payable {
 
-    IERC20(tokenSell).transferFrom(msg.sender, address(this), amount);
+    TransferHelper.safeTransferFrom(tokenSell, msg.sender, address(this), amount);
 
     address alpAddr = _factory.getAlp(tokenSell, tokenBuy);
 
