@@ -8,45 +8,52 @@ import Select from '../ui/Select/Select'
 import Input from '../ui/Input/Input'
 import { useSigner, useContract, erc20ABI } from 'wagmi'
 import addresses from '../../contracts/addresses'
-import DEFOREX_ABI from '../../contracts/ABI/Deforex.sol/Deforex.json'
+// import DEFOREX_ABI from '../../contracts/ABI/Deforex.sol/Deforex.json'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-// import {  } from 'wagmi'
+
 const tabs = [
   {
     id: 0,
     title: 'x10',
-    checked: false
+    value: 10,
+    disbled: false
   },
   {
     id: 1,
     title: 'x50',
-    checked: true
+    disbled: false,
+    value: 50,
   },
   {
     id: 2,
     title: 'x100',
-    checked: true
+    disbled: false,
+    value: 100,
   },
   {
     id: 3,
     title: 'x500',
-    checked: false
+    disbled: true,
+    value: 500,
   },
   {
     id: 4,
     title: 'x1,000',
-    checked: false
+    disbled: true,
+    value: 1000,
   },
   {
     id: 5,
     title: 'x5,000',
-    checked: false
+    disbled: true,
+    value: 5000,
   },
   {
     id: 6,
     title: 'x10,000',
-    checked: false
+    disbled: true,
+    value: 10000,
   }
 ]
 const switchList = [
@@ -85,8 +92,6 @@ const executions = [
 
 const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contract: any}) => {
   const {query} = useRouter()
-  console.log(query, 'router');
-  
   const [ showMarket, setShowMarket ] = useState<ModelMarket>(markets[0])
   const [ showExecution, setShowExecution ] = useState(executions[0])
   const [ checked, setChecket ] = useState(tabs[2])
@@ -141,6 +146,7 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
                 return <Tab
                   setChecket={() => setChecket(tab)} key={tab?.id}
                   tab={tab}
+                  disbled={tab?.disbled}
                   checked={checked?.id === tab?.id} />
               })
             }

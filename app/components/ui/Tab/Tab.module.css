@@ -12,6 +12,20 @@
   scroll-snap-align: start;
 }
 
+.disbled {
+  background-color: #1C1924;
+  padding: 12px 22px;
+  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .3s;
+  /* min-width: 70px; */
+  opacity: .5;
+  scroll-snap-align: start;
+}
+
 .tab:nth-child(2), .activeTab:nth-child(2) {
   margin: 0 8px;
 }
