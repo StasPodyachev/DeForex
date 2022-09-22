@@ -104,7 +104,6 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
   const { address } = useAccount()
   const [ valueInputPool, setValuePool ] = useState("10.000")
   const [ valueInputPoolSecond, setValuePoolSecond ] = useState('10.000')
-  const [ activeERC20, setActiveERC20 ] = useState();
   const { data: signer } = useSigner() 
 
   const contractERC20Dai = useContract({
@@ -112,7 +111,6 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
     contractInterface: erc20ABI,
     signerOrProvider: signer
   })
-
   const contractERC20USDC = useContract({
     addressOrName: addresses?.USDC?.address,
     contractInterface: erc20ABI,
@@ -141,22 +139,13 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
     }
   }, [query])
 
-  useEffect(() => {
-    setActiveERC20(activeCurrency.title === 'DAI' ? contractERC20Dai : contractERC20USDC)
-  }, [activeCurrency])
 
   useEffect(() => {
-    console.log(activeERC20, 'activeERC20');
+    console.log(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC, 'activeERC20');
     if (address && signer) {
-      // activeCurrency
-      approved(activeERC20, contract?.address, address).then((res) => {
-        isSetApprove(res)
-       })
+      approved(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC, contract?.address, address).then((res) => isSetApprove(res))
     }
   }, [address, signer, activeCurrency])
-
-  // 10 d 18 dai
-  // 10 d 6 usdc
   return (
     <div className={styles.order}>
       <div className={styles.switchBtn}>
@@ -283,8 +272,7 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
       }
       <div className={styles.btn}>
         <Button onClick={() => {
-          createOrder()
-          approve(activeERC20 ,contract?.address, ethers?.constants?.MaxUint256)
+          isApprove ? createOrder() : approve(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC , contract?.address, ethers?.constants?.MaxUint256)
         }} title={isApprove ? "Open Position" : "Approve token"} />
       </div>
     </div>
