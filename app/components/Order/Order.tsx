@@ -113,9 +113,10 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
   })
 
   const createOrder = () => {
+    const amount = activeCurrency.title === "USDC" ? +`${value}e6` : +`${value}e18`;
     const tokenSell = activeCurrency?.address
     const tokenBuy = showMarket?.currency?.find(currency => activeCurrency?.address !== currency.address).address
-    createPosition(contract, tokenSell, tokenBuy, +`${value}e18`, checked.value , 0.01)
+    createPosition(contract, tokenSell, tokenBuy, amount, checked.value , 0)
   }
 
   useEffect(() => {
@@ -147,8 +148,8 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
     console.log(tokenBuy, 'tokenBuy');
   }, [activeCurrency])
 
-  // 10 d 18
-  // 10 d 6 usdt
+  // 10 d 18 dai
+  // 10 d 6 usdc
   return (
     <div className={styles.order}>
       <div className={styles.switchBtn}>
