@@ -1,6 +1,9 @@
 import Layout from '../../components/Layouts/Layout'
 import Order from '../../components/Order/Order';
+import { useContract, useSigner } from 'wagmi'
 import {  GetServerSideProps } from 'next'
+import addresses from '../../contracts/addresses';
+import DEFOREX_ABI from '../../contracts/ABI/Deforex.sol/Deforex.json'
 const testOrder = {
   id: 1,
   currencyName: 'ETHtUSD',
@@ -15,10 +18,19 @@ const testOrder = {
 }
 
 export default function OrderBook({coin} : any) {
+  const { data: signer, isError, isLoading } = useSigner()
+  const contract = useContract({
+    addressOrName: addresses?.deforex?.address,
+    contractInterface: DEFOREX_ABI.abi ,
+    signerOrProvider: signer,
+  })
+
   return (
-    <Layout title="OrderBook">
-      <Order order={testOrder} coin={coin} />
-    </Layout>
+      contract ?
+      <Layout title="OrderBook">
+      <Order contract={contract} order={testOrder} coin={coin} />
+    </Layout> : null
+    
   )
 }
 
