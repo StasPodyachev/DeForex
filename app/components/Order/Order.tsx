@@ -10,6 +10,7 @@ import { useSigner, useContract, erc20ABI } from 'wagmi'
 import addresses from '../../contracts/addresses'
 import DEFOREX_ABI from '../../contracts/ABI/Deforex.sol/Deforex.json'
 import { ethers } from 'ethers'
+import { useRouter } from 'next/router'
 // import {  } from 'wagmi'
 const tabs = [
   {
@@ -25,7 +26,7 @@ const tabs = [
   {
     id: 2,
     title: 'x100',
-    checked: false
+    checked: true
   },
   {
     id: 3,
@@ -83,9 +84,12 @@ const executions = [
 ]
 
 const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contract: any}) => {
+  const {query} = useRouter()
+  console.log(query, 'router');
+  
   const [ showMarket, setShowMarket ] = useState<ModelMarket>(markets[0])
   const [ showExecution, setShowExecution ] = useState(executions[0])
-  const [ checked, setChecket ] = useState(tabs[0])
+  const [ checked, setChecket ] = useState(tabs[2])
   const [ active, setActive ] = useState(switchList[0])
   const [ value, setValue ] = useState<string>('100')
   const [ activeCurrency, setActiveCurrency ] = useState(markets[0].currency[0]);
@@ -102,6 +106,17 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
   useEffect(() => {
     setActiveCurrency(showMarket.currency[0])
   }, [showMarket])
+
+  useEffect(() => {
+    if (query?.orderName) {
+      const active = markets.filter(item => {
+        if (query?.orderName === item.orderName) {
+          return item
+        }
+      })
+      setShowMarket(active[0])
+    }
+  }, [query])
 
   return (
     <div className={styles.order}>
