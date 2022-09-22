@@ -1,3 +1,5 @@
+import addresses from "../contracts/addresses"
+
 export const markets = [
   {
     id: 1,
@@ -9,11 +11,13 @@ export const markets = [
         id: 0,
         title: 'DAI',
         icon: '/icons/iconsCurrency/DAI.svg',
+        address: addresses.DAI.address
       },
       {
         id: 1,
         title: 'USDC',
-        icon: '/icons/iconsCurrency/USDC.svg'
+        icon: '/icons/iconsCurrency/USDC.svg',
+        address: addresses.USDC.address
       }
     ]
   },
@@ -26,12 +30,14 @@ export const markets = [
       {
         id: 0,
         title: 'DAI',
-        icon: '/icons/iconsCurrency/DAI.svg'
+        icon: '/icons/iconsCurrency/DAI.svg',
+        address: addresses.DAI.address
       },
       {
         id: 2,
         title: 'USDT',
-        icon: '/icons/iconsCurrency/Tether.svg'
+        icon: '/icons/iconsCurrency/Tether.svg',
+        address: addresses.USDT.address
       }
     ]
   },
@@ -44,12 +50,14 @@ export const markets = [
       {
         id: 2,
         title: 'USDT',
-        icon: '/icons/iconsCurrency/Tether.svg'
+        icon: '/icons/iconsCurrency/Tether.svg',
+        address: addresses.USDT.address
       },
       {
         id: 1,
         title: 'USDC',
-        icon: '/icons/iconsCurrency/USDC.svg'
+        icon: '/icons/iconsCurrency/USDC.svg',
+        address: addresses.USDC.address
       }
     ]
   },
@@ -63,5 +71,5 @@ export interface ModelMarket {
   }[]
   title: string
   orderName: string
-  currency: {id: number, title: string, icon: string}[]
+  currency: {id: number, title: string, icon: string, address: string}[]
 }
