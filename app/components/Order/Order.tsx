@@ -11,6 +11,7 @@ import addresses from '../../contracts/addresses'
 // import DEFOREX_ABI from '../../contracts/ABI/Deforex.sol/Deforex.json'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
+import { approve, createPosition } from './utils'
 
 const tabs = [
   {
@@ -248,12 +249,23 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
       </div>
       }
       <div className={styles.btn}>
-        <Button onClick={() => console.log(contract?.createPosition('0xdc31Ee1784292379Fbb2964b3B9C4124D8F89C60','0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C', BigInt('5000000000000000000'), 90, 0), 'contract')
-        } title="Open Position" />
+        <Button onClick={() => {
+          createPosition(contract,'0xdc31Ee1784292379Fbb2964b3B9C4124D8F89C60','0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C',
+          BigInt('5000000000000000000'), 90, 0).then(res => {
+            console.log(res, 'aproved1');
+          }).catch(() => {
+            approve(contractERC20 ,contract?.address, ethers?.constants?.MaxUint256)?.then(res => {
+              createPosition(contract,'0xdc31Ee1784292379Fbb2964b3B9C4124D8F89C60','0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C', BigInt('5000000000000000000'), 90, 0).then(res => {
+                console.log(res, 'aproved2');
+              })
+            })
+          })
+        }} title="Open Position" />
       </div>
-      <div className={styles.btn}>
-        <Button onClick={() => contractERC20?.approve(contract.address, ethers.constants.MaxUint256)} title="Approve" />
-      </div>
+      {/* <div className={styles.btn}>
+        <Button
+          onClick={() => approve(contractERC20 ,contract?.address, ethers?.constants?.MaxUint256)} title="Approve" />
+      </div> */}
     </div>
   )
 }
