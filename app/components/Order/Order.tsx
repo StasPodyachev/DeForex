@@ -101,13 +101,13 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
   const [ value, setValue ] = useState<string>('100')
   const [ valueSecond, setValueSecond ] = useState<string>("1000")
   const [ activeCurrency, setActiveCurrency ] = useState(markets[0].currency[0]);
-  const [ activeCurrencySecond, setActiveCurrencySecond ] = useState(markets[0].currency[1]);
+  const [ activeCurrencySecond, setActiveCurrencySecond ] = useState(markets[0].currency[1])
   const [ isApprove, isSetApprove ] = useState(false)
-  const { address } = useAccount()
   const [ valueInputPool, setValuePool ] = useState("10.000")
   const [ valueInputPoolSecond, setValuePoolSecond ] = useState('10.000')
+  const [ showAdvanced, setShowAdvanced ] = useState(false)
   const { data: signer } = useSigner() 
-
+  const { address } = useAccount()
   const contractERC20Dai = useContract({
     addressOrName: addresses?.DAI?.address,
     contractInterface: erc20ABI,
@@ -125,7 +125,6 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
     const tokenBuy = showMarket?.currency?.find(currency => activeCurrency?.address !== currency.address).address
     createPosition(contract, tokenSell, tokenBuy, amount, checked.value , 0)
   }
-
 
   useEffect(() => {
     if(value) {
@@ -157,7 +156,6 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
 
   useEffect(() => {
     setActiveCurrencySecond(showMarket?.currency?.find(cur => cur.id !== activeCurrency.id))
-    console.log(activeCurrency, 'activeCurrency');
   }, [activeCurrency])
 
   return (
@@ -197,7 +195,6 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
               })
             }
           </div>
-          
           <div className={styles.inputAmount}>
             <Input
               setActiveCurrency={setActiveCurrency}
@@ -209,9 +206,8 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
               icon={showMarket.icons[0].icon}
               currencies={showMarket?.currency} />
           </div>
-
           <div className={styles.rate}>
-            <span style={{"color" : '#EB5757'}}>Stop loss at rate</span>
+            <span style={{"color" : '#AC90FF'}}>Market rate</span>
             <div className={styles.rateBody}>
               <div className={styles.icons}>
                 {
@@ -230,48 +226,84 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
               </span>
             </div>
           </div>
-
-          <div className={styles.rate}>
-            <span style={{"color" : '#6FCF97'}}>Take profit at rate</span>
-            <div className={styles.rateBody}>
-              <div className={styles.icons}>
-                {
-                  showMarket?.icons?.map(icon => {
-                    return (
-                      <div key={icon?.icon}>
-                        <Image src={icon?.icon} height={24} width={24} alt="icon" />
-                      </div>
-                    )
-                  })
-                }
-              </div>
-              <div className={styles.rateAmount}>1.0096</div>
-              <span>
-                {showMarket.currency[0].title} for 1 {showMarket.currency[1].title}
-              </span>
+          <div className={styles.options}>
+            <p>Margin Call rate <span style={{"color" : '#EB5757', "fontWeight" : '700'}}>0,9971 </span> <span>{showMarket.currency[0].title} for 1 {showMarket.currency[1].title}</span> </p>
+          </div>
+          <div onClick={() => setShowAdvanced(!showAdvanced)} className={styles.advanced}>
+            <span>Advanced</span>
+            <div className={showAdvanced ? styles.settingsActive : styles.settings}>
+              <Image src="/icons/orderIcon/settings.svg" width={24} height={24} alt='settings' />
             </div>
           </div>
-          
-          <div className={styles.options}>
-            <p>My position <span style={{"color" : '#FFFFFF', "fontWeight" : '700'}}>10,000 </span>{activeCurrency?.title}</p>
-            <p>
-              My potential loss <span style={{"color" : '#EB5757', "fontWeight" : '700'}}>99,325</span>
-            </p>
-            <p>
-            My potential profit <span style={{"color" : '#9DE7BD', "fontWeight" : '700'}}>98,675</span>
-            </p>
-          </div>
+          {
+            showAdvanced ?
+            <>
+            <div className={styles.rate}>
+              <span style={{"color" : '#6FCF97'}}>Take profit at rate</span>
+              <div className={styles.rateBody}>
+                <div className={styles.icons}>
+                  {
+                    showMarket?.icons?.map(icon => {
+                      return (
+                        <div key={icon?.icon}>
+                          <Image src={icon?.icon} height={24} width={24} alt="icon" />
+                        </div>
+                      )
+                    })
+                  }
+                </div>
+                <div className={styles.rateAmount}>1.0096</div>
+                <span>
+                  {showMarket.currency[0].title} for 1 {showMarket.currency[1].title}
+                </span>
+              </div>
+            </div>
+            
+            <div className={styles.options}>
+              <p>
+                My potential profit <span style={{"color" : '#9DE7BD', "fontWeight" : '700'}}>98,675 </span> <span>{activeCurrency?.title}</span>
+              </p>
+            </div>
+            <div className={styles.rate}>
+              <span style={{"color" : '#EB5757'}}>Stop loss at rate</span>
+              <div className={styles.rateBody}>
+                <div className={styles.icons}>
+                  {
+                    showMarket?.icons?.map(icon => {
+                      return (
+                        <div key={icon?.icon}>
+                          <Image src={icon?.icon} height={24} width={24} alt="icon" />
+                        </div>
+                      )
+                    })
+                  }
+                </div>
+                <div className={styles.rateAmount}>0.9988</div>
+                <span>
+                  {showMarket.currency[0].title} for 1 {showMarket.currency[1].title}
+                </span>
+              </div>
+            </div>
+
+            <div className={styles.options}>
+              <p>
+                My potential loss <span style={{"color" : '#EB5757', "fontWeight" : '700'}}>99,325 </span>
+                <span>{activeCurrency?.title}</span>
+              </p>
+            </div>
+
+            <div className={styles.chart}>
+              <Image src="/icons/chart3.svg" width={327} height={225} alt='chart' />
+            </div>
+
+          </> : null
+          } 
           
           <Select
             execution
             markets={executions}
             active={showExecution}
             setActive={setShowExecution}/>
-
-          <div className={styles.options}>
-            <p>Curent rate <span style={{"color" : '#9DE7BD', "fontWeight" : '700'}}>0,99979325</span> USDC for 1 DAI </p>
-            <p>Margin Call on rate <span style={{"color" : '#EB5757', "fontWeight" : '700'}}>0,99</span> tUSD for 1 DAI</p>
-          </div>
         </div>
       :
       <div className={styles.pool}>
@@ -285,8 +317,8 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
         <Input
           pool
           activeCurrency={showMarket.currency[1]}
-          value={valueInputPoolSecond}
-          setValue={setValuePoolSecond}
+          value={valueInputPool}
+          setValue={setValuePool}
           icon={showMarket.icons[1].icon} />
         <div className={styles.staked}>Staked amount <span style={{"color" : '#31C471', "fontWeight" : '700'}}>20,000</span> DAIUSDC</div>
 

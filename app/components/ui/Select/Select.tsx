@@ -36,7 +36,7 @@ const Select = ({markets, active, setActive, execution} : ModelProps) => {
             })}
           </div> : null
         }
-        <span>{active.title}</span>
+        <span style={execution ? {"fontSize" : "16px"} : {"fontSize" : "12px"}}>{active.title}</span>
         <div className={styles.arrow}
         style={!show ? {"transform": "rotate(-90deg)"} : {"transform": "rotate(90deg)"}}>
           <Image src='/icons/orderIcon/arroww.svg' width={24} height={24} alt="arrow" />
@@ -62,7 +62,7 @@ const Select = ({markets, active, setActive, execution} : ModelProps) => {
                   })
                 }
               </div>
-              <span>{item.title}</span>
+              <span style={execution ? {"fontSize" : "16px"} : {"fontSize" : "12px"}}>{item.title}</span>
             </div>
           : null)
         })

@@ -31,7 +31,6 @@
 }
 
 .tab span {
-  font-family: "Poppins";
   font-weight: 700;
   font-size: 12px;
   background: linear-gradient(74.31deg, #59FFAF 0%, #9E4EFF 80.73%);
@@ -55,7 +54,6 @@
 }
 
 .activeTab span {
-  font-family: "Poppins";
   font-weight: 700;
   color: #fff;
   font-size: 12px;
