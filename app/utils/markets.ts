@@ -1,5 +1,4 @@
 import addresses from "../contracts/addresses"
-
 export const markets = [
   {
     id: 1,
@@ -11,13 +10,15 @@ export const markets = [
         id: 0,
         title: 'DAI',
         icon: '/icons/iconsCurrency/DAI.svg',
-        address: addresses.DAI.address
+        address: addresses.DAI.address,
+        rate: 1.0018
       },
       {
         id: 1,
         title: 'USDC',
         icon: '/icons/iconsCurrency/USDC.svg',
-        address: addresses.USDC.address
+        address: addresses.USDC.address,
+        rate: 0.9988
       }
     ]
   },
@@ -31,13 +32,15 @@ export const markets = [
         id: 0,
         title: 'DAI',
         icon: '/icons/iconsCurrency/DAI.svg',
-        address: addresses.DAI.address
+        address: addresses.DAI.address,
+        rate: 1.0021
       },
       {
         id: 2,
         title: 'USDT',
         icon: '/icons/iconsCurrency/Tether.svg',
-        address: addresses.USDT.address
+        address: addresses.USDT.address,
+        rate: 0.9975
       }
     ]
   },
@@ -51,19 +54,19 @@ export const markets = [
         id: 2,
         title: 'USDT',
         icon: '/icons/iconsCurrency/Tether.svg',
-        address: addresses.USDT.address
+        address: addresses.USDT.address,
+        rate: 0.9995
       },
       {
         id: 1,
         title: 'USDC',
         icon: '/icons/iconsCurrency/USDC.svg',
-        address: addresses.USDC.address
+        address: addresses.USDC.address,
+        rate: 1.0005
       }
     ]
-  },
-  
+  }
 ]
-
 export interface ModelMarket {
   id: number
   icons: {
@@ -71,5 +74,5 @@ export interface ModelMarket {
   }[]
   title: string
   orderName: string
-  currency: {id: number, title: string, icon: string, address: string}[]
+  currency: {id: number, title: string, icon: string, address: string, rate: number}[]
 }

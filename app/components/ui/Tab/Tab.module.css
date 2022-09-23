@@ -23,6 +23,7 @@
   transition: all .3s;
   /* min-width: 70px; */
   opacity: .5;
+  font-size: 12px;
   scroll-snap-align: start;
 }
 

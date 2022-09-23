@@ -16,3 +16,10 @@ export const createPosition = async (contract, tokenSell,tokenBuy, amount, lever
     return res
   })
 }
+
+export const deposit = async ( contract, token, amount: any) => {
+  await contract?.deposit(token, amount).then((res) => {
+    console.log(res);
+    return res
+  })
+}

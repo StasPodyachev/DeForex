@@ -1,4 +1,4 @@
-.btn {
+.btn, .btnDisable {
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
@@ -18,4 +18,8 @@
 
 .btn:hover {
   background: #8C36E7;
+}
+
+.btnDisable {
+  background: linear-gradient(74.31deg, #D8D8D8 0%, #626263 80.73%);
 }

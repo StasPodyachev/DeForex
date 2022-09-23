@@ -378,3 +378,20 @@
   align-items: center;
   justify-content: center;
 }
+
+.btns {
+  display: flex;
+}
+
+.btns > div {
+  width: 100% ;
+  min-width: 50%;
+}
+
+.btns > div:first-child {
+  margin-right: 4px;
+}
+
+.btns > div:last-child {
+  margin-left: 4px;
+}

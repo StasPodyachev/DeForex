@@ -1,9 +1,9 @@
 import styles from './Button.module.css'
 
 const Button = 
-  ({title, onClick, logoPath} : {title: string, onClick : () => void, logoPath?: string}) => {
+  ({title, onClick, logoPath, disable} : {disable?: boolean ,title: string, onClick : () => void, logoPath?: string}) => {
   return (
-    <div onClick={() => onClick()} className={styles.btn}>
+    <div onClick={() => onClick()} className={!disable ? styles.btn : styles.btnDisable } >
       {title}
     </div>
   )

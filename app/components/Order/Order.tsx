@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Button from '../ui/Button'
 import {markets, ModelMarket} from '../../utils/markets'
 import Tab from '../ui/Tab'
@@ -8,10 +8,10 @@ import Select from '../ui/Select/Select'
 import Input from '../ui/Input/Input'
 import { useSigner, useContract, erc20ABI, useAccount } from 'wagmi'
 import addresses from '../../contracts/addresses'
-// import DEFOREX_ABI from '../../contracts/ABI/Deforex.sol/Deforex.json'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { approve, approved, createPosition } from './utils'
+import Pool from './Pool'
 
 const tabs = [
   {
@@ -91,7 +91,6 @@ const executions = [
   }
 ]
 
-
 const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contract: any}) => {
   const { query } = useRouter()
   const [ showMarket, setShowMarket ] = useState<ModelMarket>(markets[0])
@@ -100,12 +99,20 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
   const [ active, setActive ] = useState(switchList[0])
   const [ value, setValue ] = useState<string>('100')
   const [ valueSecond, setValueSecond ] = useState<string>("1000")
-  const [ activeCurrency, setActiveCurrency ] = useState(markets[0].currency[0]);
-  const [ activeCurrencySecond, setActiveCurrencySecond ] = useState(markets[0].currency[1])
+  const [ activeCurrency, setActiveCurrency ] = useState<{id: number, title: string, icon: string, address: string, rate: number}>(markets[0].currency[0]);
+  const [ activeCurrencySecond, setActiveCurrencySecond ] = useState<{id: number, title: string, icon: string, address: string, rate: number}>(markets[0].currency[1])
   const [ isApprove, isSetApprove ] = useState(false)
   const [ valueInputPool, setValuePool ] = useState("10.000")
-  const [ valueInputPoolSecond, setValuePoolSecond ] = useState('10.000')
   const [ showAdvanced, setShowAdvanced ] = useState(false)
+
+  //
+  const [ marginCall, setMarginCall ] = useState(markets[0]?.currency[0]?.rate * ( checked.value - 1) /  checked.value)
+  const [ takeProfitRate, setTakeProfitRate ] = useState(markets[0]?.currency[0]?.rate * 1.007)
+  const [ stopLossRate, setStopLossRate ] = useState(markets[0]?.currency[0]?.rate * 0.998)
+  const [ potentialProfit, setPotentialProfit ] = useState(0) // amountSell * (rateTakeProfit - rateMarket)
+  const [ potentialLoss, setPotentialLoss ] = useState(0)
+  //
+
   const { data: signer } = useSigner() 
   const { address } = useAccount()
   const contractERC20Dai = useContract({
@@ -118,9 +125,9 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
     contractInterface: erc20ABI,
     signerOrProvider: signer
   })
-
+  
   const createOrder = () => {
-    const amount = activeCurrency.title === "USDC" ? +`${value}e6` : +`${value}e18`;
+    const amount = activeCurrency.title === "USDC" || activeCurrency.title === "USDT" ? +`${value}e6` : +`${value}e18`;
     const tokenSell = activeCurrency?.address
     const tokenBuy = showMarket?.currency?.find(currency => activeCurrency?.address !== currency.address).address
     createPosition(contract, tokenSell, tokenBuy, amount, checked.value , 0)
@@ -156,6 +163,48 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
 
   useEffect(() => {
     setActiveCurrencySecond(showMarket?.currency?.find(cur => cur.id !== activeCurrency.id))
+  }, [activeCurrency])
+
+  useEffect(() => {
+    // 100 * tabs[2]?.value * markets[0]?.currency[0]?.rate * 1.007
+    setPotentialProfit(+value * checked?.value * (takeProfitRate - activeCurrency?.rate))
+    setPotentialLoss(+value * checked?.value * (stopLossRate - activeCurrency?.rate))
+  }, [value, checked, activeCurrency, takeProfitRate, stopLossRate])
+
+  // useEffect(() => {
+  //   if (activeCurrency) {
+  //     const buyCurrency = showMarket?.currency?.find(cur => cur.id !== activeCurrency.id)
+  //     const tokenBuy = {
+  //       address: 
+  //       buyCurrency?.title === "USDC" || buyCurrency.title === "USDT" ?
+  //       '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48' :
+  //       '0x6b175474e89094c44da98b954eedeac495271d0f',
+  //       range: buyCurrency?.title === "USDC" || buyCurrency.title === "USDT" ? 6 : 18,
+  //       title: buyCurrency?.title
+  //     }
+  //     const tokenSell = {
+  //       address: 
+  //       activeCurrency?.title === "USDC" || activeCurrency.title === "USDT" ?
+  //       '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48' :
+  //       '0x6b175474e89094c44da98b954eedeac495271d0f',
+  //       range: activeCurrency?.title === "USDC" || activeCurrency.title === "USDT" ? 6 : 18,
+  //       title: activeCurrency?.title
+  //     }
+  //     getRoute(tokenSell, tokenBuy).then(res => console.log(res, 'res'))
+  //   }
+  // }, [activeCurrency])
+
+  useEffect(() => {
+    if (checked && value) {
+      setMarginCall(activeCurrency?.rate * ( checked.value - 1) /  checked.value)
+    }
+  }, [checked, activeCurrency])
+
+  useEffect(() => {
+    if (activeCurrency) {
+      setStopLossRate(activeCurrency?.rate * 0.998)
+      setTakeProfitRate(activeCurrency?.rate * 1.007)
+    }
   }, [activeCurrency])
 
   return (
@@ -220,14 +269,14 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
                   })
                 }
               </div>
-              <div className={styles.rateAmount}>0.9988</div>
+              <div className={styles.rateAmount}>{activeCurrency?.rate}</div>
               <span>
-                {showMarket.currency[0].title} for 1 {showMarket.currency[1].title}
+                {showMarket.currency[0].title} for 1 {showMarket?.currency[1]?.title}
               </span>
             </div>
           </div>
           <div className={styles.options}>
-            <p>Margin Call rate <span style={{"color" : '#EB5757', "fontWeight" : '700'}}>0,9971 </span> <span>{showMarket.currency[0].title} for 1 {showMarket.currency[1].title}</span> </p>
+            <p>Margin Call rate <span style={{"color" : '#EB5757', "fontWeight" : '700'}}>{marginCall} </span> <span>{showMarket.currency[0].title} for 1 {showMarket.currency[1].title}</span> </p>
           </div>
           <div onClick={() => setShowAdvanced(!showAdvanced)} className={styles.advanced}>
             <span>Advanced</span>
@@ -252,7 +301,7 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
                     })
                   }
                 </div>
-                <div className={styles.rateAmount}>1.0096</div>
+                <div className={styles.rateAmount}>{takeProfitRate}</div>
                 <span>
                   {showMarket.currency[0].title} for 1 {showMarket.currency[1].title}
                 </span>
@@ -261,7 +310,7 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
             
             <div className={styles.options}>
               <p>
-                My potential profit <span style={{"color" : '#9DE7BD', "fontWeight" : '700'}}>98,675 </span> <span>{activeCurrency?.title}</span>
+                My potential profit <span style={{"color" : '#9DE7BD', "fontWeight" : '700'}}>{potentialProfit.toFixed(2)} </span> <span>{activeCurrency?.title}</span>
               </p>
             </div>
             <div className={styles.rate}>
@@ -278,7 +327,7 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
                     })
                   }
                 </div>
-                <div className={styles.rateAmount}>0.9988</div>
+                <div className={styles.rateAmount}>{stopLossRate}</div>
                 <span>
                   {showMarket.currency[0].title} for 1 {showMarket.currency[1].title}
                 </span>
@@ -287,7 +336,7 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
 
             <div className={styles.options}>
               <p>
-                My potential loss <span style={{"color" : '#EB5757', "fontWeight" : '700'}}>99,325 </span>
+                My potential loss <span style={{"color" : '#EB5757', "fontWeight" : '700'}}>{potentialLoss.toFixed(2)} </span>
                 <span>{activeCurrency?.title}</span>
               </p>
             </div>
@@ -295,7 +344,6 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
             <div className={styles.chart}>
               <Image src="/icons/chart3.svg" width={327} height={225} alt='chart' />
             </div>
-
           </> : null
           } 
           
@@ -304,36 +352,24 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
             markets={executions}
             active={showExecution}
             setActive={setShowExecution}/>
+          <div className={styles.btn}>
+            <Button onClick={() => {
+              isApprove ? createOrder() : approve(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC , contract?.address, ethers?.constants?.MaxUint256)
+            }} title={isApprove ? "Open Position" : "Approve token"} />
+          </div>
         </div>
       :
-      <div className={styles.pool}>
-        <Input
-          pool
-          activeCurrency={showMarket?.currency[0]}
-          value={valueInputPool}
-          setValue={setValuePool}
-          icon={showMarket.icons[0].icon} />
-
-        <Input
-          pool
-          activeCurrency={showMarket.currency[1]}
-          value={valueInputPool}
-          setValue={setValuePool}
-          icon={showMarket.icons[1].icon} />
-        <div className={styles.staked}>Staked amount <span style={{"color" : '#31C471', "fontWeight" : '700'}}>20,000</span> DAIUSDC</div>
-
-        <div className={styles.options}>
-          <p>TVL <span style={{"color" : '#31C471', "fontWeight" : '700'}}>1,000,000,000</span> USD</p>
-          <p>My share <span style={{"color" : '#31C471', "fontWeight" : '700'}}>0.002% </span></p>
-          <p>Est. APY <span style={{"color" : '#31C471', "fontWeight" : '700'}}>17.84% </span></p>
-        </div>
-      </div>
+      <>
+      <Pool
+        contractERC20Dai={contractERC20Dai}
+        contractERC20USDC={contractERC20USDC}
+        signer={signer}
+        address={address}
+        showMarket={showMarket}
+        valueInputPool={valueInputPool}
+        setValuePool={setValuePool}/>
+      </>
       }
-      <div className={styles.btn}>
-        <Button onClick={() => {
-          isApprove ? createOrder() : approve(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC , contract?.address, ethers?.constants?.MaxUint256)
-        }} title={isApprove ? "Open Position" : "Approve token"} />
-      </div>
     </div>
   )
 }

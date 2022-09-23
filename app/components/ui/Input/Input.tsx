@@ -1,14 +1,14 @@
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styles from './Input.module.css'
 interface InputModel {
   value: string
   icon: string
-  currencies?: {id: number, title: string, icon: string, address: string}[]
+  currencies?: {id: number, title: string, icon: string, address: string, rate: number}[]
   setValue: (str: string) => void
-  activeCurrency?: {id: number, title: string, icon: string, address: string}
-  secondCurrency?: {id: number, title: string, icon: string, address: string}
-  setActiveCurrency?: ({id, title, icon, address } : {id: number, title: string, icon: string, address: string}) => void
+  activeCurrency?: {id: number, title: string, icon: string, address: string, rate: number}
+  secondCurrency?: {id: number, title: string, icon: string, address: string, rate: number}
+  setActiveCurrency?: ({id, title, icon, address, rate } : {id: number, title: string, icon: string, address: string, rate: number}) => void
   pool?: boolean
   disabled?: boolean 
 }
