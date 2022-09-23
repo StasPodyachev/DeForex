@@ -20,6 +20,7 @@
 .currencies {
   margin-left: auto;
   position: relative;
+  z-index: 2;
 }
 
 .currency {

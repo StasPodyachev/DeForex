@@ -83,11 +83,11 @@ interface OrderModel {
 const executions = [
   {
     id: 0,
-    title: 'Instant market execution'
+    title: 'Execute by Market'
   },
   {
     id: 1,
-    title: 'Limit order'
+    title: 'Execute by Limit order'
   }
 ]
 
@@ -99,7 +99,9 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
   const [ checked, setChecket ] = useState(tabs[2])
   const [ active, setActive ] = useState(switchList[0])
   const [ value, setValue ] = useState<string>('100')
+  const [ valueSecond, setValueSecond ] = useState<string>("1000")
   const [ activeCurrency, setActiveCurrency ] = useState(markets[0].currency[0]);
+  const [ activeCurrencySecond, setActiveCurrencySecond ] = useState(markets[0].currency[1]);
   const [ isApprove, isSetApprove ] = useState(false)
   const { address } = useAccount()
   const [ valueInputPool, setValuePool ] = useState("10.000")
@@ -124,6 +126,14 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
     createPosition(contract, tokenSell, tokenBuy, amount, checked.value , 0)
   }
 
+
+  useEffect(() => {
+    if(value) {
+      const str = +value * checked?.value
+      setValueSecond(`${str}`)
+    }
+  }, [value, checked])
+
   useEffect(() => {
     setActiveCurrency(showMarket.currency[0])
   }, [showMarket])
@@ -139,13 +149,17 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
     }
   }, [query])
 
-
   useEffect(() => {
-    console.log(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC, 'activeERC20');
     if (address && signer) {
       approved(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC, contract?.address, address).then((res) => isSetApprove(res))
     }
   }, [address, signer, activeCurrency])
+
+  useEffect(() => {
+    setActiveCurrencySecond(showMarket?.currency?.find(cur => cur.id !== activeCurrency.id))
+    console.log(activeCurrency, 'activeCurrency');
+  }, [activeCurrency])
+
   return (
     <div className={styles.order}>
       <div className={styles.switchBtn}>
@@ -163,6 +177,15 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
       <Select markets={markets} active={showMarket} setActive={setShowMarket}/>
       { switchList[0] === active ?
         <div>
+          <div className={styles.inputAmount}>
+            <Input
+              setActiveCurrency={setActiveCurrency}
+              activeCurrency={activeCurrency}
+              value={value}
+              setValue={setValue}
+              icon={showMarket.icons[0].icon}
+              currencies={showMarket?.currency} />
+          </div>
           <div className={styles.tabs}>
             {
               tabs?.map(tab => {
@@ -174,14 +197,18 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
               })
             }
           </div>
-          <Input
-            setActiveCurrency={setActiveCurrency}
-            activeCurrency={activeCurrency}
-            value={value}
-            setValue={setValue}
-            icon={showMarket.icons[0].icon}
-            currencies={showMarket?.currency} />
-          {/* <WidgetOrder /> */}
+          
+          <div className={styles.inputAmount}>
+            <Input
+              setActiveCurrency={setActiveCurrency}
+              activeCurrency={activeCurrency}
+              secondCurrency={activeCurrencySecond}
+              value={valueSecond}
+              setValue={setValueSecond}
+              disabled={true}
+              icon={showMarket.icons[0].icon}
+              currencies={showMarket?.currency} />
+          </div>
 
           <div className={styles.rate}>
             <span style={{"color" : '#EB5757'}}>Stop loss at rate</span>
