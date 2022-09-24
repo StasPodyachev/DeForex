@@ -1,11 +1,10 @@
+// SPDX-License-Identifier: GPL-2.0-or-later
 pragma solidity ^0.8.9;
 
 import "@uniswap/lib/contracts/libraries/TransferHelper.sol";
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract ALP {
-    bytes4 private constant SELECTOR = bytes4(keccak256(bytes('transfer(address,uint256)')));
-
     address public factory;
     address public token0;
     address public token1;
@@ -15,6 +14,8 @@ contract ALP {
 
     uint private unlocked = 1;
     uint private constant LEVERAGE = 100;
+
+    mapping(address => uint256[2]) public balanceOf;
 
     modifier lock() {
         require(unlocked == 1, 'ALP: LOCKED');
@@ -28,8 +29,8 @@ contract ALP {
         _reserve1 = reserve1;
     }
 
-    event Deposit(address indexed sender, address token, uint val);
-    event Withdraw(address indexed sender, address token, uint val);
+    event Deposit(address indexed sender, uint val0, uint val1, uint balance0, uint balance1);
+    event Withdraw(address indexed sender, uint val0, uint val1, uint balance0, uint balance1);
     event Sync(uint256 reserve0, uint256 reserve1);
 
     constructor() {
@@ -61,40 +62,42 @@ contract ALP {
         }else{
             reserve1 -= val;
         }
+
+        emit Sync(reserve0, reserve1);
     }
 
-    function deposit(address token, uint val) external {
-      require(token == token0 || token == token1, "ALP: Token don't support");
+    function deposit(uint val0, uint256 val1) external {
+      TransferHelper.safeTransferFrom(token0, msg.sender, address(this), val0);
+      TransferHelper.safeTransferFrom(token1, msg.sender, address(this), val1);
 
-      TransferHelper.safeTransferFrom(token, msg.sender, address(this), val);
+      reserve0 += val0;
+      reserve1 += val1;
 
+      uint256[2] storage balance = balanceOf[msg.sender];
+      balance[0] += val0;
+      balance[1] += val1;
 
-      // IERC20(token).transferFrom(msg.sender, address(this), val);
-
-      if(token0 == token){
-        reserve0 += val;
-      }else{
-        reserve1 += val;
-      }
-
-      emit Deposit(msg.sender, token, val);
+      emit Deposit(msg.sender, val0, val1, balance[0], balance[1]);
       emit Sync(reserve0, reserve1);
     }
 
-    function withdraw(address token, uint val) external {
-      require(token == token0 || token == token1, "ALP: Token don't support");
+    function withdraw(uint val0, uint val1) external {
 
-      // IERC20(token).transfer(msg.sender, val);
+      uint256[2] storage balance = balanceOf[msg.sender];
+      
+      require(balance[0]>=val0, "ALP: Insufficient balance for token0");
+      require(balance[1]>=val1, "ALP: Insufficient balance for token1");
 
-      TransferHelper.safeTransfer(token, msg.sender, val);
+      balance[0] -= val0;
+      balance[1] -= val1;
 
-      if(token0 == token){
-        reserve0 -= val;
-      }else{
-        reserve1 -= val;
-      }
+      reserve0 -= val0;
+      reserve1 -= val1;
 
-      emit Withdraw(msg.sender, token, val);
+      TransferHelper.safeTransfer(token0, msg.sender, val0);
+      TransferHelper.safeTransfer(token1, msg.sender, val1);
+
+      emit Withdraw(msg.sender, val0, val1, balance[0], balance[1]);
       emit Sync(reserve0, reserve1);
     }
 }
