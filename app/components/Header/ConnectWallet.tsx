@@ -1,6 +1,6 @@
 import Image from "next/image"
 import { useEffect, useState } from "react"
-import { InjectedConnector } from 'wagmi/connectors/injected';
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { Connector, useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi';
 import { signIn } from 'next-auth/react';
 import apiPost from '../../utils/apiPost';
@@ -8,9 +8,10 @@ import styles from './Nav.module.css'
 
 const wallets = [
   {
-    name: 'Injected',
-    logoPath: '/assets/wallets/eth.svg',
-    connector: new InjectedConnector(),
+    name: 'Metamask',
+    logoPath: '/assets/wallets/metamask.svg',
+    connector: new MetaMaskConnector(),
+    disabled: false
   },
 ];
 
