@@ -27,7 +27,7 @@ const Pool = ({
 
   const depositCreation = () => {
     const amount = showMarket?.currency[0].title === "USDC" || showMarket?.currency[0].title === "USDT" ? +`${valueInputPool}e6` : +`${valueInputPool}e18`;
-    deposit(contract, showMarket.currency[0].address, BigInt(amount))
+    deposit(contract, BigInt(amount), BigInt(amount))
   }
 
   useEffect(() => {
