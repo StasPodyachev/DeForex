@@ -12,7 +12,7 @@ const addresses: any = {
     address: '0x2E77B11923380cf2042b26f7ff2c4DcBFf7cf0bF',
   },
   AlpDaiUsdc: {
-    address: '0x7b6462301229096c6ab8993ff0cf2c19ebc3adbd',
+    address: '0x8e35c0caa5cf141829e807959392b6d33955c405',
   },
   AlpDaiUsdt: {
     address: '0x7b6462301229096c6ab8993ff0cf2c19ebc3adbd',
