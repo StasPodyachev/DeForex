@@ -7,7 +7,6 @@ import { useContract } from 'wagmi'
 import addresses from '../../contracts/addresses'
 import ALP_ABI from '../../contracts/ABI/ALP.sol/ALP.json'
 import { ethers } from 'ethers'
-import getRoute from './quote'
 
 const Pool = ({
   showMarket,
@@ -69,11 +68,11 @@ const Pool = ({
         <div className={styles.btns}>
           {!isApproveUSDC ?
             <Button
-              onClick={() =>approve(contractERC20USDC,contract?.address, ethers?.constants?.MaxUint256)} title="Approve USDT" />
+              onClick={() => approve(contractERC20USDC,contract?.address, ethers?.constants?.MaxUint256).then(res => isSetApproveDAI(true))} title={`Approve ${showMarket.currency[0].title}`} />
           : null}
           {!isApproveDAI ?
           <Button
-            onClick={() =>approve(contractERC20Dai,contract?.address, ethers?.constants?.MaxUint256)} title="Approve DAI" />
+            onClick={() => approve(contractERC20Dai,contract?.address, ethers?.constants?.MaxUint256).then(res => isSetApproveDAI(true))} title={`Approve ${showMarket.currency[1].title}`} />
           : null}
         </div>
 
