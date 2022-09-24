@@ -19,7 +19,7 @@ contract UniswapExchange is
 
     function swap(IExchange.SwapParams memory params) override external returns (uint256 amountIn, uint256 amountOut) {
         amountIn = 0;
-        amountOut = swapExactInputSingle(params.amountIn, params.amountOut, params.tokenIn, params.tokenOut);
+        amountOut = swapExactOutputMultihop(params.amountIn, params.tokenIn, params.path);
 
         // Return result tokens to Deforex after swap
 
@@ -95,5 +95,23 @@ contract UniswapExchange is
             TransferHelper.safeApprove(tokenIn, address(_swapRouter), 0);
             TransferHelper.safeTransfer(tokenIn, msg.sender, amountInMaximum - amountIn);
         }
+    }
+
+    function swapExactOutputMultihop(uint256 amountIn, address tokenIn, bytes memory path)
+    internal returns (uint256 amountOut) {
+        
+        safeTransferWithApprove(amountIn, address(_swapRouter), tokenIn);
+
+        ISwapRouter.ExactInputParams memory params =
+            ISwapRouter.ExactInputParams({
+                path: path,
+                recipient: msg.sender,
+                deadline: block.timestamp,
+                amountIn: amountIn,
+                amountOutMinimum: 0
+            });
+
+        // Executes the swap.
+        amountOut = _swapRouter.exactInput(params);
     }
 }

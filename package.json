@@ -3,7 +3,9 @@
   "scripts": {
     "build-contracts": "sol-merger --export-plugin SPDXLicenseRemovePlugin \"./contracts/*.sol\" ./build",
     "compile": "hardhat compile",
-    "typechain": "hardhat typechain"
+    "typechain": "hardhat typechain",
+    "compile-v3-core": "npx typechain --target ethers-v5 --out-dir types/v3 './node_modules/@uniswap/v3-core/artifacts/contracts/**/*.json'",
+    "compile-v3-types": "npx typechain --target ethers-v5 --out-dir types/v3 './node_modules/@uniswap/v3-periphery/artifacts/contracts/**/*.json'"
   },
   "devDependencies": {
     "@chainlink/contracts": "^0.4.0",
@@ -15,6 +17,8 @@
     "@typechain/ethers-v5": "^7.0.0",
     "@typechain/hardhat": "^2.0.1",
     "@types/mocha": "^9.1.1",
+    "@uniswap/smart-order-router": "^2.10.0",
+    "@uniswap/v3-periphery": "^1.4.2",
     "bignumber.js": "^9.0.1",
     "chai": "^4.3.6",
     "create-hash": "^1.2.0",
