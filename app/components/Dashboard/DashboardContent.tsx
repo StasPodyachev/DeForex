@@ -76,7 +76,7 @@ const stakingList = [
   }
 ]
 
-const Positions = ({positionList = []} : any) => {
+const Positions = ({ positionList = []} : any) => {
   // const [checked, setChecked ] = useState(radioList[0]);
   return (
     <>
@@ -96,7 +96,7 @@ const Positions = ({positionList = []} : any) => {
       </div> */}
     </div>
     <div className={styles.list}>
-      {positionList.length && positionList?.map((item) => {
+      {positionList?.length && positionList?.map((item) => {
           return (
             <div key={item.id}>
               <div className={styles.item}>
@@ -111,11 +111,11 @@ const Positions = ({positionList = []} : any) => {
                 </div>}
                 <div className={styles.orderName}>{item?.orderName}</div>
                 <div className={styles.leverage}>{item?.leverage}</div>
-                <div className={styles.price}>{item?.deposit}</div>
+                <div className={styles.price}>{item?.deposit}{item?.positionSell}</div>
                 <div className={styles.state}>{item?.state}</div>
               </div>
               <Tab type='position'
-              data={{entryPrice: item.entryPrice, oraclePrice: item.oraclePrice, liqPrice: item.liqPrice}}/>
+                data={{id: item?.id,positionBuy: item?.positionBuy, positionSell: item?.positionSell}}/>
             </div>
           )
         })}
@@ -227,22 +227,23 @@ const Staking = () => {
 }
 
 const Tab = ({type, data} : {type: string, data: any}) => {
+  // console.log(data, 'data');
   return (
     <div className={styles.tab}>
       {
         type === "position" ? 
         <>
           <div>
-            <span>Entry Price</span>
-            <span>{data?.entryPrice}</span>
+            <span>Order ID</span>
+            <span>#{data?.id}</span>
           </div>
           <div>
-            <span>Oracle Price</span>
+            <span>Position in {data?.positionSell}</span>
             <span>{data?.oraclePrice}</span>
           </div>
           <div>
-            <span>Liq. Price</span>
-            <span style={{"color" : '#EB5757'}}>{data?.liqPrice}</span>
+            <span>Position in {data?.positionBuy}</span>
+            <span>{data?.oraclePrice}</span>
           </div>
         </>
         : type === "order" ?
@@ -281,6 +282,23 @@ const DashboardContent = () => {
   const GET_POSITIONS =  
     gql`
       query Positions {
+        positions (first: 10
+          where: { trader: "${address}"}) {
+          id
+          timestamp
+          amount
+          leverage
+          tokenSell
+          trader
+          tokenBuy
+          status
+        }
+      }
+    `
+
+    const GET_STAKINGS =  
+    gql`
+      query Positions {
         positions (first: 5
           where: { trader: "${address}"}) {
           id
@@ -295,23 +313,43 @@ const DashboardContent = () => {
       }
     `
   const { data: positions } = useQuery(GET_POSITIONS, {})
+  const { data: stalings } = useQuery(GET_POSITIONS, {})
   const [ positionList, setPositionList ] = useState(positions)
+  const [ stakingList, setStakingList ] = useState(stalings)
+
   useEffect(() => {
     if (positions?.positions?.length) {
-      
       let arr = positions?.positions?.map(position => {
-        const icons = [{icon: position?.tokenSell === addresses.USDC ? '/icons/iconsCurrency/USDC.svg' : position?.tokenSell === addresses.USDt ? '/icons/iconsCurrency/Teher.svg' : '/icons/iconsCurrency/DAI.svg'},
-        {icon: position?.tokenBay === addresses.USDC ? '/icons/iconsCurrency/USDC.svg' : position?.tokenBay === addresses.USDt ? '/icons/iconsCurrency/Tether.svg' : '/icons/iconsCurrency/DAI.svg'}]
-        const firstName = position?.tokenSell === addresses.USDC ? 'USDC' : position?.tokenSell === addresses.USDt ? 'USDt' : 'DAI'
-        const secondName = position?.tokenBay === addresses.USDC ? 'USDC' : position?.tokenBay === addresses.USDt ? 'USDt' : 'DAI'
+        const icons = [
+          {
+            icon: position?.tokenSell === addresses?.USDC?.address ? '/icons/iconsCurrency/USDC.svg' : position?.tokenSell === addresses?.USDT?.address ? '/icons/iconsCurrency/Tether.svg' :
+            '/icons/iconsCurrency/DAI.svg'},
+          {
+            icon: position?.tokenBuy === addresses?.USDC?.address ?'/icons/iconsCurrency/USDC.svg':
+            position?.tokenBuy === addresses?.USDT?.address ? '/icons/iconsCurrency/Tether.svg' :
+            '/icons/iconsCurrency/DAI.svg'}]
+        const firstName = position?.tokenSell === addresses?.USDC?.address ? 'USDC'
+        : position?.tokenSell === addresses?.USDT?.address ? 'USDt' : 'DAI'
+        const secondName = position?.tokenBuy === addresses?.USDC?.address ? 'USDC' :
+          position?.tokenBuy === addresses?.USDT?.address ? 'USDt' : 'DAI'
+        console.log(position?.tokenBuy, 'usdt');
+        
+        // const positionBuy = position?.tokenBay === addresses.USDC ? 'USDC' : position?.tokenBay === addresses.USDt ? 'USDt' : 'DAI'
+        // const positionSell = position?.tokenSell === addresses.USDC ? 'USDC' : position?.tokenSell === addresses.USDt ? 'USDt' : 'DAI'
+        
+        // console.log(firstName, 'firstName', position?.tokenSell, 'firstName' );
+        // console.log( addresses?.USDC?.address, 'firstName');
+        // console.log(position?.tokenBuy, 'secondName' );
         
         return {
           id: position?.id,
           leverage: `x${position?.leverage}`,
-          deposit: `$${formatChange(position?.amount)}`,
+          deposit: `${formatChange(position?.amount)} `,
           icons: icons,
           orderName: `${firstName}vs${secondName}`,
-          state: '15$ (15,25%)'
+          state: '15$ (15,25%)',
+          positionBuy: secondName,
+          positionSell: firstName
         }
       })
       setPositionList(arr)

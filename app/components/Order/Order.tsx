@@ -167,7 +167,6 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
   }, [activeCurrency])
 
   useEffect(() => {
-    // 100 * tabs[2]?.value * markets[0]?.currency[0]?.rate * 1.007
     setPotentialProfit(+value * checked?.value * (takeProfitRate - activeCurrency?.rate))
     setPotentialLoss(+value * checked?.value * (stopLossRate - activeCurrency?.rate))
   }, [value, checked, activeCurrency, takeProfitRate, stopLossRate])
