@@ -17,10 +17,9 @@ const addresses: any = {
   AlpDaiUsdt: {
     address: '0x7b6462301229096c6ab8993ff0cf2c19ebc3adbd',
   },
-  USDT: { address: '0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C' },
-  USDC: { address: '0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C' },
-  DAI: { address: '0xdc31Ee1784292379Fbb2964b3B9C4124D8F89C60' },
+  USDT: { address: '0x7faA25680E8650964026c1Cf606900E4B85c4423' },
+  USDC: { address: '0x7faA25680E8650964026c1Cf606900E4B85c4423' },
+  DAI: { address: '0xB46f7E79bb2D6EAc6e8A3Da79C9b8B39354d3dc3' },
   uniswap: { address: '0x7f8847242a530E809E17bF2DA5D2f9d2c4A43261' },
 }
-
 export default addresses
