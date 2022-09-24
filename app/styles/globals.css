@@ -28,6 +28,6 @@ a {
   box-sizing: border-box;
 }
 
-input[type="text"]:disabled {
-  background: #fff;
+input:disabled {
+  color: #fff;
 }
