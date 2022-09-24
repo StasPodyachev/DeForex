@@ -1,9 +1,12 @@
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '../ui/Button';
-// import Chart from './Chart';
+import { gql, useQuery } from '@apollo/client'
 import styles from './DashboardContent.module.css'
 import UserInfo from './UserInfo'
+import { useAccount } from 'wagmi';
+import { formatChange } from '../../utils/toSignificant';
+import addresses from '../../contracts/addresses';
 
 const radioList = [
   {
@@ -20,7 +23,7 @@ const radioList = [
   }
 ]
 
-const positionList = [
+const positionListTest = [
   {
     id: 1,
     leverage: 'x100',
@@ -73,13 +76,13 @@ const stakingList = [
   }
 ]
 
-const Positions = () => {
-  const [checked, setChecked ] = useState(radioList[0]);
+const Positions = ({positionList} : any) => {
+  // const [checked, setChecked ] = useState(radioList[0]);
   return (
     <>
     <div className={styles.title}>
       <span>Positions</span>
-      <div className={styles.radio}>
+      {/* <div className={styles.radio}>
         {radioList?.map(icon => {
           return (
             <div
@@ -90,7 +93,7 @@ const Positions = () => {
             </div>
           )
         })}
-      </div>
+      </div> */}
     </div>
     <div className={styles.list}>
       {positionList?.map((item) => {
@@ -176,29 +179,29 @@ const Orders = () => {
 }
 
 const Staking = () => {
-  const [checked, setChecked ] = useState(radioList[0]);
+  // const [checked, setChecked ] = useState(radioList[0]);
   return (
     <>
     <div className={styles.title}>
       <span>Staking</span>
       <div className={styles.radio}>
-        {radioList?.map(icon => {
+        {/* {radioList?.map(icon => {
           return (
             <div
               onClick={() => setChecked(icon)}
               className={icon?.id === checked.id ? styles.active : styles.inactive }
-              key={icon?.id}>
+              key={icon?.}>
               <Image src={icon?.icon} width={20} height={20} alt='icon' />
             </div>
           )
-        })}
+        })} */}
       </div>
     </div>
       <div className={styles.list}>
         {stakingList?.map((item) => {
             return (
-              <>
-              <div key={item.id} className={styles.item}>
+              <div key={item.id}>
+              <div className={styles.item}>
                 {<div className={styles.icons}>
                   {item?.icons?.map(icon => {
                     return (
@@ -214,9 +217,8 @@ const Staking = () => {
                 <div className={styles.state}>{item?.state}</div>
                 
               </div>
-              <Tab type='staking'
-              data={{orderTime: item?.orderTime}}/>
-              </>
+              <Tab type='staking' data={{orderTime: item?.orderTime}}/>
+              </div>
             )
           })}
         </div>
@@ -275,6 +277,57 @@ const Tab = ({type, data} : {type: string, data: any}) => {
 }
 
 const DashboardContent = () => {
+  const { address } = useAccount()
+  const GET_POSITIONS =  
+    gql`
+      query Positions {
+        positions (first: 5
+          where: { trader: "${address}"}) {
+          id
+          timestamp
+          amount
+          leverage
+          tokenSell
+          trader
+          tokenBuy
+          status
+        }
+      }
+    `
+  const { data: positions } = useQuery(GET_POSITIONS, {})
+  const [ positionList, setPositionList ] = useState(positions)
+  useEffect(() => {
+    console.log(positions?.positions, 'data');
+    if (positions?.positions?.length) {
+      
+      let arr = positions?.positions?.map(position => {
+        const icons = [{icon: position?.tokenSell === addresses.USDC ? '/icons/iconsCurrency/USDC.svg' : position?.tokenSell === addresses.USDt ? '/icons/iconsCurrency/Teher.svg' : '/icons/iconsCurrency/DAI.svg'},
+        {icon: position?.tokenBay === addresses.USDC ? '/icons/iconsCurrency/USDC.svg' : position?.tokenBay === addresses.USDt ? '/icons/iconsCurrency/Teher.svg' : '/icons/iconsCurrency/DAI.svg'}]
+        const firstName = {icon: position?.tokenSell === addresses.USDC ? 'USDC' : position?.tokenSell === addresses.USDt ? 'USDt' : 'DAI'}
+        const secondName = {icon: position?.tokenBay === addresses.USDC ? 'USDC' : position?.tokenBay === addresses.USDt ? 'USDt' : 'DAI'}
+        return {
+          id: position?.id,
+          leverage: `x${position?.leverage}`,
+          deposit: `$${formatChange(position?.amount)}`,
+          icons: icons,
+          orderName: `${firstName}vs${secondName}`,
+          state: '15$ (15,25%)'
+        }
+      })
+      setPositionList(arr)
+
+      // id: 1,
+      // leverage: 'x100',
+      // deposit: '$156',
+      // icons: [{icon: '/icons/iconsCurrency/DAI.svg'}, {icon: '/icons/iconsCurrency/USDC.svg',}],
+      // orderName: 'DAIvsUSDC',
+      // entryPrice: '$0.9995',
+      // oraclePrice: '$0.9998',
+      // liqPrice: '$0.9999',
+      // state: '15$ (15,25%)'
+    }
+  }, [positions])
+
   return (
     <div className={styles.dashboard}>
       <UserInfo />
@@ -282,8 +335,8 @@ const DashboardContent = () => {
         <Image src="/icons/chart2.svg" width={327} height={208} alt="chart" />
       </div>
       {/* <Chart /> */}
-      <Positions />
-      <Orders />
+      <Positions positionList={positionList} />
+      {/* <Orders /> */}
       <Staking />
       <div className={styles.btns}>
         <Button onClick={() => console.log('Deposit')} title='Deposit' />

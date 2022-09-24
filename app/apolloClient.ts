@@ -10,7 +10,7 @@ let apolloClient: any
 function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    uri: 'https://api.thegraph.com/subgraphs/name/sneltyn/cfd',
+    uri: 'https://api.thegraph.com/subgraphs/name/sneltyn/deforex',
     cache: new InMemoryCache({
       typePolicies: {
         Query: {

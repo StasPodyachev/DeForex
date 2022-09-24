@@ -20,8 +20,8 @@ const UserInfo = () => {
           <div className={styles.arrow}
             style={!show ? {"transform": "rotate(-90deg)"} : {"transform": "rotate(90deg)"}}>
               <Image src='/icons/orderIcon/arroww.svg' width={34} height={34} alt="arrow" />
-          </div>
-          <span>78,020.40 USDt</span>
+          </div> 
+          <span>2,124.88 USDC</span>
           <div className={styles.userInfo}>
             <div>{newAdress}</div>
             <Image

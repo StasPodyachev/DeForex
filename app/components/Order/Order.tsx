@@ -12,6 +12,7 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { approve, approved, createPosition } from './utils'
 import Pool from './Pool'
+import ConnectWallet from '../Header/ConnectWallet'
 
 const tabs = [
   {
@@ -206,6 +207,10 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
       setTakeProfitRate(activeCurrency?.rate * 1.007)
     }
   }, [activeCurrency])
+
+  // if (!address) {
+  //   return <ConnectWallet />
+  // }
 
   return (
     <div className={styles.order}>

@@ -1,6 +1,6 @@
 import Image from "next/image"
 import { useEffect, useState } from "react"
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
+import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 import { Connector, useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi';
 import { signIn } from 'next-auth/react';
 import apiPost from '../../utils/apiPost';
@@ -8,10 +8,11 @@ import styles from './Nav.module.css'
 
 const wallets = [
   {
-    name: 'Metamask',
-    logoPath: '/assets/wallets/metamask.svg',
-    connector: new MetaMaskConnector(),
-    disabled: false
+    name: 'WalletConnect',
+    logoPath: '/assets/wallets/walletconnect.svg',
+    connector: new WalletConnectConnector({
+      options: { rpc: ['https://mainnet.infura.io/v3/84842078b09946638c03157f83405213'] },
+    }),
   },
 ];
 
