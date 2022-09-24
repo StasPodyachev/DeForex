@@ -12,7 +12,7 @@ export const approved  = async (contractAprove, addressWallet, contract : any) =
 }
 
 export const createPosition = async (contract, tokenSell,tokenBuy, amount, leverage, slippage : any) => {
-  await contract?.createPosition(tokenSell,tokenBuy, BigInt(amount), leverage, slippage).then((res) => {
+  await contract?.createPosition(tokenSell,tokenBuy, BigInt(amount), leverage, "0x").then((res) => {
     return res
   })
 }
