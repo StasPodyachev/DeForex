@@ -76,7 +76,7 @@ const stakingList = [
   }
 ]
 
-const Positions = ({positionList} : any) => {
+const Positions = ({positionList = []} : any) => {
   // const [checked, setChecked ] = useState(radioList[0]);
   return (
     <>
@@ -96,7 +96,7 @@ const Positions = ({positionList} : any) => {
       </div> */}
     </div>
     <div className={styles.list}>
-      {positionList?.map((item) => {
+      {positionList.length && positionList?.map((item) => {
           return (
             <div key={item.id}>
               <div className={styles.item}>
@@ -297,14 +297,14 @@ const DashboardContent = () => {
   const { data: positions } = useQuery(GET_POSITIONS, {})
   const [ positionList, setPositionList ] = useState(positions)
   useEffect(() => {
-    console.log(positions?.positions, 'data');
     if (positions?.positions?.length) {
       
       let arr = positions?.positions?.map(position => {
         const icons = [{icon: position?.tokenSell === addresses.USDC ? '/icons/iconsCurrency/USDC.svg' : position?.tokenSell === addresses.USDt ? '/icons/iconsCurrency/Teher.svg' : '/icons/iconsCurrency/DAI.svg'},
-        {icon: position?.tokenBay === addresses.USDC ? '/icons/iconsCurrency/USDC.svg' : position?.tokenBay === addresses.USDt ? '/icons/iconsCurrency/Teher.svg' : '/icons/iconsCurrency/DAI.svg'}]
-        const firstName = {icon: position?.tokenSell === addresses.USDC ? 'USDC' : position?.tokenSell === addresses.USDt ? 'USDt' : 'DAI'}
-        const secondName = {icon: position?.tokenBay === addresses.USDC ? 'USDC' : position?.tokenBay === addresses.USDt ? 'USDt' : 'DAI'}
+        {icon: position?.tokenBay === addresses.USDC ? '/icons/iconsCurrency/USDC.svg' : position?.tokenBay === addresses.USDt ? '/icons/iconsCurrency/Tether.svg' : '/icons/iconsCurrency/DAI.svg'}]
+        const firstName = position?.tokenSell === addresses.USDC ? 'USDC' : position?.tokenSell === addresses.USDt ? 'USDt' : 'DAI'
+        const secondName = position?.tokenBay === addresses.USDC ? 'USDC' : position?.tokenBay === addresses.USDt ? 'USDt' : 'DAI'
+        
         return {
           id: position?.id,
           leverage: `x${position?.leverage}`,
@@ -316,11 +316,6 @@ const DashboardContent = () => {
       })
       setPositionList(arr)
 
-      // id: 1,
-      // leverage: 'x100',
-      // deposit: '$156',
-      // icons: [{icon: '/icons/iconsCurrency/DAI.svg'}, {icon: '/icons/iconsCurrency/USDC.svg',}],
-      // orderName: 'DAIvsUSDC',
       // entryPrice: '$0.9995',
       // oraclePrice: '$0.9998',
       // liqPrice: '$0.9999',
