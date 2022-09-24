@@ -1,0 +1,397 @@
+.order {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 120%;
+  background-color: #1C1924;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.icons {
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.rightIcon {
+  margin-left: -4px;
+  display: flex;
+  align-items: center;
+}
+
+.leftIcon {
+  display: flex;
+  align-items: center;
+}
+
+.days {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.days span {
+  font-size: 14px;
+  line-height: 22px;
+  color: #EADAFB;
+  margin-left: 8px;
+}
+
+.tabs {
+  margin-top: 16px;
+  overflow-x: auto;
+  gap: 8px;
+  display: flex;
+  scroll-snap-type: x mandatory;
+  z-index: 9999;
+}
+
+.tabs::-webkit-scrollbar { /* chrome based */
+  width: 0px;  /* ширина scrollbar'a */
+  background: transparent;  /* опционально */
+}
+
+.content {
+  margin-top: 24px;
+  padding: 0 16px;
+  background-color: #1C1924;
+  border-radius: 8px;
+  max-height: 335px;
+  overflow-y: scroll;
+  border-bottom: 24px solid #1C1924;
+  border-top: 8px solid #1C1924;
+}
+
+.buy, .sell {
+  background-color: #1C1924;
+  font-size: 12px;
+}
+
+.titleBuy {
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
+  margin: 16px 0 24px;
+  background: linear-gradient(96.96deg, #9DE7BD 21.34%, #36CD77 119.18%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.titleSell {
+  text-align: center;
+  font-weight: 700;
+  font-size: 18px;
+  margin: 16px 0 24px;
+  background: linear-gradient(274.04deg, #FF8597 -17.72%, #FF3A58 113.66%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.orderBuy {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20px 0;
+}
+
+.orderBuy > div:first-child {
+  width: 40%;
+}
+.orderBuy > div:nth-child(2) {
+  width: 30%;
+  padding: 0 14px;
+}
+.orderBuy > div:nth-child(3) {
+  width: 30%;
+}
+
+
+.orderBuy > div:last-child {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* margin-left: auto; */
+}
+
+.orderBuyRate {
+  background: linear-gradient(96.96deg, #9DE7BD 21.34%, #36CD77 119.18%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.orderSellRate {
+  background: linear-gradient(274.04deg, #FF8597 -17.72%, #FF3A58 113.66%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.checkedBuy {
+  margin-left: 2px;
+  background: linear-gradient(96.96deg, #9DE7BD 21.34%, #36CD77 119.18%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+
+.checkedSell {
+  margin-left: 2px;
+  background: linear-gradient(274.04deg, #FF8597 -17.72%, #FF3A58 113.66%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn {
+  margin: 24px auto 0;
+  width: 320px;
+}
+
+.widget {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 16px;
+  background-color: #1C1924;
+  border-radius: 8px;
+  margin-top: 24px;
+}
+
+.itemWidget {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.itemWidget p {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 120%;
+  margin-top: 16px;
+  cursor: pointer;
+}
+
+.itemWidget p:hover {
+  opacity: .8;
+}
+
+.switchBtn {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.switchItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  width: 60%;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+  color: #FFFFFF;
+  background: #1C1924;
+  border-radius: 100px;
+  z-index: 0;
+}
+
+.activeSwitch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 0;
+  width: 60%;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+  color: #FFFFFF;
+  background: linear-gradient(74.31deg, #59FFAF 0%, #9E4EFF 80.73%);
+  border-radius: 100px;
+  border-radius: 100px;
+  z-index: 1;
+}
+
+.switchItem span {
+  background: linear-gradient(73.6deg, #85FFC4 2.11%, #5CC6FF 42.39%, #BC85FF 85.72%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+.switchBtn div:last-child {
+  position: absolute;
+  top: 16px;
+  bottom: 0;
+  right: 0;
+  height: 45px;
+}
+
+.switchBtn div:first-child {
+  position: absolute;
+  top: 16px;
+  bottom: 0;
+  left: 0;
+  height: 45px;
+}
+
+.rate {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.rate > span {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #C091F2;
+  margin-bottom: 12px;
+}
+
+.rateBody {
+  background: #1C1924;
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 8px;
+  margin-bottom: -4px;
+}
+
+.icons > div:first-child {
+  z-index: 1;
+}
+
+.icons > div:last-child {
+  margin-left: -4px;
+  z-index: 0;
+}
+
+.rateAmount {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 120%;
+}
+
+.rateBody span {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  margin-left: auto;
+  color: #A6A0BB;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  margin: 8px 0;
+  color: #A6A0BB;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+}
+
+.options p {
+  margin: 4px 0;
+}
+
+.pool {
+  margin: 16px 0;
+}
+
+.pool > div {
+  margin-top: 16px;
+}
+
+.staked {
+  color: #C091F2;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 16px;
+  margin: 16px 0;
+}
+
+.inputAmount {
+  margin-top: 16px;
+}
+
+.advanced {
+  display: flex;
+  margin: 24px 0;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+}
+
+.settingsActive {
+  transition: all .5s;
+  transform: rotate(180deg);
+  width: 24px;
+  height: 24px;
+  opacity: .8;
+  cursor: pointer;
+}
+.settings {
+  transition: all .3s;
+  transform: rotate(0deg);
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.chart {
+  margin: 24px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btns {
+  display: flex;
+}
+
+.btns > div {
+  width: 100% ;
+  min-width: 50%;
+}
+
+.btns > div:first-child {
+  margin-right: 4px;
+}
+
+.btns > div:last-child {
+  margin-left: 4px;
+}

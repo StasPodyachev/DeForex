@@ -1,0 +1,16 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 20px;
+  line-height: 28px;
+  color: #fff;
+  font-weight: 700;
+}
+
+.logo {
+  z-index: 3;
+}
