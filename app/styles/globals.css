@@ -29,5 +29,5 @@ a {
 }
 
 input:disabled {
-  color: #fff;
+  color: #fff !important;
 }
