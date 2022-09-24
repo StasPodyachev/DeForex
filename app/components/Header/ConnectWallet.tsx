@@ -1,10 +1,12 @@
 import Image from "next/image"
 import { useEffect, useState } from "react"
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
+import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { Connector, useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi';
 import { signIn } from 'next-auth/react';
 import apiPost from '../../utils/apiPost';
 import styles from './Nav.module.css'
+import useWindowSize from "./useWindowSize";
 
 const wallets = [
   {
@@ -14,9 +16,16 @@ const wallets = [
       options: { rpc: ['https://mainnet.infura.io/v3/84842078b09946638c03157f83405213'] },
     }),
   },
+  {
+    name: 'Metamask',
+    logoPath: '/assets/wallets/metamask.svg',
+    connector: new MetaMaskConnector(),
+    disabled: false
+  },
 ];
 
 const ConnectWallet = () => {
+  const { width } = useWindowSize()
   const { connectAsync } = useConnect();
   const { disconnectAsync } = useDisconnect();
   const { isConnected } = useAccount();

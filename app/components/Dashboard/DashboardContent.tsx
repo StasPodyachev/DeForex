@@ -219,7 +219,7 @@ const Staking = ({stakingList} : any) => {
                   })}
                 </div>}
                 <div className={styles.orderName}>{item?.orderName}</div>
-                <div className={styles.leverage}>{item?.leverage}</div>
+                {/* <div className={styles.leverage}>{item?.leverage}</div> */}
                 <div className={styles.price}>{item?.deposit}</div>
                 <div className={styles.state}>{item?.state}</div>
                 
