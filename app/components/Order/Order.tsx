@@ -102,7 +102,7 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
   const [ activeCurrency, setActiveCurrency ] = useState<{id: number, title: string, icon: string, address: string, rate: number}>(markets[0].currency[0]);
   const [ activeCurrencySecond, setActiveCurrencySecond ] = useState<{id: number, title: string, icon: string, address: string, rate: number}>(markets[0].currency[1])
   const [ isApprove, isSetApprove ] = useState(false)
-  const [ valueInputPool, setValuePool ] = useState("10.000")
+  const [ valueInputPool, setValuePool ] = useState("10000")
   const [ showAdvanced, setShowAdvanced ] = useState(false)
 
   //
@@ -135,10 +135,10 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
 
   useEffect(() => {
     if(value) {
-      const str = +value * checked?.value
+      const str = +value * checked?.value * activeCurrency?.rate
       setValueSecond(`${str}`)
     }
-  }, [value, checked])
+  }, [value, checked, activeCurrency])
 
   useEffect(() => {
     setActiveCurrency(showMarket.currency[0])
@@ -269,14 +269,14 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
                   })
                 }
               </div>
-              <div className={styles.rateAmount}>{activeCurrency?.rate}</div>
+              <div className={styles.rateAmount}>{activeCurrency?.rate.toFixed(4)}</div>
               <span>
-                {showMarket.currency[0].title} for 1 {showMarket?.currency[1]?.title}
+                {showMarket.currency.find(item => item.id != activeCurrency?.id).title} for 1 {activeCurrency?.title}
               </span>
             </div>
           </div>
           <div className={styles.options}>
-            <p>Margin Call rate <span style={{"color" : '#EB5757', "fontWeight" : '700'}}>{marginCall} </span> <span>{showMarket.currency[0].title} for 1 {showMarket.currency[1].title}</span> </p>
+            <p>Margin Call rate <span style={{"color" : '#EB5757', "fontWeight" : '700'}}>{marginCall.toFixed(4)} </span> <span>{showMarket.currency.find(item => item.id != activeCurrency?.id).title} for 1 {activeCurrency?.title}</span> </p>
           </div>
           <div onClick={() => setShowAdvanced(!showAdvanced)} className={styles.advanced}>
             <span>Advanced</span>
@@ -301,9 +301,9 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
                     })
                   }
                 </div>
-                <div className={styles.rateAmount}>{takeProfitRate}</div>
+                <div className={styles.rateAmount}>{takeProfitRate.toFixed(4)}</div>
                 <span>
-                  {showMarket.currency[0].title} for 1 {showMarket.currency[1].title}
+                  {showMarket.currency.find(item => item.id != activeCurrency?.id).title} for 1 {activeCurrency?.title}
                 </span>
               </div>
             </div>
@@ -327,9 +327,9 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
                     })
                   }
                 </div>
-                <div className={styles.rateAmount}>{stopLossRate}</div>
+                <div className={styles.rateAmount}>{stopLossRate.toFixed(4)}</div>
                 <span>
-                  {showMarket.currency[0].title} for 1 {showMarket.currency[1].title}
+                {showMarket.currency.find(item => item.id != activeCurrency?.id).title} for 1 {activeCurrency?.title}
                 </span>
               </div>
             </div>

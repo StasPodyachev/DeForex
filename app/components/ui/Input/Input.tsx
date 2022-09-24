@@ -21,11 +21,11 @@ const Input = ({value, pool, icon, secondCurrency, disabled, currencies, setValu
 
   return (
     <div className={styles.input}>
-      <Image
+      <div className={styles.icon}><Image
         alt="currency"
         src={disabled ? secondCurrency?.icon : activeCurrency?.icon}
         width={24} height={24}
-        />
+        /></div>
       <input disabled={disabled} type="number" value={value} onChange={changeValue} />
       {
         !pool ?
@@ -65,7 +65,6 @@ const Input = ({value, pool, icon, secondCurrency, disabled, currencies, setValu
         </div> 
       }
     </div>
-    
   )
 }
 

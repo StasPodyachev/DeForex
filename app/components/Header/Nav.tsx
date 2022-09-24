@@ -1,15 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Divide as Hamburger } from 'hamburger-react'
 import styles from './Nav.module.css'
-import Image from 'next/image'
 import Link from 'next/link'
-import { useAccount } from 'wagmi'
 import ConnectWallet from './ConnectWallet'
 
 const navigation = [
   { name: 'Market', href: '/', current: true },
   { name: 'Dashboard', href: '/dashboard', current: false },
-  { name: 'Order Book', href: '/order-book/DAIvsUSDC', current: false },
+  { name: 'New Position', href: '/order-book/DAIvsUSDC', current: false },
   { name: 'FAQ', href: '/faq', current: false },
 ]
 
@@ -21,7 +19,7 @@ const Nav = () => {
         <div className={styles.icons}>
           <ConnectWallet />
           <div className={styles.burgeIcon} onClick={() => setIsOpen(!isOpen)}>
-            <Hamburger size={20} color='#fff' /></div>
+            <Hamburger toggled={isOpen} size={20} color='#fff' /></div>
           </div>
         </div>
       {
@@ -31,7 +29,10 @@ const Nav = () => {
             {
               navigation.map(item => {
                 return (
-                  <div key={item.name} className={styles.link}>
+                  <div key={item.name} onClick={() => {
+                    const close = () => setIsOpen(false)
+                    setTimeout(close, 1000)
+                  }} className={styles.link}>
                     <Link href={item?.href}>
                       <a>
                         {item?.name}

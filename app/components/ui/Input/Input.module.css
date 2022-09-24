@@ -14,7 +14,7 @@
   font-size: 24px;
   line-height: 120%;
   margin-left: 8px;
-  max-width: 220px;
+  max-width: 180px;
 }
 
 .currencies {
@@ -70,4 +70,12 @@
   font-size: 10px;
   line-height: 120%;
   text-align: right;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

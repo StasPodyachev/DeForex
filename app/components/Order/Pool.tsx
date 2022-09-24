@@ -58,7 +58,7 @@ const Pool = ({
           value={valueInputPool}
           setValue={setValuePool}
           icon={showMarket.icons[1].icon} />
-        <div className={styles.staked}>Staked amount <span style={{"color" : '#31C471', "fontWeight" : '700'}}>20,000</span> DAIUSDC</div>
+        <div className={styles.staked}>Staked amount <span style={{"color" : '#31C471', "fontWeight" : '700'}}>{valueInputPool * 2}</span> {showMarket.currency[0].title}{showMarket.currency[1].title}</div>
 
         <div className={styles.options}>
           <p>TVL <span style={{"color" : '#31C471', "fontWeight" : '700'}}>1,000,000,000</span> USD</p>
