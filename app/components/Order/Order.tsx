@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Button from '../ui/Button'
 import {markets, ModelMarket} from '../../utils/markets'
 import Tab from '../ui/Tab'
@@ -10,7 +10,7 @@ import { useSigner, useContract, erc20ABI, useAccount } from 'wagmi'
 import addresses from '../../contracts/addresses'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import { approve, approved, createPosition } from './utils'
+import { approve, approved, createPosition, requiresApproval } from './utils'
 import Pool from './Pool'
 import ConnectWallet from '../Header/ConnectWallet'
 
@@ -116,6 +116,7 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
 
   const { data: signer } = useSigner() 
   const { address } = useAccount()
+  const account = useAccount()
   const contractERC20Dai = useContract({
     addressOrName: addresses?.DAI?.address,
     contractInterface: erc20ABI,
@@ -135,7 +136,7 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
   }
 
   useEffect(() => {
-    if(value) {
+    if (value) {
       const str = +value * checked?.value * activeCurrency?.rate
       setValueSecond(`${str}`)
     }
@@ -148,7 +149,7 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
   useEffect(() => {
     if (query?.orderName) {
       const active = markets.filter(item => {
-        if (query?.orderName === item.orderName) {
+        if (query?.orderName === item?.orderName) {
           return item
         }
       })
@@ -157,17 +158,16 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
   }, [query])
 
   useEffect(() => {   
-    if (contract && address && signer && contractERC20Dai.allowance && contractERC20USDC.allowance) {
+    if (contract && address && signer && contractERC20Dai && contractERC20USDC) {
       // alert("ok")
-      approved(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC, contract?.address, address).then((res) => {
-        isSetApprove(res)
-        console.log(res, 'res');
+      requiresApproval(contractERC20Dai, address, contractERC20Dai?.address, ethers?.constants?.MaxUint256).then(res => isSetApprove(res) )
+      // approved(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC, contract?.address, address).then((res) => {
+      //   isSetApprove(res)
+      //   console.log(res, 'res');
         // if (res) {
         //   alert("ok")
         // }
-      }) } else {
-      // alert("ne ok")
-    }
+      }
   }, [address, signer, activeCurrency, contract])
 
   useEffect(() => {
