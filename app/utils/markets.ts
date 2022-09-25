@@ -5,6 +5,7 @@ export const markets = [
     title: 'DAI vs USDC at Uniswap v.3',
     icons: [{icon: '/icons/iconsCurrency/DAI.svg'}, {icon: '/icons/iconsCurrency/USDC.svg',}],
     orderName: 'DAIvsUSDC',
+    alpaddress: addresses.AlpDaiUsdc.address,
     currency: [
       {
         id: 0,
@@ -27,6 +28,7 @@ export const markets = [
     title: 'DAI vs USDt at Uniswap v.3',
     icons: [ {icon: '/icons/iconsCurrency/DAI.svg'}, {icon: '/icons/iconsCurrency/Tether.svg',} ],
     orderName: 'DAIvsUSDt',
+    alpaddress: addresses.AlpDaiUsdt.address,
     currency: [
       {
         id: 0,
@@ -49,6 +51,7 @@ export const markets = [
     title: 'USDt vs USDC at Uniswap v.3',
     icons: [ {icon: '/icons/iconsCurrency/Tether.svg'}, {icon: '/icons/iconsCurrency/USDC.svg',} ],
     orderName: 'USDtvsUSDC',
+    alpaddress: addresses.AlpDaiUsdt.address,
     currency: [
       {
         id: 2,
@@ -74,5 +77,6 @@ export interface ModelMarket {
   }[]
   title: string
   orderName: string
+  alpaddress: string
   currency: {id: number, title: string, icon: string, address: string, rate: number}[]
 }

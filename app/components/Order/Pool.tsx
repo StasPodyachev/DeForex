@@ -10,7 +10,8 @@ import { ethers } from 'ethers'
 
 const Pool = ({
   showMarket,
-  valueInputPool,setValuePool,
+  valueInputPool,
+  setValuePool,
   address,
   signer,
   contractERC20Dai, contractERC20USDC} : any) => {
@@ -19,8 +20,8 @@ const Pool = ({
   const [ isApproveUSDC, isSetApproveUSDC ] = useState(false)
 
   const contract = useContract({
-    addressOrName: addresses?.AlpDaiUsdc?.address,
-    contractInterface: ALP_ABI.abi ,
+    addressOrName: showMarket?.alpaddress,
+    contractInterface: ALP_ABI?.abi ,
     signerOrProvider: signer,
   })
 
@@ -31,6 +32,7 @@ const Pool = ({
 
   useEffect(() => {
     if (address && signer) {
+      console.log(contract?.address, 'contract?.address');
       approved(contractERC20USDC, contract?.address, address).then((res) => {
         console.log(res, 'contractERC20USDC');
         isSetApproveUSDC(res)

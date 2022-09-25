@@ -3,6 +3,7 @@ import { Divide as Hamburger } from 'hamburger-react'
 import styles from './Nav.module.css'
 import Link from 'next/link'
 import ConnectWallet from './ConnectWallet'
+import { useAccount, useDisconnect } from 'wagmi'
 
 const navigation = [
   { name: 'Market', href: '/', current: true },
@@ -12,6 +13,8 @@ const navigation = [
 ]
 
 const Nav = () => {
+  const { disconnect } = useDisconnect()
+  const { address } = useAccount()
   const [isOpen, setIsOpen] = useState(false)
   return (
     <div>
@@ -41,6 +44,9 @@ const Nav = () => {
                   </div>
                 )
               })
+            }
+            {
+              address ? <div onClick={() => disconnect()} className={styles.dissconect}>Disconnect Wallet</div> : null
             }
           </div>
           {/* <div className={styles.imageBurgerMenu}>

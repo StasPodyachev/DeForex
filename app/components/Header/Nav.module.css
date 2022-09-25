@@ -83,3 +83,9 @@
 .user span {
   padding: 8px;
 }
+
+.dissconect {
+  margin-top: 20%;
+  color: #BDBDBD;
+  cursor: pointer;
+}

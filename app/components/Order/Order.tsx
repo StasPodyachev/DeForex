@@ -207,10 +207,6 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
     }
   }, [activeCurrency])
 
-  // if (!address) {
-  //   return <ConnectWallet />
-  // }
-
   return (
     <div className={styles.order}>
       <div className={styles.switchBtn}>
@@ -350,7 +346,6 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
             </div>
           </> : null
           } 
-          
           <Select
             execution
             markets={executions}
@@ -363,7 +358,6 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
           </div>
         </div>
       :
-      <>
       <Pool
         contractERC20Dai={contractERC20Dai}
         contractERC20USDC={contractERC20USDC}
@@ -372,7 +366,6 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
         showMarket={showMarket}
         valueInputPool={valueInputPool}
         setValuePool={setValuePool}/>
-      </>
       }
     </div>
   )
