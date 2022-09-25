@@ -1,4 +1,5 @@
 export const approve  = async (contractAprove, contract, MaxUint256 : any) => {
+  alert("approve")
   await contractAprove?.approve(contract, MaxUint256).then((res) => {
     return res
   })
