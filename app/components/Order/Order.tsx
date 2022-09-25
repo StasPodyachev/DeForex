@@ -156,14 +156,9 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
     }
   }, [query])
 
-  useEffect(() => {
-    // if (!contract) {
-    //   alert("-contract")
-    // }
-    // if (contract) {
-    //   alert("+contract")
-    // }    
+  useEffect(() => {   
     if (contract && address && signer && contractERC20Dai.allowance && contractERC20USDC.allowance) {
+      alert("ok")
       approved(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC, contract?.address, address).then((res) => {
         isSetApprove(res)
         console.log(res, 'res');
