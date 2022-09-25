@@ -26,7 +26,9 @@ const Input = ({value, pool, icon, secondCurrency, disabled, currencies, setValu
         src={disabled ? secondCurrency?.icon : activeCurrency?.icon}
         width={24} height={24}
         /></div>
-      <input disabled={disabled} type="number" value={value} onChange={changeValue} />
+      {
+        disabled ? <div className={styles.value}>{value}</div> : <input disabled={disabled} type="number" value={value} onChange={changeValue} />
+      }
       {
         !pool ?
           <div className={styles.currencies} 
