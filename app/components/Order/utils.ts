@@ -9,7 +9,7 @@ export const approved  = async (contractAprove, addressWallet, contract : any) =
   return await contractAprove?.allowance(contract, addressWallet).then((res) => {
     alert(res)
     return res._hex !== "0x00" ? true : false
-  })
+  }).cath(res => alert(res))
 }
 
 export const createPosition = async (contract, tokenSell,tokenBuy, amount, leverage, slippage : any) => {
