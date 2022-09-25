@@ -299,7 +299,7 @@ const DashboardContent = () => {
   const GET_POSITIONS =  
     gql`
       query Positions {
-        positions (first: 10,
+        positions (first: 30,
           where: { trader: "${address}"}) {
           id
           timestamp
