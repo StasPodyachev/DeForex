@@ -1,6 +1,6 @@
 import Image from "next/image"
 import { useEffect, useState } from "react"
-// import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
+import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { Connector, useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi';
 import { signIn } from 'next-auth/react';
@@ -10,13 +10,13 @@ import useWindowSize from "./useWindowSize";
 import { useRouter } from "next/router";
 
 const wallets = [
-  // {
-  //   name: 'WalletConnect',
-  //   logoPath: '/assets/wallets/walletconnect.svg',
-  //   connector: new WalletConnectConnector({
-  //     options: { rpc: ['https://opt-kovan.g.alchemy.com/v2/GAcaN3sfNl9B_d_Ef86aQBa62lh7tCdV'] },
-  //   }),
-  // },
+  {
+    name: 'WalletConnect',
+    logoPath: '/assets/wallets/walletconnect.svg',
+    connector: new WalletConnectConnector({
+      options: { rpc: ['https://opt-kovan.g.alchemy.com/v2/GAcaN3sfNl9B_d_Ef86aQBa62lh7tCdV'] },
+    }),
+  },
   {
     name: 'Injected',
     logoPath: '/assets/wallets/metamask.svg',
@@ -34,7 +34,6 @@ const ConnectWallet = () => {
   const { address } = useAccount()
   const [ newAdress, setNewAdress ] = useState('')
   const { push } = useRouter()
-
   const handleAuth = async (connector?: Connector, disabled?: boolean) => {
     if (disabled) {
       alert('Setup it first in the Authentication.tsx');
@@ -71,7 +70,7 @@ const ConnectWallet = () => {
 
   if (!newAdress.length) {
     return (
-      <div className={styles.wallet} onClick={() => handleAuth(wallets[0]?.connector)}>
+      <div className={styles.wallet} onClick={() => width < 480 ? handleAuth(wallets[0]?.connector) : handleAuth(wallets[1]?.connector)}>
         <span>Connect Wallet</span>
       </div>
     )
