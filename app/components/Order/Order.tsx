@@ -157,17 +157,23 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
   }, [query])
 
   useEffect(() => {
-    if (address && signer) {
-      approved(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC, contract?.address, address).then((res) => {
-        isSetApprove(res)
-        if (res) {
-          alert("ok")
-        }
-      })
-      
-    } else {
-      alert("ne ok")
+    if (!signer) {
+      alert("-signer")
     }
+    if (signer) {
+      alert("+signer")
+    }
+    // if (address && signer) {
+    //   approved(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC, contract?.address, address).then((res) => {
+    //     isSetApprove(res)
+    //     if (res) {
+    //       alert("ok")
+    //     }
+    //   })
+      
+    // } else {
+    //   alert("ne ok")
+    // }
   }, [address, signer, activeCurrency, contractERC20Dai, contractERC20USDC])
 
   useEffect(() => {
