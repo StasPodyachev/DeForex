@@ -7,6 +7,7 @@ import { useContract } from 'wagmi'
 import ALP_ABI from '../../contracts/ABI/ALP.sol/ALP.json'
 import { ethers } from 'ethers'
 import ConnectWallet from '../Header/ConnectWallet'
+import { useRouter } from 'next/router'
 
 const Pool = ({
   showMarket,
@@ -15,7 +16,7 @@ const Pool = ({
   address,
   signer,
   contractERC20Dai, contractERC20USDC} : any) => {
-
+    const { push } = useRouter()
   const [ isApproveDAI, isSetApproveDAI ] = useState(false)
   const [ isApproveUSDC, isSetApproveUSDC ] = useState(false)
 
@@ -29,7 +30,7 @@ const Pool = ({
 
   const depositCreation = () => {
     const amount = showMarket?.currency[0].title === "USDC" || showMarket?.currency[0].title === "USDT" ? +`${valueInputPool}e6` : +`${valueInputPool}e18`;
-    deposit(contract, BigInt(amount), BigInt(amount))
+    deposit(contract, BigInt(amount), BigInt(amount)).then((res) => push("/dashboard"))
   }
 
   useEffect(() => {
