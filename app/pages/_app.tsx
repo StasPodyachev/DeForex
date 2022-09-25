@@ -6,20 +6,21 @@ import { SessionProvider } from 'next-auth/react';
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '../apolloClient'
 import { InjectedConnector } from 'wagmi/connectors/injected'
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
+// import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 const { provider, chains } = configureChains(defaultChains, [publicProvider()]);
+
 const client = createClient({
   provider,
   autoConnect: true,
   connectors: [
-    new InjectedConnector({ chains }),
-    new WalletConnectConnector({
-      chains,
-      options: {
-        qrcode: true,
-        rpc: ['https://opt-kovan.g.alchemy.com/v2/GAcaN3sfNl9B_d_Ef86aQBa62lh7tCdV']
-      },
-    }),
+    new InjectedConnector({ chains })
+    // new WalletConnectConnector({
+    //   chains,
+    //   options: {
+    //     qrcode: true,
+    //     rpc: ['https://opt-kovan.g.alchemy.com/v2/GAcaN3sfNl9B_d_Ef86aQBa62lh7tCdV']
+    //   },
+    // }),
   ],
 });
 

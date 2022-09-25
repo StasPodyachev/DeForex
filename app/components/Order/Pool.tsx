@@ -95,8 +95,6 @@ const Pool = ({
                 : null}
               </div>
 
-              
-
               <div className={styles.btns}>
                 <Button
                   disable={isApproveDAI && isApproveUSDC && isApproveUSDT ? false : true}
