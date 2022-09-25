@@ -34,6 +34,7 @@ const ConnectWallet = () => {
   const { address } = useAccount()
   const [ newAdress, setNewAdress ] = useState('')
   const { push } = useRouter()
+
   const handleAuth = async (connector?: Connector, disabled?: boolean) => {
     if (disabled) {
       alert('Setup it first in the Authentication.tsx');
@@ -70,7 +71,7 @@ const ConnectWallet = () => {
 
   if (!newAdress.length) {
     return (
-      <div className={styles.wallet} onClick={() => width < 480 ? handleAuth(wallets[0]?.connector) : handleAuth(wallets[1]?.connector)}>
+      <div className={styles.wallet} onClick={() => handleAuth(wallets[0]?.connector)}>
         <span>Connect Wallet</span>
       </div>
     )
