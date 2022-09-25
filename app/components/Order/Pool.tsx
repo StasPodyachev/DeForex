@@ -15,12 +15,15 @@ const Pool = ({
   setValuePool,
   address,
   signer,
-  contractERC20Dai, contractERC20USDC} : any) => {
+  contractERC20Dai, contractERC20USDC, contractERC20USDT} : any) => {
     const { push } = useRouter()
   const [ isApproveDAI, isSetApproveDAI ] = useState(false)
   const [ isApproveUSDC, isSetApproveUSDC ] = useState(false)
+  const [ isApproveUSDT, isSetApproveUSDT ] = useState(false)
 
+  useEffect(() => {
     console.log('provider', signer)
+  }, [signer])
 
   const contract = useContract({
     addressOrName: showMarket?.alpaddress,
@@ -40,6 +43,9 @@ const Pool = ({
       })
       approved(contractERC20Dai, contract?.address, address).then((res) => {
         isSetApproveDAI(res)
+      })
+      approved(contractERC20USDT, contract?.address, address).then((res) => {
+        isSetApproveUSDT(res)
       })
     }
   }, [address, signer])
@@ -71,6 +77,13 @@ const Pool = ({
         {
           signer ? 
             <>
+
+            <div className={styles.btn}>
+              {!isApproveUSDT ?
+                  <Button
+                    onClick={() => approve(contractERC20USDT,contract?.address, ethers?.constants?.MaxUint256).then(res => isSetApproveUSDT(true))} title={`Approve ${showMarket.currency[1].title}`} />
+                  : null}
+              </div>
               <div className={styles.btns}>
                 {!isApproveUSDC ?
                   <Button
@@ -82,10 +95,12 @@ const Pool = ({
                 : null}
               </div>
 
+              
+
               <div className={styles.btns}>
                 <Button
-                  disable={isApproveDAI && isApproveUSDC ? false : true}
-                  onClick={() => isApproveDAI && isApproveUSDC &&  depositCreation() } title="Deposit" />
+                  disable={isApproveDAI && isApproveUSDC && isApproveUSDT ? false : true}
+                  onClick={() => isApproveDAI && isApproveUSDC && isApproveUSDT &&  depositCreation() } title="Deposit" />
                 <Button disable={true} onClick={() => console.log()} title="Withdraw" />
               </div>
             </> : 

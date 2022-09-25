@@ -14,7 +14,7 @@ const wallets = [
     name: 'WalletConnect',
     logoPath: '/assets/wallets/walletconnect.svg',
     connector: new WalletConnectConnector({
-      options: { rpc: ['https://mainnet.infura.io/v3/84842078b09946638c03157f83405213'] },
+      options: { rpc: ['https://opt-kovan.g.alchemy.com/v2/GAcaN3sfNl9B_d_Ef86aQBa62lh7tCdV'] },
     }),
   },
   {

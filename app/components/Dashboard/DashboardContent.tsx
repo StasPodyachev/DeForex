@@ -418,11 +418,7 @@ const DashboardContent = () => {
         signer ?
         <>
           <Positions positionList={positionList} />
-            <Staking stakingList={stakingList} />
-            <div className={styles.btns}>
-              <Button onClick={() => console.log('Deposit')} title='Deposit' />
-              <Button onClick={() => console.log('Withdraw')} title='Withdraw' />
-            </div>
+          <Staking stakingList={stakingList} />
         </> : <div className={styles.btn}><ConnectWallet /></div>
       }
     </div>

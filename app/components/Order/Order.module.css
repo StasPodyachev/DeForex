@@ -388,6 +388,10 @@
   min-width: 50%;
 }
 
+.btns > div:nth-child(3) {
+  width: 100%;
+}
+
 .btns > div:first-child {
   margin-right: 4px;
 }
@@ -404,5 +408,4 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 50px;
 }

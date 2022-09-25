@@ -17,6 +17,7 @@ const client = createClient({
       chains,
       options: {
         qrcode: true,
+        rpc: ['https://opt-kovan.g.alchemy.com/v2/GAcaN3sfNl9B_d_Ef86aQBa62lh7tCdV']
       },
     }),
   ],
