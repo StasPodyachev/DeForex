@@ -163,12 +163,14 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
     // if (contract) {
     //   alert("+contract")
     // }
-    if (contract && address && signer) {
+    console.log(contractERC20Dai.allowance);
+    
+    if (contract && address && signer && contractERC20Dai.allowance && contractERC20USDC.allowance) {
       approved(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC, contract?.address, address).then((res) => {
         isSetApprove(res)
-        if (res) {
-          alert("ok")
-        }
+        // if (res) {
+        //   alert("ok")
+        // }
       }) } else {
       // alert("ne ok")
     }
