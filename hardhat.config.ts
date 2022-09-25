@@ -35,10 +35,15 @@ const config = {
         interval: 100,
       },
     },
-    goerli: {
-      url: `https://goerli.infura.io/v3/${process.env.INFURA_API_KEY}`,
-      chainId: 5,
-      accounts: [process.env.DEPLOY_PRIVATE_KEY || ""],
+    "optimistic-kovan": {
+      url: `https://opt-kovan.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`,
+      chainId: 69,
+      accounts: [process.env.DEPLOY_PRIVATE_KEY],
+    },
+    mumbai: {
+      url: `https://polygon-mumbai.g.alchemy.com/v2/${process.env.MUMBAI_ALCHEMY_KEY}`,
+      chainId: 80001,
+      accounts: [process.env.DEPLOY_PRIVATE_KEY],
     },
   },
   abiExporter: {
@@ -75,7 +80,10 @@ const config = {
   //   disambiguatePaths: false,
   // },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY,
+    apiKey: {
+      optimisticEthereum: process.env.OPTIMISTIC_ETHERSCAN_API_KEY,
+      polygonMumbai: process.env.POLYGON_ETHERSCAN_API_KEY
+    }
   },
   typechain: {
     outDir: "typechain",
