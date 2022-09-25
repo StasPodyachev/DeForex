@@ -126,6 +126,12 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
     contractInterface: erc20ABI,
     signerOrProvider: signer
   })
+
+  const contractERC20USDT = useContract({
+    addressOrName: addresses?.USDT?.address,
+    contractInterface: erc20ABI,
+    signerOrProvider: signer
+  })
   
   const createOrder = () => {
     const amount = activeCurrency.title === "USDC" || activeCurrency.title === "USDT" ? +`${value}e6` : +`${value}e18`;
@@ -158,7 +164,7 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
 
   useEffect(() => {   
     if (contract && address && signer) {
-      approved(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC, contract?.address, address).then((res) => {
+      approved(activeCurrency?.title === 'DAI' ? contractERC20Dai  : activeCurrency?.title === "USDt" ? contractERC20USDT :  contractERC20USDC, contract?.address, address).then((res) => {
         isSetApprove(res)
         console.log(res, 'res');
       }) } else {
@@ -335,7 +341,9 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
             signer ?
             <div className={styles.btn}>
               <Button onClick={() => {
-                isApprove ? createOrder() : approve(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC , contract?.address, ethers?.constants?.MaxUint256)
+                isApprove ?
+                createOrder() : approve(activeCurrency?.title === 'DAI' ? contractERC20Dai :
+                activeCurrency?.title === 'USDt' ? contractERC20USDT : contractERC20USDC , contract?.address, ethers?.constants?.MaxUint256)
               }} title={isApprove ? "Open Position" : "Approve token"} />
             </div>
             : 
@@ -348,6 +356,7 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
       <Pool
         contractERC20Dai={contractERC20Dai}
         contractERC20USDC={contractERC20USDC}
+        contractERC20USDT={contractERC20USDT}
         signer={signer}
         address={address}
         showMarket={showMarket}
