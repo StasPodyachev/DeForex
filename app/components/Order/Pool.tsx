@@ -77,6 +77,13 @@ const Pool = ({
         {
           signer ? 
             <>
+
+            <div className={styles.btn}>
+              {!isApproveUSDT ?
+                  <Button
+                    onClick={() => approve(contractERC20USDT,contract?.address, ethers?.constants?.MaxUint256).then(res => isSetApproveUSDT(true))} title={`Approve ${showMarket.currency[1].title}`} />
+                  : null}
+              </div>
               <div className={styles.btns}>
                 {!isApproveUSDC ?
                   <Button
@@ -86,11 +93,9 @@ const Pool = ({
                 <Button
                   onClick={() => approve(contractERC20Dai,contract?.address, ethers?.constants?.MaxUint256).then(res => isSetApproveDAI(true))} title={`Approve ${showMarket.currency[1].title}`} />
                 : null}
-                !isApproveUSDT ?
-                <Button
-                  onClick={() => approve(contractERC20USDT,contract?.address, ethers?.constants?.MaxUint256).then(res => isSetApproveUSDT(true))} title={`Approve ${showMarket.currency[1].title}`} />
-                : null
               </div>
+
+              
 
               <div className={styles.btns}>
                 <Button
