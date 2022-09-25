@@ -169,7 +169,7 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
       }) } else {
       // alert("ne ok")
     }
-  }, [address, signer, activeCurrency, contract?.allowance])
+  }, [address, signer, activeCurrency, contract])
 
   useEffect(() => {
     setActiveCurrencySecond(showMarket?.currency?.find(cur => cur.id !== activeCurrency.id))

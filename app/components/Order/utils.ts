@@ -6,9 +6,10 @@ export const approve  = async (contractAprove, contract, MaxUint256 : any) => {
 }
 
 export const approved  = async (contractAprove, addressWallet, contract : any) => {
-  alert("approved")
-  return await contractAprove?.allowance(contract, addressWallet).then((res) => {
+
+  return await contractAprove?.metonds?.allowance(contract, addressWallet).then((res) => {
     // alert(res)
+    alert("approved")
     return res._hex !== "0x00" ? true : false
   })
 }
