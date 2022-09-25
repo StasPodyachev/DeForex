@@ -20,6 +20,8 @@ const Pool = ({
   const [ isApproveDAI, isSetApproveDAI ] = useState(false)
   const [ isApproveUSDC, isSetApproveUSDC ] = useState(false)
 
+    console.log('provider', signer)
+
   const contract = useContract({
     addressOrName: showMarket?.alpaddress,
     contractInterface: ALP_ABI?.abi ,
