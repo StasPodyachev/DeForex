@@ -247,3 +247,14 @@
   justify-content: center;
   margin: 16px 0;
 }
+
+.btn {
+  margin-top: 25px;
+}
+
+.btn > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+}

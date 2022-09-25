@@ -4,9 +4,10 @@ import Button from '../ui/Button';
 import { gql, useQuery } from '@apollo/client'
 import styles from './DashboardContent.module.css'
 import UserInfo from './UserInfo'
-import { useAccount } from 'wagmi';
+import { useAccount, useSigner } from 'wagmi';
 import { formatChange } from '../../utils/toSignificant';
 import addresses from '../../contracts/addresses';
+import ConnectWallet from '../Header/ConnectWallet';
 
 const radioList = [
   {
@@ -293,6 +294,7 @@ const Tab = ({type, data} : {type: string, data: any}) => {
 }
 
 const DashboardContent = () => {
+  const { data: signer } = useSigner()
   const { address } = useAccount()
   const GET_POSITIONS =  
     gql`
@@ -412,14 +414,17 @@ const DashboardContent = () => {
       <div className={styles.chart}>
         <Image src="/icons/chart2.svg" width={327} height={208} alt="chart" />
       </div>
-      {/* <Chart /> */}
-      <Positions positionList={positionList} />
-      {/* <Orders /> */}
-      <Staking stakingList={stakingList} />
-      <div className={styles.btns}>
-        <Button onClick={() => console.log('Deposit')} title='Deposit' />
-        <Button onClick={() => console.log('Withdraw')} title='Withdraw' />
-      </div>
+      {
+        signer ?
+        <>
+          <Positions positionList={positionList} />
+            <Staking stakingList={stakingList} />
+            <div className={styles.btns}>
+              <Button onClick={() => console.log('Deposit')} title='Deposit' />
+              <Button onClick={() => console.log('Withdraw')} title='Withdraw' />
+            </div>
+        </> : <div className={styles.btn}><ConnectWallet /></div>
+      }
     </div>
   )
 }
