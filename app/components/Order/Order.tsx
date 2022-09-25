@@ -162,9 +162,11 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
     }
   }, [query])
 
-  useEffect(() => {   
-    if (contract && address && signer) {
-      approved(activeCurrency?.title === 'DAI' ? contractERC20Dai  : activeCurrency?.title === "USDt" ? contractERC20USDT :  contractERC20USDC, contract?.address, address).then((res) => {
+  useEffect(() => {
+    const activeContract = activeCurrency?.title === 'DAI' ? contractERC20Dai  : activeCurrency?.title === "USDt" ? contractERC20USDT :  contractERC20USDC
+    if (contract && address && signer && activeContract && activeCurrency) {
+      console.log(activeContract, 'activeContract');
+      approved(activeContract, contract?.address, address).then((res) => {
         isSetApprove(res)
         console.log(res, 'res');
       }) } else {

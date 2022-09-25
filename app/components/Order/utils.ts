@@ -5,9 +5,8 @@ export const approve  = async (contractAprove, contract, MaxUint256 : any) => {
 }
 
 export const approved  = async (contractAprove, addressWallet, contract : any) => {
-  console.log(contractAprove, 'contractAprove');
   return await contractAprove?.allowance(contract, addressWallet).then((res) => {
-    return res._hex !== "0x00" ? true : false
+    return res ? true : false
   })
 }
 
