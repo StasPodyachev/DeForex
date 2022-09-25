@@ -64,7 +64,13 @@ const ConnectWallet = () => {
 
   return (
     !newAdress ?
-      <div className={styles.wallet} onClick={() => handleAuth(wallets[0]?.connector)}>
+      <div className={styles.wallet} onClick={() => {
+        if (width < 480) {
+          handleAuth(wallets[0]?.connector)
+        } else {
+          handleAuth(wallets[1]?.connector)
+        }
+      }}>
         <span>Connect Wallet</span>
       </div> : 
       <div className={styles.user}>
