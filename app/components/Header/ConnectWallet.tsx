@@ -1,7 +1,7 @@
 import Image from "next/image"
 import { useEffect, useState } from "react"
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
+import { InjectedConnector } from 'wagmi/connectors/injected';
 import { Connector, useAccount, useConnect, useDisconnect, useSignMessage } from 'wagmi';
 import { signIn } from 'next-auth/react';
 import apiPost from '../../utils/apiPost';
@@ -17,9 +17,9 @@ const wallets = [
     }),
   },
   {
-    name: 'Metamask',
+    name: 'Injected',
     logoPath: '/assets/wallets/metamask.svg',
-    connector: new MetaMaskConnector(),
+    connector: new InjectedConnector(),
     disabled: false
   },
 ];
