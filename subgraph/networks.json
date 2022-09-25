@@ -1,0 +1,13 @@
+{
+  "goerli": {
+    "ALP": {
+      "address": "0xf300a6AB5eEA16bf09Ca649C56dA75E278062c8F"
+    },
+    "Factory": {
+      "address": "0x5FC8e400ac068d0550ac1952C700660a32089982"
+    },
+    "Deforex": {
+      "address": "0x79057B7d5342486a3197401aF64b3189D33baf2d"
+    }
+  }
+}
