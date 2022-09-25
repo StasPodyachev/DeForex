@@ -20,7 +20,9 @@ const Pool = ({
   const [ isApproveDAI, isSetApproveDAI ] = useState(false)
   const [ isApproveUSDC, isSetApproveUSDC ] = useState(false)
 
+  useEffect(() => {
     console.log('provider', signer)
+  }, [signer])
 
   const contract = useContract({
     addressOrName: showMarket?.alpaddress,
