@@ -14,13 +14,15 @@ const wallets = [
     name: 'WalletConnect',
     logoPath: '/assets/wallets/walletconnect.svg',
     connector: new WalletConnectConnector({
-      options: { rpc: ['https://opt-kovan.g.alchemy.com/v2/GAcaN3sfNl9B_d_Ef86aQBa62lh7tCdV'] },
+      options: {
+        qrcode: true,
+      },
     }),
   },
   {
     name: 'Injected',
     logoPath: '/assets/wallets/metamask.svg',
-    connector: new MetaMaskConnector(),
+    connector: new MetaMaskConnector({}),
     disabled: false
   },
 ];
