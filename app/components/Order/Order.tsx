@@ -162,15 +162,15 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
     // }
     // if (contract) {
     //   alert("+contract")
-    // }
-    console.log(contractERC20Dai.allowance);
-    
+    // }    
     if (contract && address && signer && contractERC20Dai.allowance && contractERC20USDC.allowance) {
       approved(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC, contract?.address, address).then((res) => {
         isSetApprove(res)
-        // if (res) {
-        //   alert("ok")
-        // }
+        console.log(res, 'res');
+        
+        if (res) {
+          alert("ok")
+        }
       }) } else {
       // alert("ne ok")
     }
