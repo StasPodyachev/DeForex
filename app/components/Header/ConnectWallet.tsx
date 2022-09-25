@@ -7,6 +7,7 @@ import { signIn } from 'next-auth/react';
 import apiPost from '../../utils/apiPost';
 import styles from './Nav.module.css'
 import useWindowSize from "./useWindowSize";
+import { useRouter } from "next/router";
 
 const wallets = [
   {
@@ -32,7 +33,7 @@ const ConnectWallet = () => {
   const { signMessageAsync } = useSignMessage();
   const { address } = useAccount()
   const [ newAdress, setNewAdress ] = useState('')
-
+  const { push } = useRouter()
   const handleAuth = async (connector?: Connector, disabled?: boolean) => {
     if (disabled) {
       alert('Setup it first in the Authentication.tsx');
@@ -77,7 +78,7 @@ const ConnectWallet = () => {
   
   return (
       newAdress ?
-      <div className={styles.user}>
+      <div className={styles.user} onClick={() => push('/dashboard')}>
         <span>{newAdress}</span>
         <Image src="/icons/iconsDashboard/avatar.png" width={24} height={24} alt='wallet'/>
       </div> : null
