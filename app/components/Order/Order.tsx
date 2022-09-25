@@ -93,7 +93,7 @@ const executions = [
 ]
 
 const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contract: any}) => {
-  const { query } = useRouter()
+  const { query, push } = useRouter()
   const [ showMarket, setShowMarket ] = useState<ModelMarket>(markets[0])
   const [ showExecution, setShowExecution ] = useState(executions[0])
   const [ checked, setChecket ] = useState(tabs[2])
@@ -131,7 +131,7 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
     const amount = activeCurrency.title === "USDC" || activeCurrency.title === "USDT" ? +`${value}e6` : +`${value}e18`;
     const tokenSell = activeCurrency?.address
     const tokenBuy = showMarket?.currency?.find(currency => activeCurrency?.address !== currency.address).address
-    createPosition(contract, tokenSell, tokenBuy, amount, checked.value , 0)
+    createPosition(contract, tokenSell, tokenBuy, amount, checked.value , 0).then((res) => push("/dashboard"))
   }
 
   useEffect(() => {
@@ -173,29 +173,6 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
     setPotentialProfit(+value * checked?.value * (takeProfitRate - activeCurrency?.rate))
     setPotentialLoss(+value * checked?.value * (stopLossRate - activeCurrency?.rate))
   }, [value, checked, activeCurrency, takeProfitRate, stopLossRate])
-
-  // useEffect(() => {
-  //   if (activeCurrency) {
-  //     const buyCurrency = showMarket?.currency?.find(cur => cur.id !== activeCurrency.id)
-  //     const tokenBuy = {
-  //       address: 
-  //       buyCurrency?.title === "USDC" || buyCurrency.title === "USDT" ?
-  //       '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48' :
-  //       '0x6b175474e89094c44da98b954eedeac495271d0f',
-  //       range: buyCurrency?.title === "USDC" || buyCurrency.title === "USDT" ? 6 : 18,
-  //       title: buyCurrency?.title
-  //     }
-  //     const tokenSell = {
-  //       address: 
-  //       activeCurrency?.title === "USDC" || activeCurrency.title === "USDT" ?
-  //       '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48' :
-  //       '0x6b175474e89094c44da98b954eedeac495271d0f',
-  //       range: activeCurrency?.title === "USDC" || activeCurrency.title === "USDT" ? 6 : 18,
-  //       title: activeCurrency?.title
-  //     }
-  //     getRoute(tokenSell, tokenBuy).then(res => console.log(res, 'res'))
-  //   }
-  // }, [activeCurrency])
 
   useEffect(() => {
     if (checked && value) {
