@@ -7,7 +7,9 @@ export const approve  = async (contractAprove, contract, MaxUint256 : any) => {
 
 export const approved  = async (contractAprove, addressWallet, contract : any) => {
   console.log(contractAprove, 'contractAprove');
-  alert(contractAprove.allowance)
+  // alert(contractAprove.allowance)
+  alert(addressWallet)
+  alert(contract)
   return await contractAprove?.allowance(contract, addressWallet).then((res) => {
     // alert(res)
     // alert("approved")

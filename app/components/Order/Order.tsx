@@ -162,9 +162,9 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
       approved(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC, contract?.address, address).then((res) => {
         isSetApprove(res)
         console.log(res, 'res');
-        if (res) {
-          alert("ok")
-        }
+        // if (res) {
+        //   alert("ok")
+        // }
       }) } else {
       // alert("ne ok")
     }
