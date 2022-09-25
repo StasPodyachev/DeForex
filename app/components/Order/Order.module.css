@@ -395,3 +395,13 @@
 .btns > div:last-child {
   margin-left: 4px;
 }
+
+.btn {
+  margin-top: 25px;
+}
+
+.btn > div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

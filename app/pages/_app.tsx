@@ -5,11 +5,9 @@ import { publicProvider } from 'wagmi/providers/public';
 import { SessionProvider } from 'next-auth/react';
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '../apolloClient'
-const { provider, webSocketProvider } = configureChains(defaultChains, [publicProvider()]);
-
+const { provider } = configureChains(defaultChains, [publicProvider()]);
 const client = createClient({
   provider,
-  webSocketProvider,
   autoConnect: true,
 });
 

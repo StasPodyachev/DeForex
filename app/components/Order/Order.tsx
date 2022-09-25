@@ -351,11 +351,18 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
             markets={executions}
             active={showExecution}
             setActive={setShowExecution}/>
-          <div className={styles.btn}>
-            <Button onClick={() => {
-              isApprove ? createOrder() : approve(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC , contract?.address, ethers?.constants?.MaxUint256)
-            }} title={isApprove ? "Open Position" : "Approve token"} />
-          </div>
+          {
+            signer ?
+            <div className={styles.btn}>
+              <Button onClick={() => {
+                isApprove ? createOrder() : approve(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC , contract?.address, ethers?.constants?.MaxUint256)
+              }} title={isApprove ? "Open Position" : "Approve token"} />
+            </div>
+            : 
+            <div className={styles.btn}>
+              <ConnectWallet />
+            </div>
+          }
         </div>
       :
       <Pool

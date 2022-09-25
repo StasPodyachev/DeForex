@@ -4,9 +4,9 @@ import Button from '../ui/Button'
 import { useEffect, useState } from 'react'
 import { approve, approved, deposit } from './utils'
 import { useContract } from 'wagmi'
-import addresses from '../../contracts/addresses'
 import ALP_ABI from '../../contracts/ABI/ALP.sol/ALP.json'
 import { ethers } from 'ethers'
+import ConnectWallet from '../Header/ConnectWallet'
 
 const Pool = ({
   showMarket,
@@ -27,20 +27,15 @@ const Pool = ({
 
   const depositCreation = () => {
     const amount = showMarket?.currency[0].title === "USDC" || showMarket?.currency[0].title === "USDT" ? +`${valueInputPool}e6` : +`${valueInputPool}e18`;
-    console.log(contract?.address, 'contract');
-    
     deposit(contract, BigInt(amount), BigInt(amount))
   }
 
   useEffect(() => {
     if (address && signer) {
-      console.log(contract?.address, 'contract?.address');
       approved(contractERC20USDC, contract?.address, address).then((res) => {
-        console.log(res, 'contractERC20USDC');
         isSetApproveUSDC(res)
       })
       approved(contractERC20Dai, contract?.address, address).then((res) => {
-        console.log(res, 'contractERC20Dai');
         isSetApproveDAI(res)
       })
     }
@@ -69,23 +64,32 @@ const Pool = ({
           <p>Est. APY <span style={{"color" : '#31C471', "fontWeight" : '700'}}>17.84% </span></p>
         </div>
 
-        <div className={styles.btns}>
-          {!isApproveUSDC ?
-            <Button
-              onClick={() => approve(contractERC20USDC,contract?.address, ethers?.constants?.MaxUint256).then(res => isSetApproveDAI(true))} title={`Approve ${showMarket.currency[0].title}`} />
-          : null}
-          {!isApproveDAI ?
-          <Button
-            onClick={() => approve(contractERC20Dai,contract?.address, ethers?.constants?.MaxUint256).then(res => isSetApproveDAI(true))} title={`Approve ${showMarket.currency[1].title}`} />
-          : null}
-        </div>
 
-        <div className={styles.btns}>
-          <Button
-            disable={isApproveDAI && isApproveUSDC ? false : true}
-            onClick={() => isApproveDAI && isApproveUSDC &&  depositCreation() } title="Deposit" />
-          <Button disable={true} onClick={() => console.log()} title="Withdraw" />
-        </div>
+        {
+          signer ? 
+            <>
+              <div className={styles.btns}>
+                {!isApproveUSDC ?
+                  <Button
+                    onClick={() => approve(contractERC20USDC,contract?.address, ethers?.constants?.MaxUint256).then(res => isSetApproveDAI(true))} title={`Approve ${showMarket.currency[0].title}`} />
+                : null}
+                {!isApproveDAI ?
+                <Button
+                  onClick={() => approve(contractERC20Dai,contract?.address, ethers?.constants?.MaxUint256).then(res => isSetApproveDAI(true))} title={`Approve ${showMarket.currency[1].title}`} />
+                : null}
+              </div>
+
+              <div className={styles.btns}>
+                <Button
+                  disable={isApproveDAI && isApproveUSDC ? false : true}
+                  onClick={() => isApproveDAI && isApproveUSDC &&  depositCreation() } title="Deposit" />
+                <Button disable={true} onClick={() => console.log()} title="Withdraw" />
+              </div>
+            </> : 
+            <div className={styles.btn}>
+              <ConnectWallet />
+            </div>
+        }
       </div>
   )
 }
