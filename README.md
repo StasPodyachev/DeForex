@@ -45,7 +45,7 @@ npx hardhat deploy:all --network <network>
 npx hardhat configure:all --network <network>
 ```
 
-**network** - the following networks are supported in this code: `optimistic-kovan`, `mumbai`
+**network** - the following networks are supported in this code: `optimism-kovan`, `mumbai`
 
 ### Verify
 
@@ -69,7 +69,7 @@ yarn codegen
 yarn deploy:<network>
 ```
 
-**network** - the following networks are supported in this code: `optimistic-kovan`, `mumbai`
+**network** - the following networks are supported in this code: `optimism-kovan`, `mumbai`
 
 ## Frontend
 
