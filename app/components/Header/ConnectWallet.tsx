@@ -59,24 +59,28 @@ const ConnectWallet = () => {
   };
 
   useEffect(() => {
-    address !== undefined && setNewAdress(`${address?.slice(0, 6)}...${address?.slice(address?.length - 4, address?.length)}`)
+    if (!(address)) {
+      setNewAdress('')
+    }
+    if (address) {
+      address !== undefined && setNewAdress(`${address?.slice(0, 6)}...${address?.slice(address?.length - 4, address?.length)}`)
+    }
   }, [address])
 
-  return (
-    !newAdress ?
-      <div className={styles.wallet} onClick={() => {
-        if (width < 480) {
-          handleAuth(wallets[0]?.connector)
-        } else {
-          handleAuth(wallets[1]?.connector)
-        }
-      }}>
+  if (!newAdress.length) {
+    return (
+      <div className={styles.wallet} onClick={() => width < 480 ? handleAuth(wallets[0]?.connector) : handleAuth(wallets[1]?.connector)}>
         <span>Connect Wallet</span>
-      </div> : 
+      </div>
+    )
+  }
+  
+  return (
+      newAdress ?
       <div className={styles.user}>
         <span>{newAdress}</span>
         <Image src="/icons/iconsDashboard/avatar.png" width={24} height={24} alt='wallet'/>
-      </div>
+      </div> : null
   )
 }
 

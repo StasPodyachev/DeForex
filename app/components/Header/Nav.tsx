@@ -22,9 +22,10 @@ const Nav = () => {
         <div className={styles.icons}>
           <ConnectWallet />
           <div className={styles.burgeIcon} onClick={() => setIsOpen(!isOpen)}>
-            <Hamburger toggled={isOpen} size={20} color='#fff' /></div>
+            <Hamburger toggled={isOpen} size={20} color='#fff' />
           </div>
         </div>
+      </div>
       {
         isOpen ? 
         <div className={styles.navMobile}>
@@ -45,13 +46,13 @@ const Nav = () => {
                 )
               })
             }
-            {
-              address ? <div onClick={() => disconnect()} className={styles.dissconect}>Disconnect Wallet</div> : null
+            <>{address ? <div onClick={() => {
+              setIsOpen(false)
+              disconnect()}
+            } className={styles.dissconect}>Disconnect Wallet</div> : null
             }
+            </>
           </div>
-          {/* <div className={styles.imageBurgerMenu}>
-            <Image src='/images/burger-menu.png' layout='fill' alt="bg" />
-          </div> */}
         </div> : null
       }
     </div>

@@ -27,6 +27,8 @@ const Pool = ({
 
   const depositCreation = () => {
     const amount = showMarket?.currency[0].title === "USDC" || showMarket?.currency[0].title === "USDT" ? +`${valueInputPool}e6` : +`${valueInputPool}e18`;
+    console.log(contract?.address, 'contract');
+    
     deposit(contract, BigInt(amount), BigInt(amount))
   }
 
