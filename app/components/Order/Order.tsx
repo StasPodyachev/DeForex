@@ -157,19 +157,13 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
   }, [query])
 
   useEffect(() => {
-    if (!contractERC20Dai) {
-      alert("-contractERC20Dai")
+    if (!contract) {
+      alert("-contract")
     }
-    if (contractERC20Dai) {
-      alert("+contractERC20Dai")
+    if (contract) {
+      alert("+contract")
     }
-    if (!contractERC20USDC) {
-      alert("-contractERC20USDC")
-    }
-    if (contractERC20USDC) {
-      alert("+contractERC20USDC")
-    }
-    if (address && signer && contractERC20Dai && contractERC20USDC) {
+    if (contract && address && signer && contractERC20Dai && contractERC20USDC) {
       approved(activeCurrency?.title === 'DAI' ? contractERC20Dai : contractERC20USDC, contract?.address, address).then((res) => {
         isSetApprove(res)
         if (res) {
