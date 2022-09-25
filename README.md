@@ -20,7 +20,7 @@ Now the second layer. Forex brokers, who work with physical persons, get the inf
 ## Documentation
 #### Whitepaper
 
-For more comprehensive information about DeForex V1 you can read our [whitepaper](https://www.notion.so/White-Paper-f79f1526cb69440d8164c0a40c968a29).
+For more comprehensive information about DeForex V1 you can read our [whitepaper](https://www.notion.so/White-Paper-f79f1526cb69440d8164c0a40c968a29) and in [notion](https://husky-breath-587.notion.site/DeForex-Leverage-ETH-Global-2022-Public-Documentation-6ff8f3befe8f45b2a1d6e856e94e14f2).
 
 #### Technical Documentation
 
