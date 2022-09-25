@@ -12,8 +12,8 @@ export let ONE_BD = BigDecimal.fromString("1");
 export let BI_18 = BigInt.fromI32(18);
 
 export const ADDRESS_ZERO = "0x0000000000000000000000000000000000000000";
-export const FACTORY_ADDRESS = "0xc349fC3183856a1F21E8FD9FF5589eCbc77Af443";
-export const DEFOREX_ADDRESS = "0x7890F15ABE81E13B7a468f03a64704ed2D3fC802";
+export const FACTORY_ADDRESS = "0x951d2f7557d45f6e99ea016b00529AB8600D1f5E";
+export const DEFOREX_ADDRESS = "0x09897Bb730e5C89C78c5259D7682fDDdd981db34";
 
 export let factoryContract: FactoryContract = FactoryContract.bind(
   Address.fromString(FACTORY_ADDRESS)

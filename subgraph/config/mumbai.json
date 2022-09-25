@@ -1,7 +1,7 @@
 {
-  "network": "optimism-kovan",
-  "start_block": 7674357,
-  "factory_address": "0xc349fC3183856a1F21E8FD9FF5589eCbc77Af443",
-  "deforex_address": "0x7890F15ABE81E13B7a468f03a64704ed2D3fC802",
+  "network": "mumbai",
+  "start_block": 28291697,
+  "factory_address": "0x951d2f7557d45f6e99ea016b00529AB8600D1f5E",
+  "deforex_address": "0x09897Bb730e5C89C78c5259D7682fDDdd981db34",
   "weth_address": "0x4200000000000000000000000000000000000006"
 }
