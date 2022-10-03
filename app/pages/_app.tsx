@@ -1,37 +1,28 @@
+import '../styles/globals.css';
+import type { AppProps } from 'next/app';
 
-import '../styles/globals.css'
-import { createClient, configureChains, defaultChains, WagmiConfig } from 'wagmi';
-import { publicProvider } from 'wagmi/providers/public';
-import { SessionProvider } from 'next-auth/react';
-import { ApolloProvider } from '@apollo/client'
-import { useApollo } from '../apolloClient'
-import { InjectedConnector } from 'wagmi/connectors/injected'
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-const { provider, chains } = configureChains(defaultChains, [publicProvider()]);
+import { WagmiConfig, createClient, chain, Chain } from 'wagmi';
+import { ConnectKitProvider, getDefaultClient } from 'connectkit';
 
-const client = createClient({
-  provider,
-  autoConnect: true,
-  connectors: [
-    new InjectedConnector({ chains }),
-    new WalletConnectConnector({
-      chains,
-      options: {
-        qrcode: true
-      },
-    }),
-  ],
-});
+const client = createClient(
+  getDefaultClient({
+    appName: 'ConnectKit Next.js demo',
+    infuraId: process.env.NEXT_PUBLIC_REACT_APP_INFURA_KEY,
+    alchemyId:  process.env.NEXT_PUBLIC_REACT_APP_ALCHEMY_KEY,
+    chains: [chain.optimismKovan],
+  })
+);
 
-function MyApp({ Component, pageProps }) {
-  const apolloClient = useApollo(pageProps)
+function MyApp({ Component, pageProps }: AppProps) {
   return (
     <WagmiConfig client={client}>
-      <SessionProvider session={pageProps.session} refetchInterval={0}>
-        <ApolloProvider client={apolloClient}>
-          <Component {...pageProps} />
-        </ApolloProvider>
-      </SessionProvider>
+      <ConnectKitProvider 
+        customTheme={{
+          "--ck-font-family": "'Source Code Pro','Poppins', 'sans-serif', 'monospace'"
+        }}
+      theme="midnight">
+        <Component {...pageProps} />
+      </ConnectKitProvider>
     </WagmiConfig>
   );
 }
