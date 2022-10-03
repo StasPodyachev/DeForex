@@ -1,100 +1,18 @@
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import Button from '../ui/Button';
 import { gql, useQuery } from '@apollo/client'
 import styles from './DashboardContent.module.css'
 import UserInfo from './UserInfo'
 import { useAccount, useSigner } from 'wagmi';
 import { formatChange } from '../../utils/toSignificant';
 import addresses from '../../contracts/addresses';
-import ConnectWallet from '../Header/ConnectWallet';
-
-const radioList = [
-  {
-    id: 1,
-    icon: '/icons/orderIcon/exchange.svg'
-  },
-  {
-    id: 2,
-    icon: '/icons/orderIcon/radio.svg'
-  },
-  {
-    id: 3,
-    icon: '/icons/orderIcon/arrows.svg'
-  }
-]
-
-const positionListTest = [
-  {
-    id: 1,
-    leverage: 'x100',
-    deposit: '$156',
-    icons: [{icon: '/icons/iconsCurrency/DAI.svg'}, {icon: '/icons/iconsCurrency/USDC.svg',}],
-    orderName: 'DAIvsUSDC',
-    entryPrice: '$0.9995',
-    oraclePrice: '$0.9998',
-    liqPrice: '$0.9999',
-    state: '15$ (15,25%)'
-  }
-]
-
-const orderList = [
-{
-    id: 2,
-    leverage: 'Sell x100,000',
-    deposit: '$156',
-    icons: [{icon: '/icons/iconsCurrency/DAI.svg'},
-    {icon: '/icons/iconsCurrency/Tether.svg',}],
-    orderName: 'DAIvsUSDT',
-    entryPrice: '$0.9914',
-    oraclePrice: '$0.9901',
-    exitType: 'Liquidation',
-    state: 'Closed P&L -$13',
-    orderTime: '16:22:37'
-  }
-]
-
-const stakingList = [
-  {
-    id: 3,
-    leverage: '20,000',
-    deposit: '$20,125.31',
-    icons: [{icon: '/icons/iconsCurrency/DAI.svg'},
-    {icon: '/icons/iconsCurrency/Tether.svg',}],
-    orderName: 'DAIvsUSDt',
-    orderTime: '13.09.2022 16:15:23',
-    state: 'APY 17,84%',
-  },
-  {
-    id: 4,
-    leverage: '30,000',
-    deposit: '$30,158.30',
-    icons: [{icon: '/icons/iconsCurrency/USDC.svg'},
-    {icon: '/icons/iconsCurrency/Tether.svg',}],
-    orderName: 'USDCUSDt',
-    orderTime: '04.09.2022 16:15:26',
-    state: 'APY 14,93%',
-  }
-]
+import { ConnectKitButton } from 'connectkit';
 
 const Positions = ({ positionList = []} : any) => {
-  // const [checked, setChecked ] = useState(radioList[0]);
   return (
     <>
     <div className={styles.title}>
       <span>Positions</span>
-      {/* <div className={styles.radio}>
-        {radioList?.map(icon => {
-          return (
-            <div
-              onClick={() => setChecked(icon)}
-              className={icon?.id === checked.id ? styles.active : styles.inactive }
-              key={icon?.id}>
-              <Image src={icon?.icon} width={20} height={20} alt='icon' />
-            </div>
-          )
-        })}
-      </div> */}
     </div>
     <div className={styles.list}>
       {positionList?.length && positionList?.map((item) => {
@@ -132,77 +50,12 @@ const Positions = ({ positionList = []} : any) => {
   )
 }
 
-const Orders = () => {
-  const [checked, setChecked ] = useState(radioList[0]);
-  return (
-    <>
-    <div className={styles.title}>
-      <span>Orders</span>
-      <div className={styles.radio}>
-        {radioList?.map(icon => {
-          return (
-            <div
-              onClick={() => setChecked(icon)}
-              className={icon?.id === checked.id ? styles.active : styles.inactive }
-              key={icon?.id}>
-              <Image src={icon?.icon} width={20} height={20} alt='icon' />
-            </div>
-          )
-        })}
-      </div>
-    </div>
-      <div className={styles.list}>
-        {orderList?.map((item) => {
-            return (
-              <>
-              <div key={item?.id} className={styles.item}>
-                {<div className={styles.icons}>
-                  {item?.icons?.map(icon => {
-                    return (
-                      <div key={icon?.icon}>
-                        <Image src={icon?.icon} height={24} width={24} alt="icon"/>
-                      </div>
-                    )
-                  })}
-                </div>}
-                <div className={styles.orderName}>{item?.orderName}</div>
-                <div className={styles.leverage}>{item?.leverage}</div>
-                <div className={styles.price}>{item?.deposit}</div>
-                <div className={styles.stateR}>{item?.state}</div>
-              </div>
-              <Tab type='order'
-              data={
-                {
-                  entryPrice: item?.entryPrice,
-                  oraclePrice: item?.oraclePrice,
-                  exitType:item?.exitType,
-                  orderTime: item?.orderTime
-                }}/>
-              </>
-            )
-          })}
-        </div>
-      </>
-  )
-}
-
 const Staking = ({stakingList} : any) => {
-  // const [checked, setChecked ] = useState(radioList[0]);
   return (
     <>
     <div className={styles.title}>
       <span>Staking</span>
       <div className={styles.radio}>
-        {/* {radioList?.map(icon => {
-          return (
-            <div
-              onClick={() => setChecked(icon)}
-              className={icon?.id === checked.id ? styles.active : styles.inactive }
-              key={icon?.}>
-              <Image src={icon?.icon} width={20} height={20} alt='icon' />
-            </div>
-          )
-        })} */}
       </div>
     </div>
       <div className={styles.list}>
@@ -235,7 +88,6 @@ const Staking = ({stakingList} : any) => {
 }
 
 const Tab = ({type, data} : {type: string, data: any}) => {
-  // console.log(data, 'data');
   return (
     <div className={styles.tab}>
       {
@@ -419,7 +271,7 @@ const DashboardContent = () => {
         <>
           <Positions positionList={positionList} />
           <Staking stakingList={stakingList} />
-        </> : <div className={styles.btn}><ConnectWallet /></div>
+        </> : <div className={styles.btn}><ConnectKitButton theme="midnight" showAvatar /></div>
       }
     </div>
   )

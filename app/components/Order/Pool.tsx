@@ -6,8 +6,8 @@ import { approve, approved, deposit } from './utils'
 import { useContract } from 'wagmi'
 import ALP_ABI from '../../contracts/ABI/ALP.sol/ALP.json'
 import { ethers } from 'ethers'
-import ConnectWallet from '../Header/ConnectWallet'
 import { useRouter } from 'next/router'
+import { ConnectKitButton } from 'connectkit'
 
 const Pool = ({
   showMarket,
@@ -103,7 +103,7 @@ const Pool = ({
               </div>
             </> : 
             <div className={styles.btn}>
-              <ConnectWallet />
+              <ConnectKitButton theme="midnight" showAvatar />
             </div>
         }
       </div>

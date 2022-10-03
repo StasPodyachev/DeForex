@@ -12,7 +12,7 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { approve, approved, createPosition } from './utils'
 import Pool from './Pool'
-import ConnectWallet from '../Header/ConnectWallet'
+import { ConnectKitButton } from 'connectkit'
 
 const tabs = [
   {
@@ -350,7 +350,7 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
             </div>
             : 
             <div className={styles.btn}>
-              <ConnectWallet />
+              <ConnectKitButton theme="midnight" showAvatar />
             </div>
           }
         </div>
