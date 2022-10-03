@@ -1,0 +1,73 @@
+specVersion: 0.0.4
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Factory
+    network: mumbai
+    source:
+      address: "0x951d2f7557d45f6e99ea016b00529AB8600D1f5E"
+      abi: Factory
+      startBlock: 28291697
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Alp
+      abis:
+        - name: Factory
+          file: ./abis/Factory.json
+      eventHandlers:
+        - event: AlpCreated(indexed address,indexed address,address,uint256)
+          handler: handleAlpCreated
+      file: ./src/factory.ts
+  - kind: ethereum
+    name: Deforex
+    network: mumbai
+    source:
+      address: "0x09897Bb730e5C89C78c5259D7682fDDdd981db34"
+      abi: Deforex
+      startBlock: 28291697
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Position
+      abis:
+        - name: Deforex
+          file: ./abis/Deforex.json
+      eventHandlers:
+        - event: PositionCreated(uint256)
+          handler: handlePositionCreated
+        - event: PositionClose(uint256,uint256,uint256)
+          handler: handlePositionClose
+        - event: PositionLiquidation(uint256,uint256,address)
+          handler: handlePositionClose
+      file: ./src/deforex.ts
+
+templates:
+  - kind: ethereum
+    name: ALP
+    network: mumbai
+    source:
+      abi: ALP
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - ALP
+        - Balance
+      abis:
+        - name: ALP
+          file: ./abis/ALP.json
+      eventHandlers:
+        - event: Deposit(indexed address,uint256,uint256,uint256,uint256)
+          handler: handleDeposit
+        - event: Sync(uint256,uint256)
+          handler: handleSync
+        - event: Withdraw(indexed address,uint256,uint256,uint256,uint256)
+          handler: handleWithdraw
+      file: ./src/alp.ts

@@ -1,0 +1,40 @@
+type Balance @entity {
+  id: ID!
+  alp: Alp!
+  owner: Bytes!
+  balance0: BigInt!
+  balance1: BigInt!
+  timestampUp: BigInt!
+}
+
+type Info @entity {
+  id: ID!
+  countAlp: BigInt!
+  countPosition: BigInt!
+}
+
+type Alp @entity {
+  id: ID!
+  token0: Bytes! # address
+  token1: Bytes! # address
+  reserve0: BigInt
+  reserve1: BigInt
+  timestamp: BigInt!
+  reserveUpTimestamp: BigInt
+}
+
+type Position @entity {
+  id: String!
+  timestamp: BigInt!
+  amount: BigInt!
+  leverage: BigInt!
+  amountOut: BigInt!
+  tokenSell: Bytes!
+  trader: Bytes!
+  tokenBuy: Bytes!
+  status: Int!
+  endTimestamp: BigInt
+  amountToAlp: BigInt
+  amountToTrader: BigInt
+  liquidator: Bytes
+}

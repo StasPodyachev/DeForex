@@ -1,0 +1,24 @@
+{
+  "name": "deforex",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy:optimistic-kovan": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ sneltyn/deforex",
+    "deploy:mumbai": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ sneltyn/deforex-mumbai",
+    "create-local": "graph create --node http://localhost:8020/ deforex",
+    "remove-local": "graph remove --node http://localhost:8020/ deforex",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 deforex",
+    "test": "graph test",
+    "prepare:optimism-kovan": "mustache config/optimism-kovan.json subgraph.template.yaml > subgraph.yaml && mustache config/optimism-kovan.json src/constants.template.ts > src/constants.ts",
+    "prepare:mumbai": "mustache config/mumbai.json subgraph.template.yaml > subgraph.yaml && mustache config/mumbai.json src/constants.template.ts > src/constants.ts"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.33.1",
+    "@graphprotocol/graph-ts": "0.27.0"
+  },
+  "devDependencies": {
+    "matchstick-as": "0.5.0",
+    "mustache": "^4.2.0"
+  }
+}

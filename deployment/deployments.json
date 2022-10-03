@@ -1,5 +1,14 @@
 {
   "5": {
+    "DAI": {
+      "address": "0xB46f7E79bb2D6EAc6e8A3Da79C9b8B39354d3dc3"
+    },
+    "USDT": {
+      "address": "0x7faA25680E8650964026c1Cf606900E4B85c4423"
+    },
+    "USDC": {
+      "address": "0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C"
+    },
     "Factory": {
       "proxy": "",
       "implementation": ["0x5FC8e400ac068d0550ac1952C700660a32089982"],
@@ -34,6 +43,45 @@
       "address": "0xf300a6ab5eea16bf09ca649c56da75e278062c8f",
       "creationTime": 1663686750649,
       "updatedTime": [1663686750649]
+    }
+  },
+  "80001": {
+    "DAI": {
+      "address": "0xF6fEd63aAF618d25050e5E3d3B4c525ab2154554"
+    },
+    "USDT": {
+      "address": "0x60965aB564AD3D6069577027DB5d1a43e5AD06a6"
+    },
+    "USDC": {
+      "address": "0x2D7eB0e8802d3a530E298a1f94ce176ad6B3Ab43"
+    },
+    "Factory": {
+      "proxy": "",
+      "implementation": ["0x951d2f7557d45f6e99ea016b00529AB8600D1f5E"],
+      "address": "0x951d2f7557d45f6e99ea016b00529AB8600D1f5E",
+      "creationTime": 1664126761457,
+      "updatedTime": [1664126761457]
+    },
+    "Deforex": {
+      "proxy": "",
+      "implementation": ["0x09897Bb730e5C89C78c5259D7682fDDdd981db34"],
+      "address": "0x09897Bb730e5C89C78c5259D7682fDDdd981db34",
+      "creationTime": 1664126763266,
+      "updatedTime": [1664126763266]
+    },
+    "Exchange": {
+      "proxy": "",
+      "implementation": ["0xE4E3c997ac9365dD32d81f76C296ea3B329B8344"],
+      "address": "0xE4E3c997ac9365dD32d81f76C296ea3B329B8344",
+      "creationTime": 1664126765374,
+      "updatedTime": [1664126765374]
+    },
+    "UniswapExchange": {
+      "proxy": "",
+      "implementation": ["0x73f7b25Ea321C79Dd8A60a6DbEb60Fe012B81DbC"],
+      "address": "0x73f7b25Ea321C79Dd8A60a6DbEb60Fe012B81DbC",
+      "creationTime": 1664126767068,
+      "updatedTime": [1664126767068]
     }
   }
 }

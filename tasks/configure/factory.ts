@@ -13,6 +13,9 @@ task("configure:factory").setAction(async function (
 
   const factoryDeployed = deployments[network].Factory;
   const uniswapExchange = deployments[network][deployNames.UNISWAP_EXCHANGE];
+  const daiDeployed = deployments[network].DAI;
+  const usdtDeployed = deployments[network].USDT;
+  const usdcDeployed = deployments[network].USDC;
 
   const factory = await hre.ethers.getContractAt(
     "Factory",
@@ -22,13 +25,8 @@ task("configure:factory").setAction(async function (
   // 0 - UNISWAP
   // 1 - 1INCH
 
-  // 0xdc31Ee1784292379Fbb2964b3B9C4124D8F89C60 - DAI
-  // 0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C - USDC
-
-  await factory.createAlp(
-    "0xdc31Ee1784292379Fbb2964b3B9C4124D8F89C60",
-    "0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C"
-  ); // DAI/USDC
+  await factory.createAlp(daiDeployed.address, usdtDeployed.address); // DAI/USDT
+  await factory.createAlp(daiDeployed.address, usdcDeployed.address); // DAI/USDC
 
   await await factory.registerExchange(0, uniswapExchange.address);
 });
