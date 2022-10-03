@@ -8,7 +8,60 @@ import { formatChange } from '../../utils/toSignificant';
 import addresses from '../../contracts/addresses';
 import { ConnectKitButton } from 'connectkit';
 
-const Positions = ({ positionList = []} : any) => {
+const Positions = ({address} : any) => {
+  const [ positionList, setPositionList ] = useState([])
+  const GET_POSITIONS =
+  gql`
+    query Positions {
+      positions (first: 30,
+        where: { trader: "${address}"}) {
+        id
+        timestamp
+        amount
+        leverage
+        tokenSell
+        trader
+        tokenBuy
+        status
+        amountOut
+      }
+    }
+  `
+  const { data: positions } = useQuery(GET_POSITIONS, {})
+
+  useEffect(() => {
+    if (positions?.positions?.length) {
+      let arr = positions?.positions?.map(position => {
+        const icons = [
+          {
+            icon: position?.tokenSell === addresses?.USDC?.address ? '/icons/iconsCurrency/USDC.svg' : position?.tokenSell === addresses?.USDT?.address ? '/icons/iconsCurrency/Tether.svg' :
+            '/icons/iconsCurrency/DAI.svg'},
+          {
+            icon: position?.tokenBuy === addresses?.USDC?.address ?'/icons/iconsCurrency/USDC.svg':
+            position?.tokenBuy === addresses?.USDT?.address ? '/icons/iconsCurrency/Tether.svg' :
+            '/icons/iconsCurrency/DAI.svg'}]
+        const firstName = position?.tokenSell === addresses?.USDC?.address ? 'USDC'
+        : position?.tokenSell === addresses?.USDT?.address ? 'USDt' : 'DAI'
+        const secondName = position?.tokenBuy === addresses?.USDC?.address ? 'USDC' :
+          position?.tokenBuy === addresses?.USDT?.address ? 'USDt' : 'DAI'
+        const entryRate = +formatChange(position?.amountOut) / (+formatChange(position?.amount) * position?.leverage)
+        return {
+          id: position?.id,
+          leverage: position?.leverage,
+          deposit: `${formatChange(position?.amount)} `,
+          icons: icons,
+          orderName: `${firstName}vs${secondName}`,
+          state: '15$ (15,25%)',
+          positionBuy: secondName,
+          positionSell: firstName,
+          amountAout: `${formatChange(position?.amountOut)} ${secondName}`,
+          entryRate: `${entryRate.toFixed(4)} ${secondName} for 1 ${firstName}`
+        }
+      })
+      setPositionList(arr)
+    }
+  }, [positions])
+
   return (
     <>
     <div className={styles.title}>
@@ -50,7 +103,68 @@ const Positions = ({ positionList = []} : any) => {
   )
 }
 
-const Staking = ({stakingList} : any) => {
+const Staking = ({address} : any) => {
+
+  const GET_STAKINGS =
+  gql`
+    query Positions {
+      balances (first: 10, where: { owner: "${address}"}) {
+        id
+        alp {
+          token0
+          token1
+        }
+        balance0
+        balance1
+        timestampUp
+      }
+    }
+  `
+const { data: balances } = useQuery(GET_STAKINGS, {})
+const [ stakingList, setStakingList ] = useState([])
+
+useEffect(() => {
+  if (balances?.balances?.length){
+
+    let arr = balances?.balances?.map(position => {
+      const icons = [
+        {
+          icon: position?.alp?.token0 === addresses?.USDC?.address ? '/icons/iconsCurrency/USDC.svg' : position?.alp?.token0 === addresses?.USDT?.address ? '/icons/iconsCurrency/Tether.svg' :
+          '/icons/iconsCurrency/DAI.svg'},
+        {
+          icon: position?.alp?.token1 === addresses?.USDC?.address ?'/icons/iconsCurrency/USDC.svg':
+          position?.alp?.token1 === addresses?.USDT?.address ? '/icons/iconsCurrency/Tether.svg' :
+          '/icons/iconsCurrency/DAI.svg'}
+      ]
+      const firstName = position?.alp.token0 === addresses?.USDC?.address ? 'USDC'
+      : position?.alp.token0 === addresses?.USDT?.address ? 'USDt' : 'DAI'
+      const secondName = position?.alp.token1 === addresses?.USDC?.address ? 'USDC' :
+      position?.alp.token1 === addresses?.USDT?.address ? 'USDt' : 'DAI'
+      const date = new Date(position?.timestampUp * 1000)
+      const hours = date.getHours();
+      const minutes = "0" + date.getMinutes();
+      const seconds = "0" + date.getSeconds();
+      const month = date?.getMonth() <= 9 ?   "0" + date?.getMonth() : date?.getMonth()
+      const year = date?.getFullYear()
+      const day = date?.getDay()  <= 9 ?   "0" + date?.getDay() : date?.getDay()
+      const formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+      const formatData =  day + " " + month + ' ' + year
+      console.log(year , 'date');
+      
+      return {
+        id: position?.id,
+        icons,
+        orderName: `${firstName} ${secondName}`,
+        deposit: `$${+formatChange((position?.balance0)) + +formatChange((position?.balance1))}`,
+        leverage: `${+formatChange((position?.balance0)) + +formatChange((position?.balance1))}`,
+        state: "APY 17,84%",
+        orderTime: `${formatData} ${formattedTime}`
+      }
+    })
+    setStakingList(arr)
+  }
+}, [balances])
+
   return (
     <>
     <div className={styles.title}>
@@ -146,120 +260,7 @@ const Tab = ({type, data} : {type: string, data: any}) => {
 }
 
 const DashboardContent = () => {
-  const { data: signer } = useSigner()
   const { address } = useAccount()
-  const GET_POSITIONS =  
-    gql`
-      query Positions {
-        positions (first: 30,
-          where: { trader: "${address}"}) {
-          id
-          timestamp
-          amount
-          leverage
-          tokenSell
-          trader
-          tokenBuy
-          status
-          amountOut
-        }
-      }
-    `
-  const GET_STAKINGS =
-    gql`
-      query Positions {
-        balances (first: 10, where: { owner: "${address}"}) {
-          id
-          alp {
-            token0
-            token1
-          }
-          balance0
-          balance1
-          timestampUp
-        }
-      }
-    `
-  const { data: positions } = useQuery(GET_POSITIONS, {})
-  const { data: balances } = useQuery(GET_STAKINGS, {})
-  const [ positionList, setPositionList ] = useState()
-  const [ stakingList, setStakingList ] = useState()
-
-  useEffect(() => {
-    if (positions?.positions?.length) {
-      let arr = positions?.positions?.map(position => {
-        const icons = [
-          {
-            icon: position?.tokenSell === addresses?.USDC?.address ? '/icons/iconsCurrency/USDC.svg' : position?.tokenSell === addresses?.USDT?.address ? '/icons/iconsCurrency/Tether.svg' :
-            '/icons/iconsCurrency/DAI.svg'},
-          {
-            icon: position?.tokenBuy === addresses?.USDC?.address ?'/icons/iconsCurrency/USDC.svg':
-            position?.tokenBuy === addresses?.USDT?.address ? '/icons/iconsCurrency/Tether.svg' :
-            '/icons/iconsCurrency/DAI.svg'}]
-        const firstName = position?.tokenSell === addresses?.USDC?.address ? 'USDC'
-        : position?.tokenSell === addresses?.USDT?.address ? 'USDt' : 'DAI'
-        const secondName = position?.tokenBuy === addresses?.USDC?.address ? 'USDC' :
-          position?.tokenBuy === addresses?.USDT?.address ? 'USDt' : 'DAI'
-        const entryRate = +formatChange(position?.amountOut) / (+formatChange(position?.amount) * position?.leverage)
-        return {
-          id: position?.id,
-          leverage: position?.leverage,
-          deposit: `${formatChange(position?.amount)} `,
-          icons: icons,
-          orderName: `${firstName}vs${secondName}`,
-          state: '15$ (15,25%)',
-          positionBuy: secondName,
-          positionSell: firstName,
-          amountAout: `${formatChange(position?.amountOut)} ${secondName}`,
-          entryRate: `${entryRate.toFixed(4)} ${secondName} for 1 ${firstName}`
-        }
-      })
-      setPositionList(arr)
-    }
-  }, [positions])
-
-  useEffect(() => {
-    if (balances?.balances?.length){
-
-      let arr = balances?.balances?.map(position => {
-        const icons = [
-          {
-            icon: position?.alp?.token0 === addresses?.USDC?.address ? '/icons/iconsCurrency/USDC.svg' : position?.alp?.token0 === addresses?.USDT?.address ? '/icons/iconsCurrency/Tether.svg' :
-            '/icons/iconsCurrency/DAI.svg'},
-          {
-            icon: position?.alp?.token1 === addresses?.USDC?.address ?'/icons/iconsCurrency/USDC.svg':
-            position?.alp?.token1 === addresses?.USDT?.address ? '/icons/iconsCurrency/Tether.svg' :
-            '/icons/iconsCurrency/DAI.svg'}
-        ]
-        const firstName = position?.alp.token0 === addresses?.USDC?.address ? 'USDC'
-        : position?.alp.token0 === addresses?.USDT?.address ? 'USDt' : 'DAI'
-        const secondName = position?.alp.token1 === addresses?.USDC?.address ? 'USDC' :
-        position?.alp.token1 === addresses?.USDT?.address ? 'USDt' : 'DAI'
-        const date = new Date(position?.timestampUp * 1000)
-        const hours = date.getHours();
-        const minutes = "0" + date.getMinutes();
-        const seconds = "0" + date.getSeconds();
-        const month = date?.getMonth() <= 9 ?   "0" + date?.getMonth() : date?.getMonth()
-        const year = date?.getFullYear()
-        const day = date?.getDay()  <= 9 ?   "0" + date?.getDay() : date?.getDay()
-        const formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
-        const formatData =  day + " " + month + ' ' + year
-        console.log(year , 'date');
-        
-        return {
-          id: position?.id,
-          icons,
-          orderName: `${firstName} ${secondName}`,
-          deposit: `$${+formatChange((position?.balance0)) + +formatChange((position?.balance1))}`,
-          leverage: `${+formatChange((position?.balance0)) + +formatChange((position?.balance1))}`,
-          state: "APY 17,84%",
-          orderTime: `${formatData} ${formattedTime}`
-        }
-      })
-      setStakingList(arr)
-    }
-  }, [balances])
-
   return (
     <div className={styles.dashboard}>
       <UserInfo />
@@ -267,10 +268,10 @@ const DashboardContent = () => {
         <Image src="/icons/chart2.svg" width={327} height={208} alt="chart" />
       </div>
       {
-        signer ?
+        address ?
         <>
-          <Positions positionList={positionList} />
-          <Staking stakingList={stakingList} />
+          <Positions address={address} />
+          <Staking address={address} />
         </> : <div className={styles.btn}><ConnectKitButton theme="midnight" showAvatar /></div>
       }
     </div>
