@@ -92,7 +92,7 @@ const executions = [
   }
 ]
 
-const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contract: any}) => {
+const Order = ({contract} : {contract: any}) => {
   const { query, push } = useRouter()
   const [ showMarket, setShowMarket ] = useState<ModelMarket>(markets[0])
   const [ showExecution, setShowExecution ] = useState(executions[0])

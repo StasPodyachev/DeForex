@@ -38,9 +38,8 @@ const trades = [
   },
 ]
 
-const Market = ({coin} : any) => {
+const Market = () => {
   const [ showMarket, setShowMarket ] = useState<ModelMarket>(markets[0])
-  const { push } = useRouter()
   return (
     <div className={styles.main}>
       <Select markets={markets} active={showMarket} setActive={setShowMarket} />
