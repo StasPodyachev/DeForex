@@ -6,13 +6,16 @@ import Tab from '../ui/Tab'
 import styles from './Order.module.css'
 import Select from '../ui/Select/Select'
 import Input from '../ui/Input/Input'
-import { useSigner, useContract, erc20ABI, useAccount } from 'wagmi'
+import { useSigner, useContract, erc20ABI, useAccount, usePrepareContractWrite } from 'wagmi'
 import addresses from '../../contracts/addresses'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { approve, approved, createPosition } from './utils'
 import Pool from './Pool'
 import { ConnectKitButton } from 'connectkit'
+
+import DEFOREX_ABI from '../../contracts/ABI/Deforex.sol/Deforex.json'
+import CreateDealBtn from './CreateDealBtn'
 
 const tabs = [
   {
@@ -114,7 +117,7 @@ const Order = ({contract} : {contract: any}) => {
   const [ potentialLoss, setPotentialLoss ] = useState(0)
   //
 
-  const { data: signer } = useSigner() 
+  const { data: signer } = useSigner()
   const { address } = useAccount()
   const contractERC20Dai = useContract({
     addressOrName: addresses?.DAI?.address,
@@ -132,6 +135,13 @@ const Order = ({contract} : {contract: any}) => {
     contractInterface: erc20ABI,
     signerOrProvider: signer
   })
+
+  const { config, error } = usePrepareContractWrite({
+    addressOrName: addresses?.deforex?.address,
+    contractInterface: DEFOREX_ABI.abi,
+    functionName: 'createPosition',
+  })
+
   
   const createOrder = () => {
     const amount = activeCurrency.title === "USDC" || activeCurrency.title === "USDT" ? +`${value}e6` : +`${value}e18`;
@@ -165,7 +175,6 @@ const Order = ({contract} : {contract: any}) => {
   useEffect(() => {
     const activeContract = activeCurrency?.title === 'DAI' ? contractERC20Dai  : activeCurrency?.title === "USDt" ? contractERC20USDT :  contractERC20USDC
     if (contract && address && signer && activeContract && activeCurrency) {
-      console.log(activeContract, 'activeContract');
       approved(activeContract, contract?.address, address).then((res) => {
         isSetApprove(res)
         console.log(res, 'res');
@@ -339,20 +348,27 @@ const Order = ({contract} : {contract: any}) => {
             markets={executions}
             active={showExecution}
             setActive={setShowExecution}/>
-          {
-            signer ?
+          
             <div className={styles.btn}>
+              {
+                signer && isApprove && contract && value?
+              <CreateDealBtn
+                contract={contract}
+                tokenBuy={showMarket?.currency?.find(currency => activeCurrency?.address !== currency.address).address}
+                tokenSell={activeCurrency?.address}
+                amount={activeCurrency.title === "USDC" || activeCurrency.title === "USDT" ? +`${value}e6` : +`${value}e18`}
+                title={"Open Position"}
+                abi={DEFOREX_ABI.abi}
+                leverage={checked.value} 
+                />
+              : !isApprove ?
               <Button onClick={() => {
-                isApprove ?
-                createOrder() : approve(activeCurrency?.title === 'DAI' ? contractERC20Dai :
+                approve(activeCurrency?.title === 'DAI' ? contractERC20Dai :
                 activeCurrency?.title === 'USDt' ? contractERC20USDT : contractERC20USDC , contract?.address, ethers?.constants?.MaxUint256)
               }} title={isApprove ? "Open Position" : "Approve token"} />
+              : <ConnectKitButton theme="midnight" showAvatar />
+            }
             </div>
-            : 
-            <div className={styles.btn}>
-              <ConnectKitButton theme="midnight" showAvatar />
-            </div>
-          }
         </div>
       :
       <Pool

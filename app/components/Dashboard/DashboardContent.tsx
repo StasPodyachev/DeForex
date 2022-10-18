@@ -261,6 +261,11 @@ const Tab = ({type, data} : {type: string, data: any}) => {
 
 const DashboardContent = () => {
   const { address } = useAccount()
+  const { data: signer } = useSigner()
+  useEffect(() => {
+    console.log(signer, 'address');
+  }, [signer])
+
   return (
     <div className={styles.dashboard}>
       <UserInfo />
@@ -268,7 +273,7 @@ const DashboardContent = () => {
         <Image src="/icons/chart2.svg" width={327} height={208} alt="chart" />
       </div>
       {
-        address ?
+        address && signer ?
         <>
           <Positions address={address} />
           <Staking address={address} />

@@ -4,7 +4,6 @@ import { useContract, useSigner } from 'wagmi'
 import addresses from '../../contracts/addresses';
 import DEFOREX_ABI from '../../contracts/ABI/Deforex.sol/Deforex.json'
 
-
 export default function OrderBook() {
   const { data: signer } = useSigner()
   const contract = useContract({
