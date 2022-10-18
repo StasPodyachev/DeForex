@@ -46,29 +46,29 @@ export const markets = [
       }
     ]
   },
-  {
-    id: 3,
-    title: 'USDt vs USDC at Uniswap v.3',
-    icons: [ {icon: '/icons/iconsCurrency/Tether.svg'}, {icon: '/icons/iconsCurrency/USDC.svg',} ],
-    orderName: 'USDtvsUSDC',
-    alpaddress: addresses.AlpDaiUsdt.address,
-    currency: [
-      {
-        id: 2,
-        title: 'USDT',
-        icon: '/icons/iconsCurrency/Tether.svg',
-        address: addresses.USDT.address,
-        rate: 0.9995
-      },
-      {
-        id: 1,
-        title: 'USDC',
-        icon: '/icons/iconsCurrency/USDC.svg',
-        address: addresses.USDC.address,
-        rate: 1.0005
-      }
-    ]
-  }
+  // {
+  //   id: 3,
+  //   title: 'USDt vs USDC at Uniswap v.3',
+  //   icons: [ {icon: '/icons/iconsCurrency/Tether.svg'}, {icon: '/icons/iconsCurrency/USDC.svg',} ],
+  //   orderName: 'USDtvsUSDC',
+  //   alpaddress: addresses.AlpDaiUsdt.address,
+  //   currency: [
+  //     {
+  //       id: 2,
+  //       title: 'USDT',
+  //       icon: '/icons/iconsCurrency/Tether.svg',
+  //       address: addresses.USDT.address,
+  //       rate: 0.9995
+  //     },
+  //     {
+  //       id: 1,
+  //       title: 'USDC',
+  //       icon: '/icons/iconsCurrency/USDC.svg',
+  //       address: addresses.USDC.address,
+  //       rate: 1.0005
+  //     }
+  //   ]
+  // }
 ]
 export interface ModelMarket {
   id: number

@@ -16,6 +16,7 @@ import { ConnectKitButton } from 'connectkit'
 
 import DEFOREX_ABI from '../../contracts/ABI/Deforex.sol/Deforex.json'
 import CreateDealBtn from './CreateDealBtn'
+import { useIsMounted } from '../../hooks/useIsMounted'
 
 const tabs = [
   {
@@ -109,6 +110,8 @@ const Order = ({contract} : {contract: any}) => {
   const [ valueInputPool, setValuePool ] = useState("10000")
   const [ showAdvanced, setShowAdvanced ] = useState(false)
 
+  const isMounted = useIsMounted();
+
   //
   const [ marginCall, setMarginCall ] = useState(markets[0]?.currency[0]?.rate * ( checked.value - 1) /  checked.value)
   const [ takeProfitRate, setTakeProfitRate ] = useState(markets[0]?.currency[0]?.rate * 1.007)
@@ -119,6 +122,7 @@ const Order = ({contract} : {contract: any}) => {
 
   const { data: signer } = useSigner()
   const { address } = useAccount()
+
   const contractERC20Dai = useContract({
     addressOrName: addresses?.DAI?.address,
     contractInterface: erc20ABI,
@@ -134,21 +138,13 @@ const Order = ({contract} : {contract: any}) => {
     addressOrName: addresses?.USDT?.address,
     contractInterface: erc20ABI,
     signerOrProvider: signer
-  })
-
-  const { config, error } = usePrepareContractWrite({
-    addressOrName: addresses?.deforex?.address,
-    contractInterface: DEFOREX_ABI.abi,
-    functionName: 'createPosition',
-  })
-
-  
-  const createOrder = () => {
-    const amount = activeCurrency.title === "USDC" || activeCurrency.title === "USDT" ? +`${value}e6` : +`${value}e18`;
-    const tokenSell = activeCurrency?.address
-    const tokenBuy = showMarket?.currency?.find(currency => activeCurrency?.address !== currency.address).address
-    createPosition(contract, tokenSell, tokenBuy, amount, checked.value , 0).then((res) => push("/dashboard"))
-  }
+  })  
+  // const createOrder = () => {
+  //   const amount = activeCurrency.title === "USDC" || activeCurrency.title === "USDT" ? +`${value}e6` : +`${value}e18`;
+  //   const tokenSell = activeCurrency?.address
+  //   const tokenBuy = showMarket?.currency?.find(currency => activeCurrency?.address !== currency.address).address
+  //   createPosition(contract, tokenSell, tokenBuy, amount, checked.value , 0).then((res) => push("/dashboard"))
+  // }
 
   useEffect(() => {
     if(value) {
@@ -175,12 +171,18 @@ const Order = ({contract} : {contract: any}) => {
   useEffect(() => {
     const activeContract = activeCurrency?.title === 'DAI' ? contractERC20Dai  : activeCurrency?.title === "USDt" ? contractERC20USDT :  contractERC20USDC
     if (contract && address && signer && activeContract && activeCurrency) {
-      approved(activeContract, contract?.address, address).then((res) => {
+      approved(contractERC20Dai, contract?.address, address).then((res) => {
         isSetApprove(res)
-        console.log(res, 'res');
-      }) } else {
+        // console.log(res, 'contractERC20USDT');
+        
+      })
+      approved(contractERC20USDT, contract?.address, address).then((res) => {
+        isSetApprove(res)
+        // console.log(res, 'contractERC20USDT');
+      })
     }
   }, [address, signer, activeCurrency, contract])
+
 
   useEffect(() => {
     setActiveCurrencySecond(showMarket?.currency?.find(cur => cur.id !== activeCurrency.id))
@@ -351,16 +353,16 @@ const Order = ({contract} : {contract: any}) => {
           
             <div className={styles.btn}>
               {
-                signer && isApprove && contract && value?
-              <CreateDealBtn
-                contract={contract}
-                tokenBuy={showMarket?.currency?.find(currency => activeCurrency?.address !== currency.address).address}
-                tokenSell={activeCurrency?.address}
-                amount={activeCurrency.title === "USDC" || activeCurrency.title === "USDT" ? +`${value}e6` : +`${value}e18`}
-                title={"Open Position"}
-                abi={DEFOREX_ABI.abi}
-                leverage={checked.value} 
-                />
+                signer && isApprove && contract && value && isMounted?
+                <CreateDealBtn
+                  contract={contract}
+                  tokenBuy={showMarket?.currency?.find(currency => activeCurrency?.address !== currency.address).address}
+                  tokenSell={activeCurrency?.address}
+                  amount={activeCurrency.title === "USDC" || activeCurrency.title === "USDT" ? +`${value}e6` : +`${value}e18`}
+                  title={"Open Position"}
+                  abi={DEFOREX_ABI.abi}
+                  leverage={checked.value} 
+                  />
               : !isApprove ?
               <Button onClick={() => {
                 approve(activeCurrency?.title === 'DAI' ? contractERC20Dai :

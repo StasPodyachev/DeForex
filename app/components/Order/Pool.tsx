@@ -16,14 +16,10 @@ const Pool = ({
   address,
   signer,
   contractERC20Dai, contractERC20USDC, contractERC20USDT} : any) => {
-    const { push } = useRouter()
+  const { push } = useRouter()
   const [ isApproveDAI, isSetApproveDAI ] = useState(false)
   const [ isApproveUSDC, isSetApproveUSDC ] = useState(false)
   const [ isApproveUSDT, isSetApproveUSDT ] = useState(false)
-
-  useEffect(() => {
-    console.log('provider', signer)
-  }, [signer])
 
   const contract = useContract({
     addressOrName: showMarket?.alpaddress,
