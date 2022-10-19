@@ -31,3 +31,8 @@ a {
 input:disabled {
   color: #fff !important;
 }
+
+.primary {
+  background-color: #1C1924 !important;
+  border: none;
+}

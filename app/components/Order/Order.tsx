@@ -6,13 +6,17 @@ import Tab from '../ui/Tab'
 import styles from './Order.module.css'
 import Select from '../ui/Select/Select'
 import Input from '../ui/Input/Input'
-import { useSigner, useContract, erc20ABI, useAccount } from 'wagmi'
+import { useSigner, useContract, erc20ABI, useAccount, usePrepareContractWrite } from 'wagmi'
 import addresses from '../../contracts/addresses'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { approve, approved, createPosition } from './utils'
 import Pool from './Pool'
-import ConnectWallet from '../Header/ConnectWallet'
+import { ConnectKitButton } from 'connectkit'
+
+import DEFOREX_ABI from '../../contracts/ABI/Deforex.sol/Deforex.json'
+import CreateDealBtn from './CreateDealBtn'
+import { useIsMounted } from '../../hooks/useIsMounted'
 
 const tabs = [
   {
@@ -92,7 +96,7 @@ const executions = [
   }
 ]
 
-const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contract: any}) => {
+const Order = ({contract} : {contract: any}) => {
   const { query, push } = useRouter()
   const [ showMarket, setShowMarket ] = useState<ModelMarket>(markets[0])
   const [ showExecution, setShowExecution ] = useState(executions[0])
@@ -106,6 +110,8 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
   const [ valueInputPool, setValuePool ] = useState("10000")
   const [ showAdvanced, setShowAdvanced ] = useState(false)
 
+  const isMounted = useIsMounted();
+
   //
   const [ marginCall, setMarginCall ] = useState(markets[0]?.currency[0]?.rate * ( checked.value - 1) /  checked.value)
   const [ takeProfitRate, setTakeProfitRate ] = useState(markets[0]?.currency[0]?.rate * 1.007)
@@ -114,8 +120,9 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
   const [ potentialLoss, setPotentialLoss ] = useState(0)
   //
 
-  const { data: signer } = useSigner() 
+  const { data: signer } = useSigner()
   const { address } = useAccount()
+
   const contractERC20Dai = useContract({
     addressOrName: addresses?.DAI?.address,
     contractInterface: erc20ABI,
@@ -131,14 +138,13 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
     addressOrName: addresses?.USDT?.address,
     contractInterface: erc20ABI,
     signerOrProvider: signer
-  })
-  
-  const createOrder = () => {
-    const amount = activeCurrency.title === "USDC" || activeCurrency.title === "USDT" ? +`${value}e6` : +`${value}e18`;
-    const tokenSell = activeCurrency?.address
-    const tokenBuy = showMarket?.currency?.find(currency => activeCurrency?.address !== currency.address).address
-    createPosition(contract, tokenSell, tokenBuy, amount, checked.value , 0).then((res) => push("/dashboard"))
-  }
+  })  
+  // const createOrder = () => {
+  //   const amount = activeCurrency.title === "USDC" || activeCurrency.title === "USDT" ? +`${value}e6` : +`${value}e18`;
+  //   const tokenSell = activeCurrency?.address
+  //   const tokenBuy = showMarket?.currency?.find(currency => activeCurrency?.address !== currency.address).address
+  //   createPosition(contract, tokenSell, tokenBuy, amount, checked.value , 0).then((res) => push("/dashboard"))
+  // }
 
   useEffect(() => {
     if(value) {
@@ -165,13 +171,18 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
   useEffect(() => {
     const activeContract = activeCurrency?.title === 'DAI' ? contractERC20Dai  : activeCurrency?.title === "USDt" ? contractERC20USDT :  contractERC20USDC
     if (contract && address && signer && activeContract && activeCurrency) {
-      console.log(activeContract, 'activeContract');
-      approved(activeContract, contract?.address, address).then((res) => {
+      approved(contractERC20Dai, contract?.address, address).then((res) => {
         isSetApprove(res)
-        console.log(res, 'res');
-      }) } else {
+        // console.log(res, 'contractERC20USDT');
+        
+      })
+      approved(contractERC20USDT, contract?.address, address).then((res) => {
+        isSetApprove(res)
+        // console.log(res, 'contractERC20USDT');
+      })
     }
   }, [address, signer, activeCurrency, contract])
+
 
   useEffect(() => {
     setActiveCurrencySecond(showMarket?.currency?.find(cur => cur.id !== activeCurrency.id))
@@ -339,20 +350,27 @@ const Order = ({order, coin, contract} : {order : OrderModel, coin: any, contrac
             markets={executions}
             active={showExecution}
             setActive={setShowExecution}/>
-          {
-            signer ?
+          
             <div className={styles.btn}>
+              {
+                signer && isApprove && contract && value && isMounted?
+                <CreateDealBtn
+                  contract={contract}
+                  tokenBuy={showMarket?.currency?.find(currency => activeCurrency?.address !== currency.address).address}
+                  tokenSell={activeCurrency?.address}
+                  amount={activeCurrency.title === "USDC" || activeCurrency.title === "USDT" ? +`${value}e6` : +`${value}e18`}
+                  title={"Open Position"}
+                  abi={DEFOREX_ABI.abi}
+                  leverage={checked.value} 
+                  />
+              : !isApprove ?
               <Button onClick={() => {
-                isApprove ?
-                createOrder() : approve(activeCurrency?.title === 'DAI' ? contractERC20Dai :
+                approve(activeCurrency?.title === 'DAI' ? contractERC20Dai :
                 activeCurrency?.title === 'USDt' ? contractERC20USDT : contractERC20USDC , contract?.address, ethers?.constants?.MaxUint256)
               }} title={isApprove ? "Open Position" : "Approve token"} />
+              : <ConnectKitButton theme="midnight" showAvatar />
+            }
             </div>
-            : 
-            <div className={styles.btn}>
-              <ConnectWallet />
-            </div>
-          }
         </div>
       :
       <Pool

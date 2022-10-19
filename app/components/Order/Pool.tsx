@@ -6,8 +6,8 @@ import { approve, approved, deposit } from './utils'
 import { useContract } from 'wagmi'
 import ALP_ABI from '../../contracts/ABI/ALP.sol/ALP.json'
 import { ethers } from 'ethers'
-import ConnectWallet from '../Header/ConnectWallet'
 import { useRouter } from 'next/router'
+import { ConnectKitButton } from 'connectkit'
 
 const Pool = ({
   showMarket,
@@ -16,14 +16,10 @@ const Pool = ({
   address,
   signer,
   contractERC20Dai, contractERC20USDC, contractERC20USDT} : any) => {
-    const { push } = useRouter()
+  const { push } = useRouter()
   const [ isApproveDAI, isSetApproveDAI ] = useState(false)
   const [ isApproveUSDC, isSetApproveUSDC ] = useState(false)
   const [ isApproveUSDT, isSetApproveUSDT ] = useState(false)
-
-  useEffect(() => {
-    console.log('provider', signer)
-  }, [signer])
 
   const contract = useContract({
     addressOrName: showMarket?.alpaddress,
@@ -103,7 +99,7 @@ const Pool = ({
               </div>
             </> : 
             <div className={styles.btn}>
-              <ConnectWallet />
+              <ConnectKitButton theme="midnight" showAvatar />
             </div>
         }
       </div>

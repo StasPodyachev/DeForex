@@ -1,0 +1,25 @@
+.btn, .btnDisable {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  background: linear-gradient(74.31deg, #59FFAF 0%, #9E4EFF 80.73%);
+  border-radius: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all .3s;
+  max-width: 380px;
+  min-width: 320px;
+}
+
+.btn:hover {
+  background: #8C36E7;
+}
+
+.btnDisable {
+  background: linear-gradient(74.31deg, #D8D8D8 0%, #626263 80.73%);
+}
