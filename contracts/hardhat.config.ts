@@ -35,9 +35,9 @@ const config = {
         interval: 100,
       },
     },
-    "optimistic-kovan": {
-      url: `https://opt-kovan.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`,
-      chainId: 69,
+    "optimism-goerli": {
+      url: `https://opt-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`,
+      chainId: 420,
       accounts: [process.env.DEPLOY_PRIVATE_KEY],
     },
     mumbai: {
@@ -47,7 +47,8 @@ const config = {
     },
   },
   abiExporter: {
-    path: "build/contracts",
+    path: "./data/abi",
+    runOnCompile: true,
     clear: false,
     flat: true,
     // only: [],
@@ -82,8 +83,8 @@ const config = {
   etherscan: {
     apiKey: {
       optimisticEthereum: process.env.OPTIMISTIC_ETHERSCAN_API_KEY,
-      polygonMumbai: process.env.POLYGON_ETHERSCAN_API_KEY
-    }
+      polygonMumbai: process.env.POLYGON_ETHERSCAN_API_KEY,
+    },
   },
   typechain: {
     outDir: "typechain",

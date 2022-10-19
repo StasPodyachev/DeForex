@@ -1,14 +1,8 @@
 {
   "5": {
-    "DAI": {
-      "address": "0xB46f7E79bb2D6EAc6e8A3Da79C9b8B39354d3dc3"
-    },
-    "USDT": {
-      "address": "0x7faA25680E8650964026c1Cf606900E4B85c4423"
-    },
-    "USDC": {
-      "address": "0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C"
-    },
+    "DAI": { "address": "0xB46f7E79bb2D6EAc6e8A3Da79C9b8B39354d3dc3" },
+    "USDT": { "address": "0x7faA25680E8650964026c1Cf606900E4B85c4423" },
+    "USDC": { "address": "0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C" },
     "Factory": {
       "proxy": "",
       "implementation": ["0x5FC8e400ac068d0550ac1952C700660a32089982"],
@@ -45,16 +39,42 @@
       "updatedTime": [1663686750649]
     }
   },
+  "420": {
+    "DAI": { "address": "0xcBeCd16aeE9819fdf9b8e4b823C6e98A43e4c76D" },
+    "USDT": { "address": "0x3F5a8c43E3700c628F951cedc4f9054882E86BE6" },
+    "Factory": {
+      "proxy": "",
+      "implementation": ["0xF299d6F8d597C8E0a4110181755F168cDd2F6961"],
+      "address": "0xF299d6F8d597C8E0a4110181755F168cDd2F6961",
+      "creationTime": 1666090270624,
+      "updatedTime": [1666090270624]
+    },
+    "Deforex": {
+      "proxy": "",
+      "implementation": ["0xFdf38d316D34a9B0e0420C20d3826DFC29B9745c"],
+      "address": "0xFdf38d316D34a9B0e0420C20d3826DFC29B9745c",
+      "creationTime": 1666090277002,
+      "updatedTime": [1666090277002]
+    },
+    "Exchange": {
+      "proxy": "",
+      "implementation": ["0x6E7d3321BFE7ca92a82A314E33153e7edB4B8a16"],
+      "address": "0x6E7d3321BFE7ca92a82A314E33153e7edB4B8a16",
+      "creationTime": 1666090278824,
+      "updatedTime": [1666090278824]
+    },
+    "UniswapExchange": {
+      "proxy": "",
+      "implementation": ["0x23b7909B2526c60126CF970c5ff2A6CcC7E70a99"],
+      "address": "0x23b7909B2526c60126CF970c5ff2A6CcC7E70a99",
+      "creationTime": 1666090280161,
+      "updatedTime": [1666090280161]
+    }
+  },
   "80001": {
-    "DAI": {
-      "address": "0xF6fEd63aAF618d25050e5E3d3B4c525ab2154554"
-    },
-    "USDT": {
-      "address": "0x60965aB564AD3D6069577027DB5d1a43e5AD06a6"
-    },
-    "USDC": {
-      "address": "0x2D7eB0e8802d3a530E298a1f94ce176ad6B3Ab43"
-    },
+    "DAI": { "address": "0xF6fEd63aAF618d25050e5E3d3B4c525ab2154554" },
+    "USDT": { "address": "0x60965aB564AD3D6069577027DB5d1a43e5AD06a6" },
+    "USDC": { "address": "0x2D7eB0e8802d3a530E298a1f94ce176ad6B3Ab43" },
     "Factory": {
       "proxy": "",
       "implementation": ["0x951d2f7557d45f6e99ea016b00529AB8600D1f5E"],

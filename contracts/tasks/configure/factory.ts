@@ -25,8 +25,8 @@ task("configure:factory").setAction(async function (
   // 0 - UNISWAP
   // 1 - 1INCH
 
-  await factory.createAlp(daiDeployed.address, usdtDeployed.address); // DAI/USDT
-  await factory.createAlp(daiDeployed.address, usdcDeployed.address); // DAI/USDC
+  // await factory.createAlp(daiDeployed.address, usdtDeployed.address); // DAI/USDT
+  // await factory.createAlp(daiDeployed.address, usdcDeployed.address); // DAI/USDC
 
-  await await factory.registerExchange(0, uniswapExchange.address);
+  await factory.registerExchange(0, uniswapExchange.address);
 });
