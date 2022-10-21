@@ -3,6 +3,7 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 import deployment from "../deployment/deployments.json";
 // import { BridgeUpgradeable } from "../typechain";
 import { BigNumber } from "ethers";
+import fs from "fs";
 
 const deployments: IDeployment = deployment;
 export interface IDeployment {
@@ -28,11 +29,11 @@ export interface BridgeConfig {
 
 export async function recordAllDeployments(
   network: string,
-  contractname: string,
+  contractName: string,
   proxyAddr: string,
   implementationAddr: string
 ) {
-  deployments[network][contractname] = {
+  deployments[network][contractName] = {
     proxy: proxyAddr,
     implementation: [implementationAddr],
     address: implementationAddr,
@@ -41,6 +42,28 @@ export async function recordAllDeployments(
   };
 
   return deployments;
+}
+
+export async function writeFile(path: string, data: any) {
+  fs.writeFileSync(path, JSON.stringify(data));
+}
+
+export async function writeDeployData(
+  network: string,
+  contractName: string,
+  address: string,
+  proxy: string = ""
+): Promise<IDeployment> {
+  const writeData = await recordAllDeployments(
+    network,
+    contractName,
+    proxy,
+    address
+  );
+
+  fs.writeFileSync("./deployment/deployments.json", JSON.stringify(writeData));
+
+  return writeData;
 }
 
 // export async function verify(
