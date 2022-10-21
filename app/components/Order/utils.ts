@@ -5,10 +5,7 @@ export const approve  = async (contractAprove, contract, MaxUint256 : any) => {
 }
 
 export const approved  = async (contractAprove, addressWallet, contract : any) => {
-  // console.log(contractAprove, addressWallet, contract);
-  
   return await contractAprove?.allowance(contract, addressWallet).then((res) => {
-      console.log(res, 'res');
     return res._hex !== "0x00" ? true : false
   })
 }
@@ -21,7 +18,6 @@ export const createPosition = async (contract, tokenSell,tokenBuy, amount, lever
 
 export const deposit = async ( contract, amount1, amount2: any) => {
   await contract?.deposit(amount1, amount2).then((res) => {
-    // console.log(res, 'deposit');
     return res
   })
 }

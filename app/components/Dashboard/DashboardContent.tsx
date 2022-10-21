@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import { gql, useQuery } from '@apollo/client'
 import styles from './DashboardContent.module.css'
 import UserInfo from './UserInfo'
-import { useAccount, useSigner } from 'wagmi';
+import { useAccount, useProvider, useSigner } from 'wagmi';
 import { formatChange } from '../../utils/toSignificant';
 import addresses from '../../contracts/addresses';
 import { ConnectKitButton } from 'connectkit';
 
-const Positions = ({address} : any) => {
+const Positions = ({address, addressesNetwork} : any) => {
   const [ positionList, setPositionList ] = useState([])
   const GET_POSITIONS =
   gql`
@@ -34,16 +34,16 @@ const Positions = ({address} : any) => {
       let arr = positions?.positions?.map(position => {
         const icons = [
           {
-            icon: position?.tokenSell === addresses?.USDC?.address ? '/icons/iconsCurrency/USDC.svg' : position?.tokenSell === addresses?.USDT?.address ? '/icons/iconsCurrency/Tether.svg' :
+            icon: position?.tokenSell === addressesNetwork?.USDC?.address ? '/icons/iconsCurrency/USDC.svg' : position?.tokenSell === addressesNetwork?.USDT?.address ? '/icons/iconsCurrency/Tether.svg' :
             '/icons/iconsCurrency/DAI.svg'},
           {
-            icon: position?.tokenBuy === addresses?.USDC?.address ?'/icons/iconsCurrency/USDC.svg':
-            position?.tokenBuy === addresses?.USDT?.address ? '/icons/iconsCurrency/Tether.svg' :
+            icon: position?.tokenBuy === addressesNetwork?.USDC?.address ?'/icons/iconsCurrency/USDC.svg':
+            position?.tokenBuy === addressesNetwork?.USDT?.address ? '/icons/iconsCurrency/Tether.svg' :
             '/icons/iconsCurrency/DAI.svg'}]
-        const firstName = position?.tokenSell === addresses?.USDC?.address ? 'USDC'
-        : position?.tokenSell === addresses?.USDT?.address ? 'USDt' : 'DAI'
-        const secondName = position?.tokenBuy === addresses?.USDC?.address ? 'USDC' :
-          position?.tokenBuy === addresses?.USDT?.address ? 'USDt' : 'DAI'
+        const firstName = position?.tokenSell === addressesNetwork?.USDC?.address ? 'USDC'
+        : position?.tokenSell === addressesNetwork?.USDT?.address ? 'USDt' : 'DAI'
+        const secondName = position?.tokenBuy === addressesNetwork?.USDC?.address ? 'USDC' :
+          position?.tokenBuy === addressesNetwork?.USDT?.address ? 'USDt' : 'DAI'
         const entryRate = +formatChange(position?.amountOut) / (+formatChange(position?.amount) * position?.leverage)
         return {
           id: position?.id,
@@ -103,7 +103,7 @@ const Positions = ({address} : any) => {
   )
 }
 
-const Staking = ({address} : any) => {
+const Staking = ({address, addressesNetwork} : any) => {
 
   const GET_STAKINGS =
   gql`
@@ -129,17 +129,17 @@ useEffect(() => {
     let arr = balances?.balances?.map(position => {
       const icons = [
         {
-          icon: position?.alp?.token0 === addresses?.USDC?.address ? '/icons/iconsCurrency/USDC.svg' : position?.alp?.token0 === addresses?.USDT?.address ? '/icons/iconsCurrency/Tether.svg' :
+          icon: position?.alp?.token0 === addressesNetwork?.USDC?.address ? '/icons/iconsCurrency/USDC.svg' : position?.alp?.token0 === addressesNetwork?.USDT?.address ? '/icons/iconsCurrency/Tether.svg' :
           '/icons/iconsCurrency/DAI.svg'},
         {
-          icon: position?.alp?.token1 === addresses?.USDC?.address ?'/icons/iconsCurrency/USDC.svg':
-          position?.alp?.token1 === addresses?.USDT?.address ? '/icons/iconsCurrency/Tether.svg' :
+          icon: position?.alp?.token1 === addressesNetwork?.USDC?.address ?'/icons/iconsCurrency/USDC.svg':
+          position?.alp?.token1 === addressesNetwork?.USDT?.address ? '/icons/iconsCurrency/Tether.svg' :
           '/icons/iconsCurrency/DAI.svg'}
       ]
-      const firstName = position?.alp.token0 === addresses?.USDC?.address ? 'USDC'
-      : position?.alp.token0 === addresses?.USDT?.address ? 'USDt' : 'DAI'
-      const secondName = position?.alp.token1 === addresses?.USDC?.address ? 'USDC' :
-      position?.alp.token1 === addresses?.USDT?.address ? 'USDt' : 'DAI'
+      const firstName = position?.alp.token0 === addressesNetwork?.USDC?.address ? 'USDC'
+      : position?.alp.token0 === addressesNetwork?.USDT?.address ? 'USDt' : 'DAI'
+      const secondName = position?.alp.token1 === addressesNetwork?.USDC?.address ? 'USDC' :
+      position?.alp.token1 === addressesNetwork?.USDT?.address ? 'USDt' : 'DAI'
       const date = new Date(position?.timestampUp * 1000)
       const hours = date.getHours();
       const minutes = "0" + date.getMinutes();
@@ -149,7 +149,6 @@ useEffect(() => {
       const day = date?.getDay()  <= 9 ?   "0" + date?.getDay() : date?.getDay()
       const formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
       const formatData =  day + " " + month + ' ' + year
-      console.log(year , 'date');
       
       return {
         id: position?.id,
@@ -259,13 +258,9 @@ const Tab = ({type, data} : {type: string, data: any}) => {
   )
 }
 
-const DashboardContent = () => {
+const DashboardContent = ({networkId}) => {
   const { address } = useAccount()
   const { data: signer } = useSigner()
-  useEffect(() => {
-    console.log(signer, 'address');
-  }, [signer])
-
   return (
     <div className={styles.dashboard}>
       <UserInfo />
@@ -275,8 +270,8 @@ const DashboardContent = () => {
       {
         address && signer ?
         <>
-          <Positions address={address} />
-          <Staking address={address} />
+          <Positions addressesNetwork={addresses?.find(item => item.id !== networkId)} address={address} />
+          <Staking addressesNetwork={addresses?.find(item => item.id !== networkId)} address={address} />
         </> : <div className={styles.btn}><ConnectKitButton theme="midnight" showAvatar /></div>
       }
     </div>

@@ -5,7 +5,6 @@ import { BIG_1E18 } from "./misc";
 import BigDecimal from "decimal.js-light";
 import { useRouter } from "next/router";
 
-
 const CreateDealBtn = ({
   title,
   contract,
@@ -24,24 +23,19 @@ const CreateDealBtn = ({
     addressOrName: contract.address,
     contractInterface: abi,
     functionName: "createPosition",
-    args: [tokenSell ,tokenBuy, newCount, leverage, slippage],
-    onError(error) {
-      // console.log("Error", error);
-    },
+    args: [tokenSell,tokenBuy, amount, leverage, slippage],
   });
 
-  // useEffect(() => {
-  //   console.log(contract.address, 'address')
-  // }, [])
-
   const { write: create, isLoading, isSuccess } = useContractWrite(config);
+  useEffect(() => {
+    console.log(
+      tokenBuy, 'tokenBuy');
+  }, [create])
   if (isSuccess) {
     push('/dashboard')
   }
   return (
-    <div onClick={() => {
-      create && create?.()
-    }} className={styles.btn}>
+    <div onClick={() => {create?.()}} className={styles.btn}>
       {title}
     </div>
   );
