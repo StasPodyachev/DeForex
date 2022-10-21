@@ -7,14 +7,14 @@ const contracts = [
     name: "factory",
     contractName: "Factory",
   },
-  {
-    name: "deforex",
-    contractName: "Deforex",
-  },
-  {
-    name: "exchange",
-    contractName: "Exchange",
-  },
+  // {
+  //   name: "deforex",
+  //   contractName: "Deforex",
+  // },
+  // {
+  //   name: "exchange",
+  //   contractName: "Exchange",
+  // },
 ];
 
 task("configure:all").setAction(async function (
@@ -28,7 +28,7 @@ task("configure:all").setAction(async function (
 
     await hre.run(`configure:${contract.name}`);
 
-    console.log(`${contract.contractName} deployed success`);
+    console.log(`${contract.contractName} configure success`);
     console.log("-------------------------------------------");
 
     /*****************************************************************/

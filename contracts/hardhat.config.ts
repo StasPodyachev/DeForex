@@ -84,6 +84,7 @@ const config = {
     apiKey: {
       optimisticEthereum: process.env.OPTIMISTIC_ETHERSCAN_API_KEY,
       polygonMumbai: process.env.POLYGON_ETHERSCAN_API_KEY,
+      optimisticGoerli: process.env.OPTIMISTIC_ETHERSCAN_API_KEY,
     },
   },
   typechain: {

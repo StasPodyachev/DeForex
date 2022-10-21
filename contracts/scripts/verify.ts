@@ -19,7 +19,7 @@ const contracts = [
   },
   {
     contractName: "UniswapExchange",
-    args: ["0xE592427A0AEce92De3Edee1F18E0157C05861564"],
+    args: ["0x8DB3b09D50CA3E303A06d993A210ab61eB9f6Ea3"],
   },
   {
     contractName: "ALP",
@@ -45,5 +45,5 @@ main()
   .then(() => process.exit(0))
   .catch((error) => {
     console.error(error);
-    process.exitCode = 1;
+    process.exit(1);
   });

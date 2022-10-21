@@ -3,15 +3,15 @@ import { TaskArguments } from "hardhat/types";
 import { deployNames } from "./constants";
 
 const contracts = [
-  {
-    contractName: "Factory",
-  },
-  {
-    contractName: "Deforex",
-  },
-  {
-    contractName: "Exchange",
-  },
+  // {
+  //   contractName: "Factory",
+  // },
+  // {
+  //   contractName: "Deforex",
+  // },
+  // {
+  //   contractName: "Exchange",
+  // },
   {
     contractName: "UniswapExchange",
     args: ["0x8DB3b09D50CA3E303A06d993A210ab61eB9f6Ea3"],

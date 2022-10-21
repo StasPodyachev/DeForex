@@ -4,22 +4,23 @@ pragma abicoder v2;
 
 import "./Exchange.sol";
 import "@uniswap/lib/contracts/libraries/TransferHelper.sol";
-import "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
+import "./interfaces/ISwapRouter02.sol";
+// import "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
 
 contract UniswapExchange is
     Exchange
 {
-    ISwapRouter public immutable _swapRouter;
+    ISwapRouter02 public immutable _swapRouter;
 
-    uint24 public constant POOL_FEE = 3000;
+    uint24 public constant POOL_FEE = 500;
 
-    constructor(ISwapRouter swapRouter) {
+    constructor(ISwapRouter02 swapRouter) {
         _swapRouter = swapRouter;
     }
 
     function swap(IExchange.SwapParams memory params) override external returns (uint256 amountIn, uint256 amountOut) {
         amountIn = 0;
-        amountOut = swapExactOutputMultihop(params.amountIn, params.tokenIn, params.path);
+        amountOut = swapExactInputSingle(params.amountIn, 0, params.tokenIn, params.tokenOut);
 
         // Return result tokens to Deforex after swap
 
@@ -51,13 +52,12 @@ contract UniswapExchange is
     {
         safeTransferWithApprove(amountIn, address(_swapRouter), tokenIn);
 
-        ISwapRouter.ExactInputSingleParams memory params = ISwapRouter
+        ISwapRouter02.ExactInputSingleParams memory params = ISwapRouter02
             .ExactInputSingleParams({
                 tokenIn: tokenIn,
                 tokenOut: tokenOut,
                 fee: POOL_FEE,
                 recipient: msg.sender,
-                deadline: block.timestamp,
                 amountIn: amountIn,
                 amountOutMinimum: amountOutMinimum,
                 sqrtPriceLimitX96: 0
@@ -74,13 +74,12 @@ contract UniswapExchange is
         // In production, you should choose the maximum amount to spend based on oracles or other data sources to acheive a better swap.
         TransferHelper.safeApprove(tokenIn, address(_swapRouter), amountInMaximum);
 
-        ISwapRouter.ExactOutputSingleParams memory params =
-            ISwapRouter.ExactOutputSingleParams({
+        ISwapRouter02.ExactOutputSingleParams memory params =
+            ISwapRouter02.ExactOutputSingleParams({
                 tokenIn: tokenIn,
                 tokenOut: tokenOut,
                 fee: POOL_FEE,
                 recipient: msg.sender,
-                deadline: block.timestamp,
                 amountOut: amountOut,
                 amountInMaximum: amountInMaximum,
                 sqrtPriceLimitX96: 0
@@ -102,11 +101,10 @@ contract UniswapExchange is
         
         safeTransferWithApprove(amountIn, address(_swapRouter), tokenIn);
 
-        ISwapRouter.ExactInputParams memory params =
-            ISwapRouter.ExactInputParams({
+        ISwapRouter02.ExactInputParams memory params =
+            ISwapRouter02.ExactInputParams({
                 path: path,
                 recipient: msg.sender,
-                deadline: block.timestamp,
                 amountIn: amountIn,
                 amountOutMinimum: 0
             });

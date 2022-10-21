@@ -30,18 +30,12 @@
       "address": "0xe8e9AD50ECCc956b7bC6f7fbC92C886035cf4c76",
       "creationTime": 1663747791658,
       "updatedTime": [1663747791658]
-    },
-    "ALP": {
-      "proxy": "",
-      "implementation": ["0xf300a6ab5eea16bf09ca649c56da75e278062c8f"],
-      "address": "0xf300a6ab5eea16bf09ca649c56da75e278062c8f",
-      "creationTime": 1663686750649,
-      "updatedTime": [1663686750649]
     }
   },
   "420": {
-    "DAI": { "address": "0xcBeCd16aeE9819fdf9b8e4b823C6e98A43e4c76D" },
+    "DAI": { "address": "0x312C1C8F5BC23f08331B1486Da723dd1B80F9040" },
     "USDT": { "address": "0x3F5a8c43E3700c628F951cedc4f9054882E86BE6" },
+    "USDC": { "address": "0xEA2aa731c7493BeC9DfB3663E6A9888269d269bF" },
     "Factory": {
       "proxy": "",
       "implementation": ["0xF299d6F8d597C8E0a4110181755F168cDd2F6961"],
@@ -65,10 +59,17 @@
     },
     "UniswapExchange": {
       "proxy": "",
-      "implementation": ["0x23b7909B2526c60126CF970c5ff2A6CcC7E70a99"],
-      "address": "0x23b7909B2526c60126CF970c5ff2A6CcC7E70a99",
-      "creationTime": 1666090280161,
-      "updatedTime": [1666090280161]
+      "implementation": ["0xDF979a1c72CD4985b3b2A7844c0496f5e8386292"],
+      "address": "0xDF979a1c72CD4985b3b2A7844c0496f5e8386292",
+      "creationTime": 1666349945534,
+      "updatedTime": [1666349945534]
+    },
+    "ALP": {
+      "proxy": "",
+      "implementation": ["0x4cb81e46d047b0104328bc180ccdaed0146664f3"],
+      "address": "0x4cb81e46d047b0104328bc180ccdaed0146664f3",
+      "creationTime": 1666258647820,
+      "updatedTime": [1666258647820]
     }
   },
   "80001": {
@@ -102,6 +103,13 @@
       "address": "0x73f7b25Ea321C79Dd8A60a6DbEb60Fe012B81DbC",
       "creationTime": 1664126767068,
       "updatedTime": [1664126767068]
+    },
+    "ALP": {
+      "proxy": "",
+      "implementation": ["0xc9f0d14b648bba58999fa5b45f2eb4c5ede0c09f"],
+      "address": "0xc9f0d14b648bba58999fa5b45f2eb4c5ede0c09f",
+      "creationTime": 1666258647820,
+      "updatedTime": [1666258647820]
     }
   }
 }
