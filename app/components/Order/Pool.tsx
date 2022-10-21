@@ -22,7 +22,7 @@ const Pool = ({
   const [ isApproveUSDT, isSetApproveUSDT ] = useState(false)
 
   const contract = useContract({
-    addressOrName: showMarket?.alpaddress,
+    addressOrName: '0xc9f0d14b648bba58999fa5b45f2eb4c5ede0c09f',
     contractInterface: ALP_ABI?.abi ,
     signerOrProvider: signer,
   })
@@ -73,22 +73,18 @@ const Pool = ({
         {
           signer ? 
             <>
-
             <div className={styles.btn}>
               {!isApproveUSDT ?
                   <Button
-                    onClick={() => approve(contractERC20USDT,contract?.address, ethers?.constants?.MaxUint256).then(res => isSetApproveUSDT(true))} title={`Approve ${showMarket.currency[1].title}`} />
-                  : null}
-              </div>
-              <div className={styles.btns}>
-                {!isApproveUSDC ?
+                    onClick={() => approve(contractERC20USDT,contract?.address, ethers?.constants?.MaxUint256).then(res => isSetApproveUSDT(true))} title={`Approve USDT`} />
+              : !isApproveUSDC ?
                   <Button
-                    onClick={() => approve(contractERC20USDC,contract?.address, ethers?.constants?.MaxUint256).then(res => isSetApproveDAI(true))} title={`Approve ${showMarket.currency[0].title}`} />
-                : null}
-                {!isApproveDAI ?
-                <Button
-                  onClick={() => approve(contractERC20Dai,contract?.address, ethers?.constants?.MaxUint256).then(res => isSetApproveDAI(true))} title={`Approve ${showMarket.currency[1].title}`} />
-                : null}
+                    onClick={() => approve(contractERC20USDC,contract?.address, ethers?.constants?.MaxUint256).then(res => isSetApproveDAI(true))} title={`Approve USDC`} />
+              : !isApproveDAI ?
+                  <Button
+                    onClick={() => approve(contractERC20Dai,contract?.address, ethers?.constants?.MaxUint256).then(res => isSetApproveDAI(true))} title={`Approve DAI`} />
+                  : null
+              }
               </div>
 
               <div className={styles.btns}>

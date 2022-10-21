@@ -5,6 +5,7 @@ import { WagmiConfig, createClient, chain, Chain } from 'wagmi';
 import { ConnectKitProvider, getDefaultClient } from 'connectkit';
 import { ApolloProvider } from '@apollo/client'
 import { useApollo } from '../apolloClient'
+
 const goerliChain: Chain = {
   id: 420,
   name: 'Optimistic Ethereum Testnet Goerli',
@@ -16,8 +17,7 @@ const goerliChain: Chain = {
   },
   rpcUrls: {
     default: 'https://goerli.optimism.io/',
-  },
-  testnet: true
+  }
 }
 
 const client = createClient(

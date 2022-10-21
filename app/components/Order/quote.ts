@@ -31,9 +31,6 @@ async function getRoute(a: ModelToken, b: ModelToken) {
       protocols: [Protocol.V2, Protocol.V3],
     }
   )
-  
-  // console.log(route)
-  // console.log('amount', route?.trade.outputAmount.toSignificant(), route?.blockNumber.toString())
   return route?.trade.outputAmount.toSignificant()
 }
  export default getRoute
