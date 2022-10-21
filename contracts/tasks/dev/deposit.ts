@@ -1,14 +1,13 @@
 import { task } from "hardhat/config";
 import { IDeployment } from "../utils";
 import { TaskArguments } from "hardhat/types";
-import deployment from "../../deployment/deployments.json";
 import { ALP, IERC20 } from "../../typechain";
 import { BIG_1E18, BIG_1E6, deployNames } from "../constants";
 
-import IERC20_JSON from "../../artifacts/@openzeppelin/contracts/token/ERC20/IERC20.sol/IERC20.json";
 import { ethers } from "ethers";
 
-const deployments: IDeployment = deployment;
+const IERC20_JSON = {}; // require("../../data/abi/IERC20.json");
+const deployments: IDeployment = require("../../deployment/deployments.json");
 
 task("dev:deposit").setAction(async function (
   _taskArguments: TaskArguments,
@@ -29,12 +28,12 @@ task("dev:deposit").setAction(async function (
   )) as ALP;
 
   const dai = (await hre.ethers.getContractAt(
-    IERC20_JSON.abi,
+    IERC20_JSON,
     "0xdc31Ee1784292379Fbb2964b3B9C4124D8F89C60"
   )) as IERC20;
 
   const usdc = (await hre.ethers.getContractAt(
-    IERC20_JSON.abi,
+    IERC20_JSON,
     "0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C"
   )) as IERC20;
 

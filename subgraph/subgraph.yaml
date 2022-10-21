@@ -4,11 +4,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: Factory
-    network: mumbai
+    network: optimism-goerli
     source:
-      address: "0x951d2f7557d45f6e99ea016b00529AB8600D1f5E"
+      address: "0xc349fC3183856a1F21E8FD9FF5589eCbc77Af443"
       abi: Factory
-      startBlock: 28291697
+      startBlock: 2077232
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -24,11 +24,11 @@ dataSources:
       file: ./src/factory.ts
   - kind: ethereum
     name: Deforex
-    network: mumbai
+    network: optimism-goerli
     source:
-      address: "0x09897Bb730e5C89C78c5259D7682fDDdd981db34"
+      address: "0x7890F15ABE81E13B7a468f03a64704ed2D3fC802"
       abi: Deforex
-      startBlock: 28291697
+      startBlock: 2077232
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -50,7 +50,7 @@ dataSources:
 templates:
   - kind: ethereum
     name: ALP
-    network: mumbai
+    network: optimism-goerli
     source:
       abi: ALP
     mapping:
