@@ -1,12 +1,12 @@
 import { task } from "hardhat/config";
-import { IDeployment } from "../../scripts/utils";
+import { IDeployment } from "../scripts/utils";
 import { TaskArguments } from "hardhat/types";
-import { ALP, IERC20 } from "../../typechain";
-import { BIG_1E18, BIG_1E6, deployNames } from "../../scripts/constants";
+import { ALP, IERC20 } from "../typechain";
+import { BIG_1E18, BIG_1E6, deployNames } from "../scripts/constants";
 
 import { ethers } from "ethers";
 
-const IERC20_JSON = {}; // require("../../data/abi/IERC20.json");
+const IERC20_JSON = require("../../data/abi/IERC20.json");
 const deployments: IDeployment = require("../../deployment/deployments.json");
 
 task("dev:deposit").setAction(async function (
@@ -16,6 +16,9 @@ task("dev:deposit").setAction(async function (
   const network = await hre.getChainId();
 
   const alpDeployed = deployments[network]["ALP"];
+  const daiDeployed = deployments[network].DAI;
+  const usdtDeployed = deployments[network].USDT;
+  const usdcDeployed = deployments[network].USDC;
 
   // 0xf3cc0d1aa68d2f15cd99862bd5f58bdc0657486d - alp
   // 0x7850d400366ce643bdb2fefb2315e7e15cc84ed1
@@ -29,25 +32,24 @@ task("dev:deposit").setAction(async function (
 
   const dai = (await hre.ethers.getContractAt(
     IERC20_JSON,
-    "0xdc31Ee1784292379Fbb2964b3B9C4124D8F89C60"
+    daiDeployed.address
   )) as IERC20;
 
   const usdc = (await hre.ethers.getContractAt(
     IERC20_JSON,
-    "0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C"
+    usdcDeployed.address
   )) as IERC20;
 
-  await dai.approve(alp.address, BigInt(20000) * BIG_1E18);
-  await usdc.approve(alp.address, ethers.constants.MaxUint256);
+  let tx = await dai.approve(alp.address, BigInt(20000) * BIG_1E18);
+  await tx.wait();
+  tx = await usdc.approve(alp.address, ethers.constants.MaxUint256);
+  await tx.wait();
 
-  console.log("deposit dai");
+  console.log("deposit ...");
 
-  await alp.deposit(dai.address, BigInt(20000) * BIG_1E18);
+  tx = await alp.deposit(BigInt(20000) * BIG_1E18, BigInt(20000) * BIG_1E18);
 
-  console.log("deposit usdc");
-
-  await alp.deposit(usdc.address, BigInt(20000) * BIG_1E6);
-
+  await tx.wait();
   const result = await alp.getReserves();
 
   console.log(

@@ -18,6 +18,9 @@ task("dev:order").setAction(async function (
 
   const deforexDeployment = deployments[network][deployNames.DEFOREX];
   const factoryDeployment = deployments[network][deployNames.FACTORY];
+  const daiDeployed = deployments[network].DAI;
+  const usdtDeployed = deployments[network].USDT;
+  const usdcDeployed = deployments[network].USDC;
 
   const factory = (await hre.ethers.getContractAt(
     deployNames.FACTORY,
@@ -35,17 +38,18 @@ task("dev:order").setAction(async function (
 
   const dai = (await hre.ethers.getContractAt(
     IERC20_JSON,
-    "0xdc31Ee1784292379Fbb2964b3B9C4124D8F89C60"
-  )) as IERC20;
-
-  const usdc = (await hre.ethers.getContractAt(
-    IERC20_JSON,
-    "0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C"
+    daiDeployed.address
   )) as IERC20;
 
   const amount = BigInt(5) * BIG_1E18;
 
-  await dai.approve(deforex.address, amount);
-
-  await deforex.createPosition(dai.address, usdc.address, amount, 90, "");
+  let tx = await dai.approve(deforex.address, amount);
+  await tx.wait();
+  await deforex.createPosition(
+    dai.address,
+    usdcDeployed.address,
+    amount,
+    90,
+    []
+  );
 });
