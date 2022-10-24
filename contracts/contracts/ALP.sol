@@ -17,13 +17,6 @@ contract ALP {
 
     mapping(address => uint256[2]) public balanceOf;
 
-    modifier lock() {
-        require(unlocked == 1, 'ALP: LOCKED');
-        unlocked = 0;
-        _;
-        unlocked = 1;
-    }
-
     function getReserves() public view returns (uint256 _reserve0, uint256 _reserve1) {
         _reserve0 = reserve0;
         _reserve1 = reserve1;

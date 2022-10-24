@@ -1,8 +1,8 @@
 import { task } from "hardhat/config";
-import { IDeployment } from "../utils";
+import { IDeployment } from "../scripts/utils";
 import { TaskArguments } from "hardhat/types";
-import { ALP, IERC20 } from "../../typechain";
-import { BIG_1E18, BIG_1E6, deployNames } from "../constants";
+import { ALP, IERC20 } from "../typechain";
+import { BIG_1E18, BIG_1E6, deployNames } from "../scripts/constants";
 
 import { ethers } from "ethers";
 

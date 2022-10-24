@@ -4,11 +4,11 @@ import styles from './Input.module.css'
 interface InputModel {
   value: string
   icon: string
-  currencies?: {id: number, title: string, icon: string, address: string, rate: number}[]
+  currencies?: {id: number, title: string, icon: string, address: string[], rate: number}[]
   setValue: (str: string) => void
-  activeCurrency?: {id: number, title: string, icon: string, address: string, rate: number}
-  secondCurrency?: {id: number, title: string, icon: string, address: string, rate: number}
-  setActiveCurrency?: ({id, title, icon, address, rate } : {id: number, title: string, icon: string, address: string, rate: number}) => void
+  activeCurrency?: {id: number, title: string, icon: string, address: string[], rate: number}
+  secondCurrency?: {id: number, title: string, icon: string, address: string[], rate: number}
+  setActiveCurrency?: ({id, title, icon, address, rate } : {id: number, title: string, icon: string, address: string[], rate: number}) => void
   pool?: boolean
   disabled?: boolean 
 }

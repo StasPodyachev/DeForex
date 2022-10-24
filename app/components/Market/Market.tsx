@@ -57,9 +57,9 @@ const Market = () => {
           trades?.map((item, id) => {
             return (
               <div key={item?.id} className={id % 2 ? styles.orderRed : styles.orderGreen}>
-                <span>{item.rate}</span>
-                <span>{item.amount}</span>
-                <span>{item.time}</span>
+                <span>{item?.rate}</span>
+                <span>{item?.amount}</span>
+                <span>{item?.time}</span>
               </div>
             )
           })
