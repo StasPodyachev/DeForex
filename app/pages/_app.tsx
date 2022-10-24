@@ -35,16 +35,11 @@ const { provider, chains } = configureChains(
   ]
 )
 const { wallets } = getDefaultWallets({
-  appName: 'rainbowkit.com',
+  appName: 'deforex.com',
   chains,
 })
 const connectors = connectorsForWallets([
-  {
-    groupName: 'Recommended',
-    wallets: [
-      injectedWallet({ chains })
-    ]
-  }
+  ...wallets
 ])
 
 const wagmiClient = createClient({
