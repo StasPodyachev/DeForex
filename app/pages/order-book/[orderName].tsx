@@ -13,18 +13,21 @@ export default function OrderBook() {
   useEffect(() =>{
     if(provider) setNetworkId(provider?._network?.chainId)
   }, [provider])
+
+  useEffect(() =>{
+    console.log(networkId, 'networkId');
+  }, [networkId])
   
-  const contract = useContract({
-    address: addresses[0]?.deforex?.address,
-    abi: DEFOREX_ABI.abi ,
-    signerOrProvider: signer,
-  })
+  // const contract = useContract({
+  //   address: addresses[networkId === 420 ? 0 : 1]?.deforex?.address,
+  //   abi: DEFOREX_ABI.abi ,
+  //   signerOrProvider: signer,
+  // })
 
   return (
-      contract ?
-      <Layout title="OrderBook">
-      <Order contract={contract} networkId={networkId} />
-    </Layout> : null
+    <Layout title="OrderBook">
+      <Order networkId={networkId} />
+    </Layout>
     
   )
 }

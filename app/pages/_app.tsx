@@ -5,7 +5,6 @@ import { useApollo } from '../apolloClient'
 import '../styles/globals.css';
 import '@rainbow-me/rainbowkit/styles.css';
 import type { AppProps } from 'next/app';
-import { injectedWallet } from '@rainbow-me/rainbowkit/wallets';
 
 import {
   connectorsForWallets,
@@ -23,11 +22,7 @@ import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
 const { provider, chains } = configureChains(
-  [
-    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true'
-      ? [chain.optimismGoerli, chain.polygonMumbai]
-      : []),
-  ],
+  [chain.optimismGoerli, chain.polygonMumbai], 
   [
     alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_REACT_APP_ALCHEMY_KEY }),
     publicProvider(),
