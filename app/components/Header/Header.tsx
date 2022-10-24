@@ -1,13 +1,14 @@
 import styles from './Header.module.css'
 import Logo from './Logo'
 import Nav from './Nav'
-import { ConnectKitButton } from 'connectkit';
+import {  } from '@rainbow-me/rainbowkit';
+import { ConnectBtn } from '../ConnectBtn/ConnectBtn';
 
 const Header = ({title} : {title: string}) => {
   return (
     <header className={styles.header}>
       <Logo />
-        <ConnectKitButton theme="midnight" showAvatar />
+      <ConnectBtn/>
       <Nav/>
     </header>
   )

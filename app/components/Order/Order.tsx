@@ -12,10 +12,9 @@ import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
 import { approve, approved, createPosition } from './utils'
 import Pool from './Pool'
-import { ConnectKitButton } from 'connectkit'
-
 import DEFOREX_ABI from '../../contracts/ABI/Deforex.sol/Deforex.json'
 import CreateDealBtn from './CreateDealBtn'
+import { ConnectBtn } from '../ConnectBtn/ConnectBtn'
 interface CurrencyModel {
   id: number;
   title: string;
@@ -129,18 +128,18 @@ const Order = ({contract, networkId} : any) => {
   const { address } = useAccount()
   
   const contractERC20Dai = useContract({
-    addressOrName: addressesNetwork?.DAI?.address,
-    contractInterface: erc20ABI,
+    address: addressesNetwork?.DAI?.address,
+    abi: erc20ABI,
     signerOrProvider: signer
   })
   const contractERC20USDC = useContract({
-    addressOrName: addressesNetwork?.USDC?.address,
-    contractInterface: erc20ABI,
+    address: addressesNetwork?.USDC?.address,
+    abi: erc20ABI,
     signerOrProvider: signer
   })
   const contractERC20USDT = useContract({
-    addressOrName: addressesNetwork?.USDT?.address,
-    contractInterface: erc20ABI,
+    address: addressesNetwork?.USDT?.address,
+    abi: erc20ABI,
     signerOrProvider: signer
   })  
 
@@ -360,7 +359,7 @@ const Order = ({contract, networkId} : any) => {
                 approve(activeCurrency?.title === 'DAI' ? contractERC20Dai :
                 activeCurrency?.title === 'USDt' ? contractERC20USDT : contractERC20USDC , contract?.address, ethers?.constants?.MaxUint256)
               }} title={isApprove ? "Open Position" : "Approve token"} />
-              : <ConnectKitButton theme="midnight" showAvatar />
+              : <ConnectBtn />
             }
             </div>
         </div>

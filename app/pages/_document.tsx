@@ -12,8 +12,10 @@ export default class Document extends NextDocument {
           <meta name="theme-color" content="#131118"/>
         </Head>
         <body>
-          <Main />
-          <NextScript />
+          <div className='body'>
+            <Main />
+            <NextScript />
+          </div>
         </body>
       </Html>
     )

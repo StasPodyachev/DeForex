@@ -7,7 +7,7 @@ import { useContract } from 'wagmi'
 import ALP_ABI from '../../contracts/ABI/ALP.sol/ALP.json'
 import { ethers } from 'ethers'
 import { useRouter } from 'next/router'
-import { ConnectKitButton } from 'connectkit'
+import { ConnectBtn } from '../ConnectBtn/ConnectBtn'
 
 const Pool = ({
   showMarket,
@@ -22,8 +22,8 @@ const Pool = ({
   const [ isApproveUSDT, isSetApproveUSDT ] = useState(false)
 
   const contract = useContract({
-    addressOrName: '0xc9f0d14b648bba58999fa5b45f2eb4c5ede0c09f',
-    contractInterface: ALP_ABI?.abi ,
+    address: '0xc9f0d14b648bba58999fa5b45f2eb4c5ede0c09f',
+    abi: ALP_ABI?.abi ,
     signerOrProvider: signer,
   })
 
@@ -95,7 +95,7 @@ const Pool = ({
               </div>
             </> : 
             <div className={styles.btn}>
-              <ConnectKitButton theme="midnight" showAvatar />
+              <ConnectBtn />
             </div>
         }
       </div>

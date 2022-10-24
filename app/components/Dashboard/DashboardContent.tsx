@@ -6,8 +6,7 @@ import UserInfo from './UserInfo'
 import { useAccount, useProvider, useSigner } from 'wagmi';
 import { formatChange } from '../../utils/toSignificant';
 import addresses from '../../contracts/addresses';
-import { ConnectKitButton } from 'connectkit';
-
+import { ConnectBtn } from '../ConnectBtn/ConnectBtn';
 const Positions = ({address, addressesNetwork} : any) => {
   const [ positionList, setPositionList ] = useState([])
   const GET_POSITIONS =
@@ -272,7 +271,8 @@ const DashboardContent = ({networkId}) => {
         <>
           <Positions addressesNetwork={addresses?.find(item => item.id !== networkId)} address={address} />
           <Staking addressesNetwork={addresses?.find(item => item.id !== networkId)} address={address} />
-        </> : <div className={styles.btn}><ConnectKitButton theme="midnight" showAvatar /></div>
+        </> : 
+        <div className={styles.btn}><ConnectBtn /></div>
       }
     </div>
   )

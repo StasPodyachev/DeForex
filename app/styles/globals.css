@@ -12,7 +12,7 @@ input {
   font-family: 'Source Code Pro','Poppins', sans-serif, monospace;
 }
 
-body {
+.body {
   max-width: 480px;
   margin: auto;
   position: relative;
