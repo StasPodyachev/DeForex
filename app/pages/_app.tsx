@@ -19,7 +19,6 @@ import {
 import { SiweMessage } from 'siwe';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { configureChains,chain, createClient, WagmiConfig, Chain } from 'wagmi';
-import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
