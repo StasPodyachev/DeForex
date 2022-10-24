@@ -20,8 +20,8 @@ const CreateDealBtn = ({
     BigInt(new BigDecimal(amount).mul(BIG_1E18 + "").toFixed(0)) + "";
   const slippage = "0x"
   const { config } = usePrepareContractWrite({
-    addressOrName: contract.address,
-    contractInterface: abi,
+    address: contract.address,
+    abi: abi,
     functionName: "createPosition",
     args: [tokenSell,tokenBuy, amount, leverage, slippage],
   });

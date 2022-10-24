@@ -15,8 +15,8 @@ export default function OrderBook() {
   }, [provider])
   
   const contract = useContract({
-    addressOrName: addresses[0]?.deforex?.address,
-    contractInterface: DEFOREX_ABI?.abi ,
+    address: addresses[0]?.deforex?.address,
+    abi: DEFOREX_ABI.abi ,
     signerOrProvider: signer,
   })
 
