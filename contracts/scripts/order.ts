@@ -1,13 +1,13 @@
 import { task } from "hardhat/config";
-import { IDeployment } from "../utils";
+import { IDeployment } from "./utils";
 import { TaskArguments } from "hardhat/types";
-import { Deforex, Factory, IERC20 } from "../../typechain";
-import { BIG_1E18, deployNames } from "../constants";
+import { Deforex, Factory, IERC20 } from "../typechain";
+import { BIG_1E18, deployNames } from "./constants";
 import readline from "readline";
 
 var rl = readline.createInterface(process.stdin, process.stdout);
 
-const IERC20_JSON = {}; // require("../../data/abi/IERC20.json");
+const IERC20_JSON = require("../../data/abi/IERC20.json");
 const deployments: IDeployment = require("../../deployment/deployments.json");
 
 task("dev:order").setAction(async function (
@@ -47,5 +47,5 @@ task("dev:order").setAction(async function (
 
   await dai.approve(deforex.address, amount);
 
-  await deforex.createPosition(dai.address, usdc.address, amount, 90, 0);
+  await deforex.createPosition(dai.address, usdc.address, amount, 90, "");
 });
