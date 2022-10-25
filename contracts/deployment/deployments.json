@@ -1,37 +1,4 @@
 {
-  "5": {
-    "DAI": { "address": "0xB46f7E79bb2D6EAc6e8A3Da79C9b8B39354d3dc3" },
-    "USDT": { "address": "0x7faA25680E8650964026c1Cf606900E4B85c4423" },
-    "USDC": { "address": "0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C" },
-    "Factory": {
-      "proxy": "",
-      "implementation": ["0x5FC8e400ac068d0550ac1952C700660a32089982"],
-      "address": "0x5FC8e400ac068d0550ac1952C700660a32089982",
-      "creationTime": 1663747787614,
-      "updatedTime": [1663747787614]
-    },
-    "Deforex": {
-      "proxy": "",
-      "implementation": ["0x79057B7d5342486a3197401aF64b3189D33baf2d"],
-      "address": "0x79057B7d5342486a3197401aF64b3189D33baf2d",
-      "creationTime": 1663747788974,
-      "updatedTime": [1663747788974]
-    },
-    "Exchange": {
-      "proxy": "",
-      "implementation": ["0x3Ae730Cb337a971992459f3268978F59020e3A41"],
-      "address": "0x3Ae730Cb337a971992459f3268978F59020e3A41",
-      "creationTime": 1663747790303,
-      "updatedTime": [1663747790303]
-    },
-    "UniswapExchange": {
-      "proxy": "",
-      "implementation": ["0xe8e9AD50ECCc956b7bC6f7fbC92C886035cf4c76"],
-      "address": "0xe8e9AD50ECCc956b7bC6f7fbC92C886035cf4c76",
-      "creationTime": 1663747791658,
-      "updatedTime": [1663747791658]
-    }
-  },
   "420": {
     "DAI": { "address": "0x312C1C8F5BC23f08331B1486Da723dd1B80F9040" },
     "USDT": { "address": "0x3F5a8c43E3700c628F951cedc4f9054882E86BE6" },

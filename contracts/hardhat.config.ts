@@ -1,7 +1,7 @@
 // import "hardhat-typechain";
 import "@nomiclabs/hardhat-waffle";
-import "@typechain/hardhat";
 import "@nomiclabs/hardhat-etherscan";
+import "@typechain/hardhat";
 import "hardhat-contract-sizer";
 import "hardhat-deploy";
 import "hardhat-deploy-ethers";
