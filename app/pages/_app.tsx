@@ -22,7 +22,11 @@ import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
 const { provider, chains } = configureChains(
-  [chain.optimismGoerli, chain.polygonMumbai], 
+  [
+    ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true'
+      ? [chain.optimismGoerli, chain.polygonMumbai]
+      : []),
+  ],
   [
     alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_REACT_APP_ALCHEMY_KEY }),
     publicProvider(),
@@ -35,13 +39,11 @@ const { wallets } = getDefaultWallets({
 const connectors = connectorsForWallets([
   ...wallets
 ])
-
 const wagmiClient = createClient({
   autoConnect: true,
   connectors,
   provider,
-});
-
+})
 function MyApp({
   Component,
   pageProps,

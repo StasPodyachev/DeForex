@@ -16,8 +16,8 @@ const CreateDealBtn = ({
 }: any) => {
 
   const { push } = useRouter()
-  const newCount =
-    BigInt(new BigDecimal(amount).mul(BIG_1E18 + "").toFixed(0)) + "";
+  // const newCount =
+  //   BigInt(new BigDecimal(amount).mul(BIG_1E18 + "").toFixed(0)) + "";
   const slippage = "0x"
   const { config } = usePrepareContractWrite({
     address: contract.address,
@@ -29,8 +29,9 @@ const CreateDealBtn = ({
   const { write: create, isLoading, isSuccess } = useContractWrite(config);
   useEffect(() => {
     console.log(
+      tokenSell, 'tokenSell',
       tokenBuy, 'tokenBuy');
-  }, [create])
+  }, [tokenSell, tokenBuy, ])
   if (isSuccess) {
     push('/dashboard')
   }

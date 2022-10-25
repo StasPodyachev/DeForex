@@ -1,6 +1,6 @@
 const addresses: any = [
   { 
-    id: 5,
+    id: 420,
     nameNetwork: "Optimistic Ethereum Testnet Goerli",
     factory: {
       address: '0xF299d6F8d597C8E0a4110181755F168cDd2F6961',
@@ -41,10 +41,10 @@ const addresses: any = [
       address: '0x73f7b25Ea321C79Dd8A60a6DbEb60Fe012B81DbC',
     },
     AlpDaiUsdc: {
-      address: '0x4cb81e46d047b0104328bc180ccdaed0146664f3',
+      address: '0xc9f0d14b648bba58999fa5b45f2eb4c5ede0c09f',
     },
     AlpDaiUsdt: {
-      address: '0x4cb81e46d047b0104328bc180ccdaed0146664f3',
+      address: '0xc9f0d14b648bba58999fa5b45f2eb4c5ede0c09f',
     },
     USDT: { address: '0x60965aB564AD3D6069577027DB5d1a43e5AD06a6' },
     USDC: { address: '0x2D7eB0e8802d3a530E298a1f94ce176ad6B3Ab43' },
