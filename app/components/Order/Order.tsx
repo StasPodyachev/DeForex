@@ -354,8 +354,8 @@ const Order = ({networkId} : any) => {
                 isApprove ?
                 <CreateDealBtn
                   contract={networkId === 420 ? contractGoerly : contractBaobab}
-                  tokenBuy={showMarket?.currency?.find(currency => activeCurrency?.id !== currency.id).address[0]}
-                  tokenSell={activeCurrency?.address[0]}
+                  tokenBuy={showMarket?.currency?.find(currency => activeCurrency?.id !== currency.id).address[networkId === 420 ? 0 : 1]}
+                  tokenSell={activeCurrency?.address[networkId === 420 ? 0 : 1]}
                   amount={activeCurrency.title === "USDC" || activeCurrency.title === "USDT" ? +`${value}` : +`${value}`}
                   title={"Open Position"}
                   abi={DEFOREX_ABI.abi}
