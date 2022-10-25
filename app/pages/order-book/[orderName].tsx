@@ -12,7 +12,7 @@ export default function OrderBook() {
 
   useEffect(() =>{
     if(provider) setNetworkId(provider?._network?.chainId)
-  }, [provider])
+  }, [(provider?._network?.chainId)])
 
   useEffect(() =>{
     console.log(networkId, 'networkId');

@@ -102,7 +102,6 @@ const executions = [
 ]
 
 const Order = ({networkId} : any) => {
-  const addressesNetwork = addresses?.find(item => item.id !== networkId)
   const { query, push } = useRouter()
   const [ showMarket, setShowMarket ] = useState<ModelMarket>(markets[0])
   const [ showExecution, setShowExecution ] = useState(executions[0])
@@ -120,15 +119,19 @@ const Order = ({networkId} : any) => {
   const [ marginCall, setMarginCall ] = useState(markets[0]?.currency[0]?.rate * ( checked.value - 1) /  checked.value)
   const [ takeProfitRate, setTakeProfitRate ] = useState(markets[0]?.currency[0]?.rate * 1.007)
   const [ stopLossRate, setStopLossRate ] = useState(markets[0]?.currency[0]?.rate * 0.998)
-  const [ potentialProfit, setPotentialProfit ] = useState(0) // amountSell * (rateTakeProfit - rateMarket)
+  const [ potentialProfit, setPotentialProfit ] = useState(0)
   const [ potentialLoss, setPotentialLoss ] = useState(0)
   //
-
   const { data: signer } = useSigner()
   const { address } = useAccount()
 
-  const contract = useContract({
-    address: addresses[networkId === 420 ? 0 : 1]?.deforex?.address,
+  const contractGoerly = useContract({
+    address: addresses[0]?.deforex?.address,
+    abi: DEFOREX_ABI.abi ,
+    signerOrProvider: signer,
+  })
+  const contractBaobab = useContract({
+    address: addresses[1]?.deforex?.address,
     abi: DEFOREX_ABI.abi ,
     signerOrProvider: signer,
   })
@@ -171,14 +174,13 @@ const Order = ({networkId} : any) => {
   }, [query])
 
   useEffect(() => {
-    const activeContract = activeCurrency?.title === 'DAI' ? contractERC20Dai  : activeCurrency?.title === "USDt" ? contractERC20USDT :  contractERC20USDC
-    if (contract && address && signer && contractERC20Dai && activeCurrency) {
-      approved(activeContract, contract?.address, address).then((res) => {
+    const activeContract = activeCurrency?.title === 'DAI' ? contractERC20Dai  : activeCurrency?.title === "USDt" ? contractERC20USDT : contractERC20USDC
+    if (address && signer && contractERC20Dai && activeCurrency) {
+      approved(activeContract, networkId === 420 ? contractGoerly.address : contractBaobab.address, address).then((res) => {
         isSetApprove(res)
       })
     }
-  }, [address, signer, activeCurrency, contract])
-
+  }, [address, signer, activeCurrency, networkId, contractGoerly])
 
   useEffect(() => {
     setActiveCurrencySecond(showMarket?.currency?.find(cur => cur.id !== activeCurrency.id))
@@ -351,7 +353,7 @@ const Order = ({networkId} : any) => {
               {
                 isApprove ?
                 <CreateDealBtn
-                  contract={contract}
+                  contract={networkId === 420 ? contractGoerly : contractBaobab}
                   tokenBuy={showMarket?.currency?.find(currency => activeCurrency?.id !== currency.id).address[0]}
                   tokenSell={activeCurrency?.address[0]}
                   amount={activeCurrency.title === "USDC" || activeCurrency.title === "USDT" ? +`${value}` : +`${value}`}
@@ -362,7 +364,7 @@ const Order = ({networkId} : any) => {
               : !isApprove ?
               <Button onClick={() => {
                 approve(activeCurrency?.title === 'DAI' ? contractERC20Dai :
-                activeCurrency?.title === 'USDt' ? contractERC20USDT : contractERC20USDC , contract?.address, ethers?.constants?.MaxUint256)
+                activeCurrency?.title === 'USDt' ? contractERC20USDT : contractERC20USDC , networkId === 420 ? contractGoerly.address : contractBaobab.address, ethers?.constants?.MaxUint256)
               }} title={isApprove ? "Open Position" : "Approve token"} />
               : <ConnectBtn />
             }
