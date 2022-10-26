@@ -163,12 +163,7 @@ describe('ALP', () => {
         })
 
         it('fails when insufficient funds in reserve', async () => {
-
-            const a = await wallet.getBalance()
-
-            console.log(a.toString())
-
-            await expect(alp.requestReserve(10, 10, token0.address)).to.be.revertedWith("ALP: Insufficient funds in reserve");
+            await expect(alp.requestReserve(10, 10, token0.address)).to.be.revertedWith("ALP: Insufficient in reserve");
         })
     })
 })

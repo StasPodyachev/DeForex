@@ -60,11 +60,7 @@ contract ALP {
 
         uint256 reserve = token == token0 ? reserve0 : reserve1;
 
-        console.log(reserve);
-        console.log(val);
-        console.log(leverageAv);
-
-        require(reserve > val, "ALP: Insufficient funds in reserve");
+        require(reserve > val, "ALP: Insufficient in reserve");
 
         TransferHelper.safeApprove(token, msg.sender, val);
         TransferHelper.safeTransfer(token, msg.sender, val);

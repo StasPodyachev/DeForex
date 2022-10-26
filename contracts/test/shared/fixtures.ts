@@ -50,7 +50,7 @@ async function exchangeFixture(): Promise<ExchangeFixture> {
     const exchangeFactory = await ethers.getContractFactory('Exchange')
     const exchange = (await exchangeFactory.deploy()) as Exchange
 
-    exchange.setFactory(factory.address)
+    await exchange.setFactory(factory.address)
 
     return { exchange }
 }
@@ -102,19 +102,31 @@ export const alpFixture: Fixture<ALPFixture> = async function (): Promise<ALPFix
     }
 }
 
-interface DeforexFixture {
-    deforex: Deforex
+interface DeforexFixture extends TokensAndFactoryFixture {
+    deforex: Deforex,
+    factory: Factory
 }
 
-async function deforexFixture(): Promise<DeforexFixture> {
+export const deforexFixture: Fixture<DeforexFixture> = async ([wallet], provider) => {
     const { factory } = await factoryFixture()
     const { exchange } = await exchangeFixture()
+    const { exchange: uniswapExchange } = await uniswapExchangeFixture([wallet], provider)
+
+    const { token0, token1, token2 } = await tokensFixture()
 
     const deforexFactory = await ethers.getContractFactory('Deforex')
     const deforex = (await deforexFactory.deploy()) as Deforex
 
-    deforex.setFactory(factory.address)
-    deforex.setExchange(exchange.address)
+    await deforex.setFactory(factory.address)
+    await deforex.setExchange(exchange.address)
 
-    return { deforex }
+    await factory.registerExchange(0, uniswapExchange.address)
+
+    return {
+        token0,
+        token1,
+        token2,
+        factory,
+        deforex
+    }
 }
