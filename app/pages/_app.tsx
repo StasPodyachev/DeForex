@@ -5,7 +5,12 @@ import { useApollo } from '../apolloClient'
 import '../styles/globals.css';
 import '@rainbow-me/rainbowkit/styles.css';
 import type { AppProps } from 'next/app';
-
+import useWindowSize from '../hooks/useWindowSize';
+import {
+  injectedWallet,
+  rainbowWallet,
+  walletConnectWallet,
+} from '@rainbow-me/rainbowkit/wallets';
 import {
   connectorsForWallets,
   getDefaultWallets,
@@ -36,14 +41,36 @@ const { wallets } = getDefaultWallets({
   appName: 'deforex.com',
   chains,
 })
-const connectors = connectorsForWallets([
+
+const connectorsD = connectorsForWallets([
   ...wallets
 ])
-const wagmiClient = createClient({
+ 
+const connectorsM = connectorsForWallets([
+  {
+    groupName: "Popular",
+    wallets: [
+      rainbowWallet({ chains }),
+      walletConnectWallet({ chains }),
+    ],
+  },
+])
+
+console.log(wallets, 'wallets');
+
+
+const clientD = createClient({
   autoConnect: true,
-  connectors,
+  connectors: connectorsD,
   provider,
 })
+
+const clientM = createClient({
+  autoConnect: true,
+  connectors: connectorsM,
+  provider,
+})
+
 function MyApp({
   Component,
   pageProps,
@@ -53,6 +80,7 @@ function MyApp({
   const verifyingRef = useRef(false)
   const [authStatus, setAuthStatus] = useState<AuthenticationStatus>('loading')
   const apolloClient = useApollo(pageProps)
+  const { width } = useWindowSize()
 
   useEffect(() => {
     const fetchStatus = async () => {
@@ -76,7 +104,6 @@ function MyApp({
     window.addEventListener('focus', fetchStatus);
     return () => window.removeEventListener('focus', fetchStatus);
   }, []);
-
   const authAdapter = useMemo(() => {
     return createAuthenticationAdapter({
       getNonce: async () => {
@@ -131,7 +158,7 @@ function MyApp({
     });
   }, []);
   return (
-    <WagmiConfig client={wagmiClient}>
+    <WagmiConfig  client={width > 520 ? clientD : clientM}>
       <RainbowKitAuthenticationProvider
         adapter={authAdapter}
         status={authStatus}>
