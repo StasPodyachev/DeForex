@@ -7,37 +7,53 @@ import "./AlpDeployer.sol";
 import "./ALP.sol";
 
 contract Factory is IFactory, AlpDeployer {
-    
     address public owner;
     mapping(address => mapping(address => address)) private alpsMap;
     mapping(IExchange.DEX => IExchange) private exchanges;
     address[] public alps;
 
-    function countAlp() external view returns (uint) {
+    function countAlp() external view returns (uint256) {
         return alps.length;
     }
 
-    function getAlp(address tokenA, address tokenB) external view returns (address alp){
-        (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
+    function getAlp(address tokenA, address tokenB)
+        external
+        view
+        returns (address alp)
+    {
+        (address token0, address token1) = tokenA < tokenB
+            ? (tokenA, tokenB)
+            : (tokenB, tokenA);
 
         return alpsMap[token0][token1];
     }
 
-    function getExchange(IExchange.DEX type_) external view returns(IExchange){
-       return exchanges[type_];
+    function getExchange(IExchange.DEX type_)
+        external
+        view
+        returns (IExchange)
+    {
+        return exchanges[type_];
     }
 
-    function registerExchange(IExchange.DEX type_, IExchange exchange) external{
+    function registerExchange(IExchange.DEX type_, IExchange exchange)
+        external
+    {
         exchanges[type_] = exchange;
     }
 
-    // TODO: register Exchanges and other  
+    // TODO: register Exchanges and other
 
-    function createAlp(address tokenA, address tokenB) external returns (address alp) {
+    function createAlp(address tokenA, address tokenB)
+        external
+        returns (address alp)
+    {
         require(tokenA != tokenB);
-        (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
+        (address token0, address token1) = tokenA < tokenB
+            ? (tokenA, tokenB)
+            : (tokenB, tokenA);
         require(token0 != address(0));
-        require(alpsMap[token0][token1] == address(0), 'Factory: ALP_EXIST'); // single check is sufficient
+        require(alpsMap[token0][token1] == address(0), "Factory: ALP_EXIST"); // single check is sufficient
 
         alp = deploy(address(this), token0, token1);
 
