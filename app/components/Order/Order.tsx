@@ -101,7 +101,7 @@ const executions = [
   }
 ]
 
-const Order = ({contract, networkId} : any) => {
+const Order = ({networkId} : any) => {
   const addressesNetwork = addresses?.find(item => item.id !== networkId)
   const { query, push } = useRouter()
   const [ showMarket, setShowMarket ] = useState<ModelMarket>(markets[0])
@@ -126,19 +126,24 @@ const Order = ({contract, networkId} : any) => {
 
   const { data: signer } = useSigner()
   const { address } = useAccount()
-  
+
+  const contract = useContract({
+    address: addresses[networkId === 420 ? 0 : 1]?.deforex?.address,
+    abi: DEFOREX_ABI.abi ,
+    signerOrProvider: signer,
+  })
   const contractERC20Dai = useContract({
-    address: addressesNetwork?.DAI?.address,
+    address: addresses[networkId === 420 ? 0 : 1]?.DAI?.address,
     abi: erc20ABI,
     signerOrProvider: signer
   })
   const contractERC20USDC = useContract({
-    address: addressesNetwork?.USDC?.address,
+    address: addresses[networkId === 420 ? 0 : 1]?.USDC?.address,
     abi: erc20ABI,
     signerOrProvider: signer
   })
   const contractERC20USDT = useContract({
-    address: addressesNetwork?.USDT?.address,
+    address: addresses[networkId === 420 ? 0 : 1]?.USDT?.address,
     abi: erc20ABI,
     signerOrProvider: signer
   })  

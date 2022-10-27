@@ -5,7 +5,6 @@ import { useApollo } from '../apolloClient'
 import '../styles/globals.css';
 import '@rainbow-me/rainbowkit/styles.css';
 import type { AppProps } from 'next/app';
-import { injectedWallet } from '@rainbow-me/rainbowkit/wallets';
 
 import {
   connectorsForWallets,
@@ -40,13 +39,11 @@ const { wallets } = getDefaultWallets({
 const connectors = connectorsForWallets([
   ...wallets
 ])
-
 const wagmiClient = createClient({
   autoConnect: true,
   connectors,
   provider,
-});
-
+})
 function MyApp({
   Component,
   pageProps,
