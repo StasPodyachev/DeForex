@@ -27,6 +27,11 @@ const config = {
         interval: 100,
       },
     },
+    mainnet: {
+      url: `https://eth-mainnet.g.alchemy.com/v2/FNCgX5LBec5fQS3bbOyok6c-xxgQix3y`,
+      chainId: 1,
+      accounts: [process.env.DEPLOY_PRIVATE_KEY],
+    },
     "optimism-goerli": {
       url: `https://opt-goerli.g.alchemy.com/v2/${process.env.ALCHEMY_KEY}`,
       chainId: 420,

@@ -6,18 +6,21 @@ import deployment from "../deployment/deployments.json";
 const deployments: IDeployment = deployment;
 
 const contracts = [
+  // {
+  //   contractName: "Factory",
+  // },
+  // {
+  //   contractName: "Deforex",
+  // },
+  // {
+  //   contractName: "Exchange",
+  // },
+  // {
+  //   contractName: "UniswapExchange",
+  //   args: ["0x8DB3b09D50CA3E303A06d993A210ab61eB9f6Ea3"],
+  // },
   {
-    contractName: "Factory",
-  },
-  {
-    contractName: "Deforex",
-  },
-  {
-    contractName: "Exchange",
-  },
-  {
-    contractName: "UniswapExchange",
-    args: ["0x8DB3b09D50CA3E303A06d993A210ab61eB9f6Ea3"],
+    contractName: "Faucet",
   },
 ];
 

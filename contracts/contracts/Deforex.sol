@@ -87,6 +87,8 @@ contract Deforex is IDeforex, Ownable {
   function _distributionActive(PositionParams storage position, uint256 amountOutFact) internal returns(uint256 amountToAlp, uint256 amountToTrader){
     address alpAddr = _factory.getAlp(position.tokenSell, position.tokenBuy);
 
+    require(alpAddr != address(0), "Deforex: ZERO_ADDRESS");
+
     amountToAlp = position.amount * (position.leverage-1);
     
     if(amountOutFact >= amountToAlp){
@@ -94,8 +96,6 @@ contract Deforex is IDeforex, Ownable {
     }else{
       amountToAlp = amountOutFact;
     } 
-
-    require(alpAddr != address(0), "Deforex: ZERO_ADDRESS");
 
     TransferHelper.safeTransfer(position.tokenSell, alpAddr, amountToAlp);
 

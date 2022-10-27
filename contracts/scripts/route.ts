@@ -1,56 +1,36 @@
-const hre = require("hardhat");
+const hre: HardhatRuntimeEnvironment = require("hardhat");
 
-import {
-  abi as SWAP_ROUTER_ABI,
-  bytecode as SWAP_ROUTER_BYTECODE,
-} from "@uniswap/v3-periphery/artifacts/contracts/SwapRouter.sol/SwapRouter.json";
+import { abi as QOUTERV2_ABI } from "@uniswap/v3-periphery/artifacts/contracts/lens/QuoterV2.sol/QuoterV2.json";
 
-import { AlphaRouter, ChainId } from "@uniswap/smart-order-router";
-import { ethers } from "ethers";
-import { Token, CurrencyAmount, Percent, TradeType } from "@uniswap/sdk-core";
+import { BigNumber, ethers } from "ethers";
+import { HardhatRuntimeEnvironment } from "hardhat/types";
+import { QuoterV2 } from "../types/v3";
+import { BIG_1E18 } from "./constants";
 
-// const hre: any = hardhat;
-
-const router = new AlphaRouter({
-  chainId: 5,
-  provider: new ethers.providers.JsonRpcProvider(
-    "https://goerli.infura.io/v3/8d74aa62de8e44f1807e65f4ba122e8d"
-  ),
-});
-
-const DAI = new Token(
-  ChainId.GÖRLI,
-  "0xdc31Ee1784292379Fbb2964b3B9C4124D8F89C60",
-  18,
-  "DAI",
-  "DAI"
-);
-
-const USDC = new Token(
-  ChainId.GÖRLI,
-  "0xD87Ba7A50B2E7E660f678A895E4B72E7CB4CCd9C",
-  6,
-  "USDC",
-  "USD//C"
-);
-
-const amount = CurrencyAmount.fromRawAmount(DAI, "1000000000000000000");
+const amount = BigNumber.from(100000000).mul(BIG_1E18);
 
 async function main() {
   const network = await hre.getChainId();
 
-  const route = await router.route(amount, USDC, TradeType.EXACT_INPUT, {
-    recipient: "0xF552f5223D3f7cEB580fA92Fe0AFc6ED8c09179b",
-    slippageTolerance: new Percent(5, 100),
-    deadline: Math.floor(Date.now() / 1000 + 1800),
+  const qouterv2 = (await hre.ethers.getContractAt(
+    QOUTERV2_ABI,
+    "0x61fFE014bA17989E743c5F6cB21bF9697530B21e"
+  )) as QuoterV2;
+
+  const { amountOut } = await qouterv2.callStatic.quoteExactInputSingle({
+    tokenIn: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+    tokenOut: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    amountIn: amount,
+    fee: 500,
+    sqrtPriceLimitX96: 0,
   });
 
-  console.log(route);
+  console.log({ amountOut: amountOut.toString() });
 }
 
 main()
   .then(() => process.exit(0))
   .catch((error) => {
     console.error(error);
-    process.exitCode = 1;
+    process.exit(1);
   });
