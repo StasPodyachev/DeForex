@@ -7,7 +7,8 @@ import { Exchange } from "../../typechain/Exchange";
 import { UniswapExchange } from "../../typechain/UniswapExchange";
 import { ALP } from "../../typechain/ALP";
 import { TestAlpDeployer } from "../../typechain/TestAlpDeployer";
-import { Deforex, TestSwapRouter02 } from "../../typechain";
+import { Deforex } from "../../typechain/Deforex";
+import { TestSwapRouter02 } from "../../typechain/TestSwapRouter02";
 
 interface FactoryFixture {
   factory: Factory;
@@ -123,6 +124,7 @@ export const alpFixture: Fixture<ALPFixture> =
 interface DeforexFixture extends TokensAndFactoryFixture {
   deforex: Deforex;
   factory: Factory;
+  swapRouter: TestSwapRouter02;
 }
 
 export const deforexFixture: Fixture<DeforexFixture> = async (
@@ -153,5 +155,6 @@ export const deforexFixture: Fixture<DeforexFixture> = async (
     token2,
     factory,
     deforex,
+    swapRouter,
   };
 };
