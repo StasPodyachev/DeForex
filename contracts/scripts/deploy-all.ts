@@ -5,7 +5,13 @@ import { IDeployment, writeDeployData } from "../scripts/utils";
 import deployment from "../deployment/deployments.json";
 const deployments: IDeployment = deployment;
 
-const contracts = [
+interface ContractDeploy {
+  contractName: string;
+  nameFile?: string;
+  args?: any;
+}
+
+const contracts: ContractDeploy[] = [
   // {
   //   contractName: "Factory",
   // },
@@ -30,7 +36,11 @@ async function main() {
 
     console.log(`deploying ${contract.contractName} started`);
 
-    await deployContract(contract.contractName, "", contract.args);
+    await deployContract(
+      contract.contractName,
+      contract.nameFile,
+      contract.args
+    );
 
     console.log(`${contract.contractName} deployed success`);
     console.log("-------------------------------------------");
@@ -39,8 +49,8 @@ async function main() {
 
 export async function deployContract(
   contractName: string,
-  nameFile: string,
-  args: any
+  nameFile?: string,
+  args?: any
 ) {
   const network = await hre.getChainId();
   const contractFactory = await hre.ethers.getContractFactory(
