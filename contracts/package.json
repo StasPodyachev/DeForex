@@ -5,7 +5,8 @@
     "compile": "hardhat compile",
     "typechain": "hardhat typechain",
     "compile-v3-core": "npx typechain --target ethers-v5 --out-dir types/v3 './node_modules/@uniswap/v3-core/artifacts/contracts/**/*.json'",
-    "compile-v3-types": "npx typechain --target ethers-v5 --out-dir types/v3 './node_modules/@uniswap/v3-periphery/artifacts/contracts/**/*.json'"
+    "compile-v3-types": "npx typechain --target ethers-v5 --out-dir types/v3 './node_modules/@uniswap/v3-periphery/artifacts/contracts/**/*.json'",
+    "test": "hardhat test"
   },
   "devDependencies": {
     "@chainlink/contracts": "^0.4.0",
