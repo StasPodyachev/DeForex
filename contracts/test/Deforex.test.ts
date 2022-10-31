@@ -16,6 +16,7 @@ const ALP_FEE = 20
 const LIQUIDATION_FEE = 20
 
 describe("Deforex", () => {
+
   let wallet: Wallet, other: Wallet
 
   let token0: TestERC20
@@ -39,7 +40,7 @@ describe("Deforex", () => {
   })
 
   beforeEach("deploy fixture", async () => {
-    ;({ token0, token1, token2, factory, deforex, swapRouter } =
+    ; ({ token0, token1, token2, factory, deforex, swapRouter } =
       await loadFixture(deforexFixture))
 
     await factory.createAlp(token0.address, token1.address)
@@ -188,7 +189,7 @@ describe("Deforex", () => {
 
       await deforex
         .connect(other)
-        ["liquidation(uint256,bytes)"](positionId, "0x")
+      ["liquidation(uint256,bytes)"](positionId, "0x")
 
       const diff = amountOutFact.sub(leverageAmount)
       const alpAmount = diff.mul(ALP_FEE).div(100)
