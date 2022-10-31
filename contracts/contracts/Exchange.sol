@@ -6,16 +6,18 @@ import "./interfaces/IExchange.sol";
 import "./interfaces/IFactory.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Exchange is
-    IExchange, Ownable
-{
+contract Exchange is IExchange, Ownable {
     IFactory public _factory;
 
-    function setFactory(IFactory factory) external{
+    function setFactory(IFactory factory) external {
         _factory = factory;
     }
 
-    function swap(IExchange.SwapParams memory params) virtual external returns (uint256 amountIn, uint256 amountOut) {
+    function swap(IExchange.SwapParams memory params)
+        external
+        virtual
+        returns (uint256 amountIn, uint256 amountOut)
+    {
         // maybe check best DEX
 
         IExchange exchange = _factory.getExchange(DEX.UNISWAP);
