@@ -119,3 +119,4 @@ cache/
 typechain/
 bin/
 data/
+coverage/

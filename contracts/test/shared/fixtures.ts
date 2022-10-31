@@ -61,7 +61,7 @@ async function exchangeFixture(): Promise<ExchangeFixture> {
   return { exchange }
 }
 
-interface UniswapExchangeFixture {
+interface UniswapExchangeFixture extends TokensFixture {
   exchange: UniswapExchange
   swapRouter: TestSwapRouter02
 }
@@ -72,13 +72,20 @@ export const uniswapExchangeFixture: Fixture<UniswapExchangeFixture> = async (
 ) => {
   const router02Factory = await ethers.getContractFactory('TestSwapRouter02')
   const exchangeFactory = await ethers.getContractFactory('UniswapExchange')
+  const { token0, token1, token2 } = await tokensFixture()
 
   const swapRouter = (await router02Factory.deploy()) as TestSwapRouter02
   const exchange = (await exchangeFactory.deploy(
     swapRouter.address
   )) as UniswapExchange
 
-  return { exchange, swapRouter }
+  return {
+    token0,
+    token1,
+    token2,
+    exchange,
+    swapRouter
+  }
 }
 
 type TokensAndFactoryFixture = FactoryFixture & TokensFixture
@@ -125,6 +132,7 @@ interface DeforexFixture extends TokensAndFactoryFixture {
   deforex: Deforex
   factory: Factory
   exchange: Exchange
+  uniswapExchange: UniswapExchange
   swapRouter: TestSwapRouter02
 }
 
@@ -157,6 +165,7 @@ export const deforexFixture: Fixture<DeforexFixture> = async (
     factory,
     deforex,
     exchange,
+    uniswapExchange,
     swapRouter,
   }
 }

@@ -81,7 +81,7 @@ describe("Deforex", () => {
       const balanceToken1 = await token1.balanceOf(wallet.address)
 
       expect(oldBalanceToken0.sub(amount)).to.eq(balanceToken0)
-      expect(oldBalanceToken1.sub(amount)).to.eq(balanceToken1)
+      expect(oldBalanceToken1).to.eq(balanceToken1)
 
       const positionId = await deforex._positionId()
       const position = await deforex._positions(positionId)

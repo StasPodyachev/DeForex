@@ -52,7 +52,8 @@ describe("Exchange", () => {
       let amountIn
       let amountOut;
 
-      await token0.approve(swapRouter.address, amount)
+
+      await token0.transfer(exchange.address, amount)
 
         ;[amountIn, amountOut] = await exchange.callStatic.swap({
           amountIn: amount,
