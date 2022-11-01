@@ -5,6 +5,7 @@ pragma abicoder v2;
 import "./interfaces/IExchange.sol";
 import "./interfaces/IFactory.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@uniswap/lib/contracts/libraries/TransferHelper.sol";
 
 contract Exchange is IExchange, Ownable {
     IFactory public _factory;
@@ -21,6 +22,11 @@ contract Exchange is IExchange, Ownable {
         // maybe check best DEX
 
         IExchange exchange = _factory.getExchange(DEX.UNISWAP);
+        TransferHelper.safeApprove(
+            params.tokenIn,
+            address(exchange),
+            params.amountIn
+        );
 
         require(address(exchange) != address(0), "Exchange: ZERO_ADDRESS");
 

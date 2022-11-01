@@ -26,7 +26,7 @@ describe("Factory", () => {
   })
 
   beforeEach("deploy fixture", async () => {
-    ;({ token0, token1, token2, factory, exchange } = await loadFixture(
+    ; ({ token0, token1, token2, factory, exchange } = await loadFixture(
       deforexFixture
     ))
 
@@ -118,11 +118,11 @@ describe("Factory", () => {
 
   describe("#setOwner", () => {
     it("success changed", async () => {
-      const owner = await factory.owner()
-
-      console.log(owner)
+      let owner = await factory.owner()
 
       await factory.setOwner(other.address)
+
+      owner = await factory.owner()
 
       expect(other.address).to.be.eq(owner)
     })

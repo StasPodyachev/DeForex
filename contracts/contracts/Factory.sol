@@ -12,6 +12,10 @@ contract Factory is IFactory, AlpDeployer {
     mapping(IExchange.DEX => IExchange) private exchanges;
     address[] public alps;
 
+    constructor() {
+        owner = msg.sender;
+    }
+
     function countAlp() external view returns (uint256) {
         return alps.length;
     }

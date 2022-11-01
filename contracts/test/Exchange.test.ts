@@ -49,23 +49,27 @@ describe("Exchange", () => {
     it("success swap", async () => {
       const expectAmount = 10
       const amount = 10
-      let amountIn
-      let amountOut;
-
 
       await token0.transfer(exchange.address, amount)
 
-        ;[amountIn, amountOut] = await exchange.callStatic.swap({
-          amountIn: amount,
-          amountOut: 0,
-          tokenIn: token0.address,
-          tokenOut: token1.address,
-          timestamp: (Date.now() / 1000) | 0,
-          path: "0x",
-        })
 
-      expect(expectAmount).to.be.eq(amountIn)
-      expect(expectAmount).to.be.eq(amountOut)
+      const oldBalanceToken0 = await token0.balanceOf(exchange.address)
+      const oldBalanceToken1 = await token1.balanceOf(exchange.address)
+
+      await exchange.swap({
+        amountIn: amount,
+        amountOut: 0,
+        tokenIn: token0.address,
+        tokenOut: token1.address,
+        timestamp: (Date.now() / 1000) | 0,
+        path: "0x",
+      })
+
+      const balanceToken0 = await token0.balanceOf(exchange.address)
+      const balanceToken1 = await token1.balanceOf(exchange.address)
+
+      expect(oldBalanceToken0.sub(amount)).to.be.eq(balanceToken0)
+      expect(oldBalanceToken1.add(amount)).to.be.eq(balanceToken1)
     })
 
     it("fail swap if dex type not register", async () => {
