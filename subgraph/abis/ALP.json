@@ -1,11 +1,13 @@
-[{
+[
+  {
     "inputs": [],
     "stateMutability": "nonpayable",
     "type": "constructor"
   },
   {
     "anonymous": false,
-    "inputs": [{
+    "inputs": [
+      {
         "indexed": true,
         "internalType": "address",
         "name": "sender",
@@ -41,7 +43,8 @@
   },
   {
     "anonymous": false,
-    "inputs": [{
+    "inputs": [
+      {
         "indexed": false,
         "internalType": "uint256",
         "name": "reserve0",
@@ -59,7 +62,8 @@
   },
   {
     "anonymous": false,
-    "inputs": [{
+    "inputs": [
+      {
         "indexed": true,
         "internalType": "address",
         "name": "sender",
@@ -94,7 +98,8 @@
     "type": "event"
   },
   {
-    "inputs": [{
+    "inputs": [
+      {
         "internalType": "address",
         "name": "",
         "type": "address"
@@ -106,16 +111,19 @@
       }
     ],
     "name": "balanceOf",
-    "outputs": [{
-      "internalType": "uint256",
-      "name": "",
-      "type": "uint256"
-    }],
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [{
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "val0",
         "type": "uint256"
@@ -134,18 +142,21 @@
   {
     "inputs": [],
     "name": "factory",
-    "outputs": [{
-      "internalType": "address",
-      "name": "",
-      "type": "address"
-    }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "getReserves",
-    "outputs": [{
+    "outputs": [
+      {
         "internalType": "uint256",
         "name": "_reserve0",
         "type": "uint256"
@@ -160,24 +171,8 @@
     "type": "function"
   },
   {
-    "inputs": [{
-        "internalType": "address",
-        "name": "_token0",
-        "type": "address"
-      },
+    "inputs": [
       {
-        "internalType": "address",
-        "name": "_token1",
-        "type": "address"
-      }
-    ],
-    "name": "initialize",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [{
         "internalType": "uint256",
         "name": "leverage",
         "type": "uint256"
@@ -194,7 +189,8 @@
       }
     ],
     "name": "requestReserve",
-    "outputs": [{
+    "outputs": [
+      {
         "internalType": "uint256",
         "name": "val",
         "type": "uint256"
@@ -211,27 +207,32 @@
   {
     "inputs": [],
     "name": "token0",
-    "outputs": [{
-      "internalType": "address",
-      "name": "",
-      "type": "address"
-    }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [],
     "name": "token1",
-    "outputs": [{
-      "internalType": "address",
-      "name": "",
-      "type": "address"
-    }],
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
   {
-    "inputs": [{
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "val0",
         "type": "uint256"

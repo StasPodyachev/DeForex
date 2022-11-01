@@ -1,7 +1,7 @@
 {
   "network": "optimism-goerli",
-  "start_block": 2077232,
-  "factory_address": "0xc349fC3183856a1F21E8FD9FF5589eCbc77Af443",
-  "deforex_address": "0x7890F15ABE81E13B7a468f03a64704ed2D3fC802",
+  "start_block": 2077510,
+  "factory_address": "0xF299d6F8d597C8E0a4110181755F168cDd2F6961",
+  "deforex_address": "0xFdf38d316D34a9B0e0420C20d3826DFC29B9745c",
   "weth_address": "0x4200000000000000000000000000000000000006"
 }

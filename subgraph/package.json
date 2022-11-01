@@ -3,7 +3,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "codegen": "graph codegen",
-    "codegen:optimism-goerli": "graph codegen && yarn prepare:optimism-goerli",
+    "codegen:optimism-goerli": "yarn prepare:optimism-goerli && graph codegen",
     "build": "graph build",
     "deploy:optimism-goerli": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ sneltyn/deforex",
     "deploy:mumbai": "graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ sneltyn/deforex-mumbai",
