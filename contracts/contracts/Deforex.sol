@@ -15,6 +15,9 @@ contract Deforex is IDeforex, Ownable {
     uint256 public _positionId;
     IFactory public _factory;
     IExchange public _exchange;
+    uint256 public liquidationDeltaPercent = 1e17; // 10%
+    uint256 public liquidatorFeePercent = 5e14; // 0.05%
+    uint256 public alpFeePercent = 1e15; // 0.10%
 
     mapping(uint256 => PositionParams) public _positions;
 
@@ -24,6 +27,18 @@ contract Deforex is IDeforex, Ownable {
 
     function setExchange(IExchange exchange) external {
         _exchange = exchange;
+    }
+
+    function setLiquidationDelta(uint256 val) external {
+        liquidationDeltaPercent = val;
+    }
+
+    function setLiquidatorFeePercent(uint256 val) external {
+        liquidatorFeePercent = val;
+    }
+
+    function setAlpFeePercent(uint256 val) external {
+        alpFeePercent = val;
     }
 
     function createPosition(
@@ -166,7 +181,9 @@ contract Deforex is IDeforex, Ownable {
         uint256 leverageAmoutOut = position.amount * (position.leverage - 1);
 
         require(
-            amountOut <= leverageAmoutOut,
+            amountOut <=
+                leverageAmoutOut +
+                    ((leverageAmoutOut * liquidationDeltaPercent) / 1e18),
             "Deforex: Liquidation condition not met"
         );
 
@@ -174,9 +191,26 @@ contract Deforex is IDeforex, Ownable {
             position.tokenSell,
             position.tokenBuy
         );
-        TransferHelper.safeTransfer(position.tokenSell, alpAddr, amountOut);
 
-        // TODO: reward to liquidator
+        uint256 alpAmount = leverageAmoutOut +
+            (amountOut * alpFeePercent) /
+            1e18;
+
+        uint256 liquidatorAmount = (amountOut * liquidatorFeePercent) / 1e18;
+
+        uint256 traderAmount = amountOut - alpAmount - liquidatorAmount;
+
+        TransferHelper.safeTransfer(position.tokenSell, alpAddr, alpAmount);
+        TransferHelper.safeTransfer(
+            position.tokenSell,
+            msg.sender,
+            liquidatorAmount
+        );
+        TransferHelper.safeTransfer(
+            position.tokenSell,
+            position.trader,
+            traderAmount
+        );
 
         position.status = PositionStatus.LIQUIDATION;
 

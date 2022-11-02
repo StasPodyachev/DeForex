@@ -12,11 +12,8 @@ const createFixtureLoader = waffle.createFixtureLoader
 
 const NUM = 1
 const DEN = 1
-const ALP_FEE = 20
-const LIQUIDATION_FEE = 20
 
 describe("Deforex", () => {
-
   let wallet: Wallet, other: Wallet
 
   let token0: TestERC20
@@ -40,7 +37,7 @@ describe("Deforex", () => {
   })
 
   beforeEach("deploy fixture", async () => {
-    ; ({ token0, token1, token2, factory, deforex, swapRouter } =
+    ;({ token0, token1, token2, factory, deforex, swapRouter } =
       await loadFixture(deforexFixture))
 
     await factory.createAlp(token0.address, token1.address)
@@ -62,10 +59,10 @@ describe("Deforex", () => {
 
   describe("#createPosition", () => {
     it("success case", async () => {
-      const amount: number = 10
-      const leverage: number = 10
-      const expectAmountOut =
-        ((((leverage - 1) * amount + amount) * NUM) / DEN) | 0
+      const amount: number = 100
+      const leverage: number = 100
+      const expectAmountOut = 10000
+
       const oldBalanceToken0 = await token0.balanceOf(wallet.address)
       const oldBalanceToken1 = await token0.balanceOf(wallet.address)
 
@@ -90,8 +87,16 @@ describe("Deforex", () => {
     })
 
     it("fails when alp address is ZERO_ADDRESS", async () => {
+      const amount: number = 100
+      const leverage: number = 100
       await expect(
-        deforex.createPosition(token0.address, token0.address, 10, 10, "0x")
+        deforex.createPosition(
+          token0.address,
+          token0.address,
+          amount,
+          leverage,
+          "0x"
+        )
       ).to.be.revertedWith("Deforex: alp address is ZERO_ADDRESS")
     })
 
@@ -111,8 +116,12 @@ describe("Deforex", () => {
 
   describe("#closePosition", () => {
     it("success case", async () => {
-      const amount: number = 10
-      const leverage: number = 10
+      const amount: number = 100
+      const leverage: number = 100
+
+      // Rate = 1.001 (token0-token1)
+      let num = 10010
+      let den = 10000
 
       await deforex.createPosition(
         token0.address,
@@ -128,16 +137,18 @@ describe("Deforex", () => {
       const positionId = await deforex._positionId()
       let position = await deforex._positions(positionId)
 
-      const amountOutFact = position.amountOut.mul(NUM).div(DEN)
-      let amountToTrader = BigNumber.from(0)
-      let amountToAlp = position.amount.mul(position.leverage.toNumber() - 1)
+      console.log("out", position.amountOut.toString())
+
+      // Rate closing fact = 0.985 (token0 -> token1)
+      num = 10000
+      den = 9850
+
       await deforex.closePosition(positionId, "0x")
 
-      if (amountOutFact.gte(amountToAlp)) {
-        amountToTrader = amountOutFact.sub(amountToAlp)
-      } else {
-        amountToAlp = amountOutFact
-      }
+      const amountToTrader = 262
+      const amountToAlp = 9990
+
+      // 10162.44 - return token0
 
       const traderBalance = await token0.balanceOf(wallet.address)
       const alpBalance = await token0.balanceOf(alp.address)
@@ -161,13 +172,14 @@ describe("Deforex", () => {
 
   describe("#liquidation", () => {
     it("success case", async () => {
-      const amount: number = 10
-      const leverage: number = 10
+      const amount: number = 100
+      const leverage: number = 100
 
-      const leverageAmount = (((leverage - 1) * amount * NUM) / DEN) | 0
+      // Rate = 1.001 (token0)
+      let num = 10010
+      let den = 10000
 
-      const num = 90
-      const den = 100
+      const leverageAmount = 9900
 
       await deforex.createPosition(
         token0.address,
@@ -180,20 +192,32 @@ describe("Deforex", () => {
       const positionId = await deforex._positionId()
       let position = await deforex._positions(positionId)
 
-      const amountOutFact = position.amountOut.mul(num).div(den)
+      const amountOutFact = 9920
+
       const oldTraderBalance = await token0.balanceOf(wallet.address)
       const oldAlpBalance = await token0.balanceOf(alp.address)
       const oldLiquidatorBalance = await token0.balanceOf(other.address)
+
+      num = 10090
+      den = 10000
 
       await swapRouter.setRate(num, den)
 
       await deforex
         .connect(other)
-      ["liquidation(uint256,bytes)"](positionId, "0x")
+        ["liquidation(uint256,bytes)"](positionId, "0x")
 
-      const diff = amountOutFact.sub(leverageAmount)
-      const alpAmount = diff.mul(ALP_FEE).div(100)
-      const liquidatorAmount = diff.mul(LIQUIDATION_FEE).div(100)
+      const ALP_FEE_PERCENT = 0.1
+      const LIQUIDATOR_FEE_PERCENT = 0.05
+
+      const alpAmount =
+        (leverageAmount + amountOutFact * (ALP_FEE_PERCENT / 100)) | 0
+      const liquidatorAmount =
+        (amountOutFact * (LIQUIDATOR_FEE_PERCENT / 100)) | 0
+
+      const expectTraderAmount = oldTraderBalance.add(
+        amountOutFact - alpAmount - liquidatorAmount
+      )
 
       const traderBalance = await token0.balanceOf(wallet.address)
       const alpBalance = await token0.balanceOf(alp.address)
@@ -202,9 +226,7 @@ describe("Deforex", () => {
       position = await deforex._positions(positionId)
       expect(2).eq(position.status)
 
-      expect(
-        oldTraderBalance.add(diff).sub(alpAmount).sub(liquidatorAmount)
-      ).eq(traderBalance)
+      expect(expectTraderAmount).eq(traderBalance)
       expect(oldAlpBalance.add(alpAmount)).eq(alpBalance)
       expect(oldLiquidatorBalance.add(liquidatorAmount)).eq(liquidatorBalance)
     })
