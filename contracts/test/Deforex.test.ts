@@ -37,7 +37,7 @@ describe("Deforex", () => {
   })
 
   beforeEach("deploy fixture", async () => {
-    ;({ token0, token1, token2, factory, deforex, swapRouter } =
+    ; ({ token0, token1, token2, factory, deforex, swapRouter } =
       await loadFixture(deforexFixture))
 
     await factory.createAlp(token0.address, token1.address)
@@ -123,6 +123,8 @@ describe("Deforex", () => {
       let num = 10010
       let den = 10000
 
+      await swapRouter.setRate(num, den)
+
       await deforex.createPosition(
         token0.address,
         token1.address,
@@ -137,16 +139,16 @@ describe("Deforex", () => {
       const positionId = await deforex._positionId()
       let position = await deforex._positions(positionId)
 
-      console.log("out", position.amountOut.toString())
-
       // Rate closing fact = 0.985 (token0 -> token1)
       num = 10000
       den = 9850
 
+      await swapRouter.setRate(num, den)
+
       await deforex.closePosition(positionId, "0x")
 
-      const amountToTrader = 262
-      const amountToAlp = 9990
+      const amountToTrader = 252
+      const amountToAlp = 9910
 
       // 10162.44 - return token0
 
@@ -181,6 +183,8 @@ describe("Deforex", () => {
 
       const leverageAmount = 9900
 
+      await swapRouter.setRate(num, den)
+
       await deforex.createPosition(
         token0.address,
         token1.address,
@@ -198,14 +202,15 @@ describe("Deforex", () => {
       const oldAlpBalance = await token0.balanceOf(alp.address)
       const oldLiquidatorBalance = await token0.balanceOf(other.address)
 
-      num = 10090
-      den = 10000
+      // Rate closing fact = 1.009 (token0 -> token1)
+      num = 10000
+      den = 10090
 
       await swapRouter.setRate(num, den)
 
       await deforex
         .connect(other)
-        ["liquidation(uint256,bytes)"](positionId, "0x")
+      ["liquidation(uint256,bytes)"](positionId, "0x")
 
       const ALP_FEE_PERCENT = 0.1
       const LIQUIDATOR_FEE_PERCENT = 0.05
