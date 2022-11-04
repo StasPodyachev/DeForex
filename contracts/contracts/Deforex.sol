@@ -15,6 +15,9 @@ contract Deforex is IDeforex, Ownable {
     uint256 public _positionId;
     IFactory public _factory;
     IExchange public _exchange;
+    uint256 public liquidationDeltaPercent = 1e17; // 10%
+    uint256 public liquidatorFeePercent = 5e14; // 0.05%
+    uint256 public alpFeePercent = 1e15; // 0.10%
 
     mapping(uint256 => PositionParams) public _positions;
 
@@ -24,6 +27,18 @@ contract Deforex is IDeforex, Ownable {
 
     function setExchange(IExchange exchange) external {
         _exchange = exchange;
+    }
+
+    function setLiquidationDelta(uint256 val) external {
+        liquidationDeltaPercent = val;
+    }
+
+    function setLiquidatorFeePercent(uint256 val) external {
+        liquidatorFeePercent = val;
+    }
+
+    function setAlpFeePercent(uint256 val) external {
+        alpFeePercent = val;
     }
 
     function createPosition(
@@ -115,29 +130,73 @@ contract Deforex is IDeforex, Ownable {
 
     function _distributionActive(
         PositionParams storage position,
-        uint256 amountOutFact
-    ) internal returns (uint256 amountToAlp, uint256 amountToTrader) {
+        uint256 amountOut
+    ) internal returns (uint256 alpAmount, uint256 traderAmount) {
         address alpAddr = _factory.getAlp(position.tokenSell);
 
-        amountToAlp = position.amount * (position.leverage - 1);
+        alpAmount =
+            position.amount *
+            (position.leverage - 1) +
+            (amountOut * alpFeePercent) /
+            1e18;
 
-        if (amountOutFact >= amountToAlp) {
-            amountToTrader = amountOutFact - amountToAlp;
-        } else {
-            amountToAlp = amountOutFact;
-        }
+        if (amountOut > alpAmount) {
+            traderAmount = amountOut - alpAmount;
 
-        require(alpAddr != address(0), "Deforex: ZERO_ADDRESS");
-
-        TransferHelper.safeTransfer(position.tokenSell, alpAddr, amountToAlp);
-
-        if (amountToTrader > 0) {
             TransferHelper.safeTransfer(
                 position.tokenSell,
                 position.trader,
-                amountToTrader
+                traderAmount
             );
+        } else {
+            alpAmount = amountOut;
         }
+
+        TransferHelper.safeTransfer(position.tokenSell, alpAddr, alpAmount);
+    }
+
+    function _distributionActiveLiquidation(
+        PositionParams storage position,
+        uint256 amountOut,
+        uint256 leverageAmoutOut
+    )
+        internal
+        returns (
+            uint256 alpAmount,
+            uint256 traderAmount,
+            uint256 liquidatorAmount
+        )
+    {
+        address alpAddr = _factory.getAlp(position.tokenSell);
+
+        alpAmount = leverageAmoutOut + (amountOut * alpFeePercent) / 1e18;
+
+        if (alpAmount < amountOut) {
+            liquidatorAmount = (amountOut * liquidatorFeePercent) / 1e18;
+
+            if (alpAmount + liquidatorAmount > amountOut) {
+                liquidatorAmount = amountOut - alpAmount;
+            }
+
+            TransferHelper.safeTransfer(
+                position.tokenSell,
+                msg.sender,
+                liquidatorAmount
+            );
+
+            traderAmount = amountOut - alpAmount - liquidatorAmount;
+
+            if (traderAmount > 0)
+                TransferHelper.safeTransfer(
+                    position.tokenSell,
+                    position.trader,
+                    traderAmount
+                );
+        } else {
+            alpAmount = amountOut;
+        }
+
+        TransferHelper.safeTransfer(position.tokenSell, alpAddr, alpAmount);
     }
 
     function closePosition(uint256 id, bytes calldata path) external {
@@ -153,7 +212,7 @@ contract Deforex is IDeforex, Ownable {
 
         position.status = PositionStatus.CLOSE;
 
-        emit PositionClose(id, amountToAlp, amountToTrader);
+        emit PositionClose(id, amountOutFact, amountToAlp, amountToTrader);
     }
 
     function liquidation(uint256 id, bytes calldata path) external {
@@ -165,18 +224,32 @@ contract Deforex is IDeforex, Ownable {
         uint256 leverageAmoutOut = position.amount * (position.leverage - 1);
 
         require(
-            amountOut <= leverageAmoutOut,
+            amountOut <=
+                leverageAmoutOut +
+                    ((leverageAmoutOut * liquidationDeltaPercent) / 1e18),
             "Deforex: Liquidation condition not met"
         );
 
-        address alpAddr = _factory.getAlp(position.tokenSell);
-        TransferHelper.safeTransfer(position.tokenSell, alpAddr, amountOut);
-
-        // TODO: reward to liquidator
+        (
+            uint256 alpAmount,
+            uint256 traderAmount,
+            uint256 liquidatorAmount
+        ) = _distributionActiveLiquidation(
+                position,
+                amountOut,
+                leverageAmoutOut
+            );
 
         position.status = PositionStatus.LIQUIDATION;
 
-        emit PositionLiquidation(id, amountOut, msg.sender);
+        emit PositionLiquidation(
+            id,
+            amountOut,
+            alpAmount,
+            traderAmount,
+            liquidatorAmount,
+            msg.sender
+        );
     }
 
     function liquidation(uint256[] memory ids, bytes[] calldata path) external {
