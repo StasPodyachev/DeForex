@@ -8,7 +8,7 @@ import "./ALP.sol";
 
 contract Factory is IFactory, AlpDeployer {
     address public owner;
-    mapping(address => mapping(address => address)) private alpsMap;
+    mapping(address => address) private alpsMap;
     mapping(IExchange.DEX => IExchange) private exchanges;
     address[] public alps;
 
@@ -20,16 +20,8 @@ contract Factory is IFactory, AlpDeployer {
         return alps.length;
     }
 
-    function getAlp(address tokenA, address tokenB)
-        external
-        view
-        returns (address alp)
-    {
-        (address token0, address token1) = tokenA < tokenB
-            ? (tokenA, tokenB)
-            : (tokenB, tokenA);
-
-        return alpsMap[token0][token1];
+    function getAlp(address token) external view returns (address alp) {
+        return alpsMap[token];
     }
 
     function getExchange(IExchange.DEX type_)
@@ -48,23 +40,15 @@ contract Factory is IFactory, AlpDeployer {
 
     // TODO: register Exchanges and other
 
-    function createAlp(address tokenA, address tokenB)
-        external
-        returns (address alp)
-    {
-        require(tokenA != tokenB);
-        (address token0, address token1) = tokenA < tokenB
-            ? (tokenA, tokenB)
-            : (tokenB, tokenA);
-        require(token0 != address(0));
-        require(alpsMap[token0][token1] == address(0), "Factory: ALP_EXIST"); // single check is sufficient
+    function createAlp(address token) external returns (address alp) {
+        require(token != address(0), "Factory: ZERO_ADDRESS");
+        require(alpsMap[token] == address(0), "Factory: ALP_EXIST"); // single check is sufficient
 
-        alp = deploy(address(this), token0, token1);
+        alp = deploy(address(this), token);
 
-        alpsMap[token0][token1] = alp;
-        alpsMap[token1][token0] = alp; // populate mapping in the reverse direction
+        alpsMap[token] = alp;
         alps.push(alp);
-        emit AlpCreated(token0, token1, alp, alps.length);
+        emit AlpCreated(token, alp, alps.length);
     }
 
     function setOwner(address _owner) external override {

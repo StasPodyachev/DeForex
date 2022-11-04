@@ -43,21 +43,21 @@ describe("Deforex", () => {
     ; ({ token0, token1, token2, factory, deforex, swapRouter } =
       await loadFixture(deforexFixture))
 
-    await factory.createAlp(token0.address, token1.address)
-    let alpAddress = await factory.getAlp(token0.address, token1.address)
+    await factory.createAlp(token0.address)
+    let alpAddress = await factory.getAlp(token0.address)
     alp = ALPFactory.attach(alpAddress) as ALP
 
     await token0.approve(alpAddress, constants.MaxUint256)
     await token1.approve(alpAddress, constants.MaxUint256)
 
-    await alp.deposit(constants.MaxUint256.div(5), constants.MaxUint256.div(5))
+    await alp.deposit(constants.MaxUint256.div(5))
 
     await token0.approve(deforex.address, constants.MaxUint256)
     await token1.approve(deforex.address, constants.MaxUint256)
 
     await swapRouter.setRate(NUM, DEN)
 
-    //await token2.approve(deforex.address, constants.MaxUint256);
+    await alp.addAvailableTokens([token1.address, token0.address])
   })
 
   describe("#createPosition", () => {
@@ -89,10 +89,10 @@ describe("Deforex", () => {
       expect(expectAmountOut).to.eq(position.amountOut)
     })
 
-    it("fails when alp address is ZERO_ADDRESS", async () => {
+    it("fails when token is not available", async () => {
       await expect(
-        deforex.createPosition(token0.address, token0.address, 10, 10, "0x")
-      ).to.be.revertedWith("Deforex: alp address is ZERO_ADDRESS")
+        deforex.createPosition(token0.address, token2.address, 10, 10, "0x")
+      ).to.be.revertedWith("Deforex: token is not available")
     })
 
     it("fails when tokenSell is not approved", async () => {

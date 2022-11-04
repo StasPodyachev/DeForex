@@ -57,17 +57,17 @@ describe("Factory", () => {
 
   describe("#getAlp", async () => {
     it("doesn't exist alp", async () => {
-      const addr = await factory.getAlp(token0.address, token1.address)
+      const addr = await factory.getAlp(token0.address)
 
       expect(constants.AddressZero).to.be.eq(addr)
     })
     it("alp exist", async () => {
-      await factory.createAlp(token0.address, token1.address)
+      await factory.createAlp(token0.address)
       const expectAddr = await factory.alps(0)
 
       expect(constants.AddressZero).to.be.not.eq(expectAddr)
 
-      const addr = await factory.getAlp(token0.address, token1.address)
+      const addr = await factory.getAlp(token0.address)
 
       expect(expectAddr).to.be.eq(addr)
     })
@@ -75,43 +75,36 @@ describe("Factory", () => {
 
   describe("#createAlp", () => {
     it("success created", async () => {
-      await factory.createAlp(token0.address, token1.address)
+      await factory.createAlp(token0.address)
 
       const expectAddr = await factory.alps(0)
 
       expect(constants.AddressZero).to.be.not.eq(expectAddr)
 
-      const addr = await factory.getAlp(token0.address, token1.address)
+      const addr = await factory.getAlp(token0.address)
 
       expect(expectAddr).to.be.eq(addr)
 
       const oldCount = await factory.countAlp()
 
-      await factory.createAlp(token0.address, token2.address)
+      await factory.createAlp(token1.address)
 
       const count = await factory.countAlp()
 
       expect(oldCount.add(1)).to.be.eq(count)
     })
 
-    it("fail when token equals", async () => {
-      await expect(factory.createAlp(token0.address, token0.address)).to.be
-        .reverted
-    })
-
-    it("fail when token0 or token1 address(0)", async () => {
-      await expect(factory.createAlp(constants.AddressZero, token0.address)).to
+    it("fail when token is address(0)", async () => {
+      await expect(factory.createAlp(constants.AddressZero)).to
         .be.reverted
 
-      await expect(factory.createAlp(token0.address, constants.AddressZero)).to
-        .be.reverted
     })
 
     it("fail when alp exist", async () => {
-      await factory.createAlp(token0.address, token1.address)
+      await factory.createAlp(token0.address)
 
       await expect(
-        factory.createAlp(token0.address, token1.address)
+        factory.createAlp(token0.address)
       ).to.be.revertedWith("Factory: ALP_EXIST")
     })
   })

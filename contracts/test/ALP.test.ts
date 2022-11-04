@@ -29,7 +29,7 @@ describe("ALP", () => {
   })
 
   beforeEach("deploy fixture", async () => {
-    ;({ token0, token1, token2, factory, createAlp } = await loadFixture(
+    ; ({ token0, token1, token2, factory, createAlp } = await loadFixture(
       alpFixture
     ))
 
@@ -45,13 +45,9 @@ describe("ALP", () => {
       factory.address,
       "factory addresses not equals"
     )
-    expect(await alp.token0()).to.eq(
+    expect(await alp._token()).to.eq(
       token0.address,
-      "token0 addresses not equals"
-    )
-    expect(await alp.token1()).to.eq(
-      token1.address,
-      "token1 addresses not equals"
+      "token addresses not equals"
     )
   })
 
@@ -59,40 +55,21 @@ describe("ALP", () => {
     it("success cases", async () => {
       const amount: number = 10
 
-      let oldReserve0: BigNumber
-      let oldReserve1: BigNumber
-      let reserve0: BigNumber
-      let reserve1: BigNumber
+      let oldReserve: BigNumber
+      let reserve: BigNumber
 
-      let oldBalance0: BigNumber
-      let oldBalance1: BigNumber
-      let balance0: BigNumber
-      let balance1: BigNumber
-      ;[oldReserve0, oldReserve1] = await alp.getReserves()
-
-      oldBalance0 = await alp.balanceOf(wallet.address, 0)
-      oldBalance1 = await alp.balanceOf(wallet.address, 1)
+      oldReserve = await alp.getReserve()
 
       const oldBalanceToken0 = await token0.balanceOf(wallet.address)
-      const oldBalanceToken1 = await token1.balanceOf(wallet.address)
 
-      await alp.deposit(amount, amount)
+      await alp.deposit(amount)
 
       const balanceToken0 = await token0.balanceOf(wallet.address)
-      const balanceToken1 = await token1.balanceOf(wallet.address)
 
       expect(balanceToken0).to.eq(oldBalanceToken0.sub(amount))
-      expect(balanceToken1).to.eq(oldBalanceToken1.sub(amount))
-      ;[reserve0, reserve1] = await alp.getReserves()
+      reserve = await alp.getReserve()
 
-      expect(reserve0).to.eq(oldReserve0.add(amount))
-      expect(reserve1).to.eq(oldReserve1.add(amount))
-
-      balance0 = await alp.balanceOf(wallet.address, 0)
-      balance1 = await alp.balanceOf(wallet.address, 1)
-
-      expect(balance0).to.eq(oldBalance0.add(amount))
-      expect(balance1).to.eq(oldBalance1.add(amount))
+      expect(reserve).to.eq(oldReserve.add(amount))
     })
   })
 
@@ -100,47 +77,26 @@ describe("ALP", () => {
     it("success cases", async () => {
       const amount: number = 10
 
-      let oldReserve0: BigNumber
-      let oldReserve1: BigNumber
-      let reserve0: BigNumber
-      let reserve1: BigNumber
+      let oldReserve: BigNumber
+      let reserve: BigNumber
 
-      let oldBalance0: BigNumber
-      let oldBalance1: BigNumber
-      let balance0: BigNumber
-      let balance1: BigNumber
+      await alp.deposit(amount)
+      oldReserve = await alp.getReserve()
 
-      await alp.deposit(amount, amount)
-      ;[oldReserve0, oldReserve1] = await alp.getReserves()
 
-      oldBalance0 = await alp.balanceOf(wallet.address, 0)
-      oldBalance1 = await alp.balanceOf(wallet.address, 1)
+      await alp.withdraw(amount)
+      reserve = await alp.getReserve()
 
-      await alp.withdraw(amount, amount)
-      ;[reserve0, reserve1] = await alp.getReserves()
-
-      expect(reserve0).to.eq(oldReserve0.sub(amount))
-      expect(reserve1).to.eq(oldReserve1.sub(amount))
-
-      balance0 = await alp.balanceOf(wallet.address, 0)
-      balance1 = await alp.balanceOf(wallet.address, 1)
-
-      expect(balance0).to.eq(oldBalance0.sub(amount))
-      expect(balance1).to.eq(oldBalance1.sub(amount))
+      expect(reserve).to.eq(oldReserve.sub(amount))
     })
 
-    it("fails when insufficient balance for token0", async () => {
-      await alp.deposit(0, 10)
-      await expect(alp.withdraw(10, 10)).to.be.revertedWith(
-        "ALP: Insufficient balance for token0"
+    it("fails when insufficient balance for token", async () => {
+      await alp.deposit(0)
+      await expect(alp.withdraw(10)).to.be.revertedWith(
+        "ALP: Insufficient reserve for token"
       )
     })
-    it("fails when insufficient balance for token1", async () => {
-      await alp.deposit(10, 0)
-      await expect(alp.withdraw(10, 10)).to.be.revertedWith(
-        "ALP: Insufficient balance for token1"
-      )
-    })
+
   })
 
   describe("#requestReserve", () => {
@@ -148,46 +104,37 @@ describe("ALP", () => {
       const amount: number = 10
       const leverage: number = 10
 
-      let oldReserve0: BigNumber
-      let reserve0: BigNumber
+      let oldReserve: BigNumber
+      let reserve: BigNumber
 
-      await alp.deposit(100000, 100000)
+      await alp.deposit(100000)
 
       const oldBalance = await token0.balanceOf(wallet.address)
-      const oldProviderBalances = [BigNumber.from(0), BigNumber.from(0)]
 
-      oldProviderBalances[0] = await alp.balanceOf(wallet.address, 0)
-      oldProviderBalances[1] = await alp.balanceOf(wallet.address, 0)
-      ;[oldReserve0] = await alp.getReserves()
 
-      await alp.requestReserve(leverage, amount, token0.address)
+      oldReserve = await alp.getReserve()
+
+      await alp.requestReserve(leverage, amount)
 
       const val = amount * (leverage - 1)
       const balance = await token0.balanceOf(wallet.address)
 
       expect(oldBalance.add(val)).to.eq(balance)
-      ;[reserve0] = await alp.getReserves()
+      reserve = await alp.getReserve()
 
-      expect(oldReserve0.sub(val)).to.eq(reserve0)
+      expect(oldReserve.sub(val)).to.eq(reserve)
 
-      const providerBalances = [BigNumber.from(0), BigNumber.from(0)]
-
-      providerBalances[0] = await alp.balanceOf(wallet.address, 0)
-      providerBalances[1] = await alp.balanceOf(wallet.address, 0)
-
-      expect(oldProviderBalances[0].sub(val)).to.be.eq(providerBalances[0])
-      expect(oldProviderBalances[1]).to.be.eq(providerBalances[1])
     })
 
     it("fails when leverage is too much", async () => {
       await expect(
-        alp.requestReserve(1000, 10, token0.address)
+        alp.requestReserve(1000, 10)
       ).to.be.revertedWith("ALP: too much leverage")
     })
 
     it("fails when insufficient funds in reserve", async () => {
       await expect(
-        alp.requestReserve(10, 10, token0.address)
+        alp.requestReserve(10, 10)
       ).to.be.revertedWith("ALP: Insufficient in reserve")
     })
   })

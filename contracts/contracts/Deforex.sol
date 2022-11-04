@@ -40,16 +40,18 @@ contract Deforex is IDeforex, Ownable {
             amount
         );
 
-        address alpAddr = _factory.getAlp(tokenSell, tokenBuy);
+        address alpAddr = _factory.getAlp(tokenSell);
 
         require(alpAddr != address(0), "Deforex: alp address is ZERO_ADDRESS");
 
         ALP alp = ALP(alpAddr);
-        (uint256 totalAmount, ) = alp.requestReserve(
-            leverage,
-            amount,
-            tokenSell
+
+        require(
+            alp.isTokenAvailable(tokenBuy),
+            "Deforex: token is not available"
         );
+
+        (uint256 totalAmount, ) = alp.requestReserve(leverage, amount);
 
         IExchange exchange = _factory.getExchange(IExchange.DEX.UNISWAP);
 
@@ -115,10 +117,7 @@ contract Deforex is IDeforex, Ownable {
         PositionParams storage position,
         uint256 amountOutFact
     ) internal returns (uint256 amountToAlp, uint256 amountToTrader) {
-        address alpAddr = _factory.getAlp(
-            position.tokenSell,
-            position.tokenBuy
-        );
+        address alpAddr = _factory.getAlp(position.tokenSell);
 
         amountToAlp = position.amount * (position.leverage - 1);
 
@@ -170,10 +169,7 @@ contract Deforex is IDeforex, Ownable {
             "Deforex: Liquidation condition not met"
         );
 
-        address alpAddr = _factory.getAlp(
-            position.tokenSell,
-            position.tokenBuy
-        );
+        address alpAddr = _factory.getAlp(position.tokenSell);
         TransferHelper.safeTransfer(position.tokenSell, alpAddr, amountOut);
 
         // TODO: reward to liquidator

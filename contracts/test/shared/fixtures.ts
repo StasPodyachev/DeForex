@@ -116,8 +116,7 @@ export const alpFixture: Fixture<ALPFixture> =
 
         const tx = await alpDeployer.deploy(
           factory.address,
-          firstToken.address,
-          secondToken.address
+          firstToken.address
         )
 
         const receipt = await tx.wait()
