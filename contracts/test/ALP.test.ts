@@ -1,16 +1,16 @@
-import { ethers, waffle } from 'hardhat'
-import { BigNumber, BigNumberish, constants, Wallet } from 'ethers'
-import { TestERC20 } from '../typechain/TestERC20'
-import { Factory } from '../typechain/Factory'
-import { ALP } from '../typechain/ALP'
-import { expect, use } from 'chai'
-import { alpFixture } from './shared/fixtures'
+import { ethers, waffle } from "hardhat"
+import { BigNumber, BigNumberish, constants, Wallet } from "ethers"
+import { TestERC20 } from "../typechain/TestERC20"
+import { Factory } from "../typechain/Factory"
+import { ALP } from "../typechain/ALP"
+import { expect, use } from "chai"
+import { alpFixture } from "./shared/fixtures"
 
 type ThenArg<T> = T extends PromiseLike<infer U> ? U : T
 
 const createFixtureLoader = waffle.createFixtureLoader
 
-describe('ALP', () => {
+describe("ALP", () => {
   let wallet: Wallet, other: Wallet
 
   let token0: TestERC20
@@ -21,14 +21,14 @@ describe('ALP', () => {
   let alp: ALP
 
   let loadFixture: ReturnType<typeof createFixtureLoader>
-  let createAlp: ThenArg<ReturnType<typeof alpFixture>>['createAlp']
+  let createAlp: ThenArg<ReturnType<typeof alpFixture>>["createAlp"]
 
-  before('create fixture loader', async () => {
+  before("create fixture loader", async () => {
     ;[wallet, other] = await (ethers as any).getSigners()
     loadFixture = createFixtureLoader([wallet, other])
   })
 
-  beforeEach('deploy fixture', async () => {
+  beforeEach("deploy fixture", async () => {
     ;({ token0, token1, token2, factory, createAlp } = await loadFixture(
       alpFixture
     ))
@@ -40,23 +40,23 @@ describe('ALP', () => {
     token2.approve(alp.address, constants.MaxUint256)
   })
 
-  it('constructor initializes immutables', async () => {
+  it("constructor initializes immutables", async () => {
     expect(await alp.factory()).to.eq(
       factory.address,
-      'factory addresses not equals'
+      "factory addresses not equals"
     )
     expect(await alp.token0()).to.eq(
       token0.address,
-      'token0 addresses not equals'
+      "token0 addresses not equals"
     )
     expect(await alp.token1()).to.eq(
       token1.address,
-      'token1 addresses not equals'
+      "token1 addresses not equals"
     )
   })
 
-  describe('#deposit', () => {
-    it('success cases', async () => {
+  describe("#deposit", () => {
+    it("success cases", async () => {
       const amount: number = 10
 
       let oldReserve0: BigNumber
@@ -96,8 +96,8 @@ describe('ALP', () => {
     })
   })
 
-  describe('#withdraw', () => {
-    it('success cases', async () => {
+  describe("#withdraw", () => {
+    it("success cases", async () => {
       const amount: number = 10
 
       let oldReserve0: BigNumber
@@ -129,22 +129,22 @@ describe('ALP', () => {
       expect(balance1).to.eq(oldBalance1.sub(amount))
     })
 
-    it('fails when insufficient balance for token0', async () => {
+    it("fails when insufficient balance for token0", async () => {
       await alp.deposit(0, 10)
       await expect(alp.withdraw(10, 10)).to.be.revertedWith(
-        'ALP: Insufficient balance for token0'
+        "ALP: Insufficient balance for token0"
       )
     })
-    it('fails when insufficient balance for token1', async () => {
+    it("fails when insufficient balance for token1", async () => {
       await alp.deposit(10, 0)
       await expect(alp.withdraw(10, 10)).to.be.revertedWith(
-        'ALP: Insufficient balance for token1'
+        "ALP: Insufficient balance for token1"
       )
     })
   })
 
-  describe('#requestReserve', () => {
-    it('success cases', async () => {
+  describe("#requestReserve", () => {
+    it("success cases", async () => {
       const amount: number = 10
       const leverage: number = 10
 
@@ -179,16 +179,16 @@ describe('ALP', () => {
       expect(oldProviderBalances[1]).to.be.eq(providerBalances[1])
     })
 
-    it('fails when leverage is too much', async () => {
+    it("fails when leverage is too much", async () => {
       await expect(
         alp.requestReserve(1000, 10, token0.address)
-      ).to.be.revertedWith('ALP: too much leverage')
+      ).to.be.revertedWith("ALP: too much leverage")
     })
 
-    it('fails when insufficient funds in reserve', async () => {
+    it("fails when insufficient funds in reserve", async () => {
       await expect(
         alp.requestReserve(10, 10, token0.address)
-      ).to.be.revertedWith('ALP: Insufficient in reserve')
+      ).to.be.revertedWith("ALP: Insufficient in reserve")
     })
   })
 })

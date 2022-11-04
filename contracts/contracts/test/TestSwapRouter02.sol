@@ -8,8 +8,8 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "hardhat/console.sol";
 
 contract TestSwapRouter02 is ISwapRouter02 {
-    uint256 num;
-    uint256 den;
+    uint256 num = 1;
+    uint256 den = 1;
 
     function setRate(uint256 num_, uint256 den_) external {
         num = num_;
