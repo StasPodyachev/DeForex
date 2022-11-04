@@ -178,13 +178,14 @@ contract Deforex is IDeforex, Ownable {
                 liquidatorAmount = amountOut - alpAmount;
             }
 
-            TransferHelper.safeTransfer(
-                position.tokenSell,
-                msg.sender,
-                liquidatorAmount
-            );
-
             traderAmount = amountOut - alpAmount - liquidatorAmount;
+
+            if (liquidatorAmount > 0)
+                TransferHelper.safeTransfer(
+                    position.tokenSell,
+                    msg.sender,
+                    liquidatorAmount
+                );
 
             if (traderAmount > 0)
                 TransferHelper.safeTransfer(
