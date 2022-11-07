@@ -9,8 +9,7 @@ export function handleAlpCreated(event: AlpCreatedEvent): void {
       event.params.alp.toHex()
   )
 
-  entity.token0 = event.params.token0
-  entity.token1 = event.params.token1
+  entity.token0 = event.params.token
   entity.timestamp = event.block.timestamp
   entity.save()
 

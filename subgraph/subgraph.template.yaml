@@ -19,7 +19,7 @@ dataSources:
         - name: Factory
           file: ./abis/Factory.json
       eventHandlers:
-        - event: AlpCreated(indexed address,indexed address,address,uint256)
+        - event: AlpCreated(indexed address,address,uint256)
           handler: handleAlpCreated
       file: ./src/factory.ts
   - kind: ethereum
@@ -41,9 +41,9 @@ dataSources:
       eventHandlers:
         - event: PositionCreated(uint256)
           handler: handlePositionCreated
-        - event: PositionClose(uint256,uint256,uint256)
+        - event: PositionClose(uint256,uint256,uint256,uint256)
           handler: handlePositionClose
-        - event: PositionLiquidation(uint256,uint256,address)
+        - event: PositionLiquidation(uint256,uint256,uint256,uint256,uint256,address)
           handler: handlePositionClose
       file: ./src/deforex.ts
 
@@ -64,10 +64,10 @@ templates:
         - name: ALP
           file: ./abis/ALP.json
       eventHandlers:
-        - event: Deposit(indexed address,uint256,uint256,uint256,uint256)
+        - event: Deposit(indexed address,uint256)
           handler: handleDeposit
-        - event: Sync(uint256,uint256)
+        - event: Sync(uint256)
           handler: handleSync
-        - event: Withdraw(indexed address,uint256,uint256,uint256,uint256)
+        - event: Withdraw(indexed address,uint256)
           handler: handleWithdraw
       file: ./src/alp.ts

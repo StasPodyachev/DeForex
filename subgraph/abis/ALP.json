@@ -16,25 +16,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "val0",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "val1",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "balance0",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "balance1",
+        "name": "val",
         "type": "uint256"
       }
     ],
@@ -47,13 +29,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "reserve0",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "reserve1",
+        "name": "reserve",
         "type": "uint256"
       }
     ],
@@ -72,25 +48,7 @@
       {
         "indexed": false,
         "internalType": "uint256",
-        "name": "val0",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "val1",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "balance0",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "balance1",
+        "name": "val",
         "type": "uint256"
       }
     ],
@@ -98,24 +56,45 @@
     "type": "event"
   },
   {
+    "inputs": [],
+    "name": "_token",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "tokens",
+        "type": "address[]"
+      }
+    ],
+    "name": "addAvailableTokens",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
         "name": "",
         "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
       }
     ],
-    "name": "balanceOf",
+    "name": "availableTokens",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "bool",
         "name": "",
-        "type": "uint256"
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -125,12 +104,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "val0",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "val1",
+        "name": "val",
         "type": "uint256"
       }
     ],
@@ -154,20 +128,47 @@
   },
   {
     "inputs": [],
-    "name": "getReserves",
+    "name": "getReserve",
     "outputs": [
       {
         "internalType": "uint256",
-        "name": "_reserve0",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_reserve1",
+        "name": "reserve",
         "type": "uint256"
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "token",
+        "type": "address"
+      }
+    ],
+    "name": "isTokenAvailable",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "tokens",
+        "type": "address[]"
+      }
+    ],
+    "name": "removeAvailableTokens",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -181,11 +182,6 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "token",
-        "type": "address"
       }
     ],
     "name": "requestReserve",
@@ -205,41 +201,10 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "token0",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "token1",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "val0",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "val1",
+        "name": "val",
         "type": "uint256"
       }
     ],

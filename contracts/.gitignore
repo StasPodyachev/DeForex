@@ -120,3 +120,4 @@ typechain/
 bin/
 data/
 coverage/
+coverage.json

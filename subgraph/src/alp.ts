@@ -15,8 +15,8 @@ export function handleDeposit(event: Deposit): void {
     entity.owner = event.params.sender
   }
 
-  entity.balance0 = event.params.balance0
-  entity.balance1 = event.params.balance1
+  // entity.balance0 = event.params.balance0
+  // entity.balance1 = event.params.balance1
   entity.timestampUp = event.block.timestamp
   entity.save()
 }
@@ -34,8 +34,8 @@ export function handleWithdraw(event: Withdraw): void {
     entity.owner = event.params.sender
   }
 
-  entity.balance0 = event.params.balance0
-  entity.balance1 = event.params.balance1
+  // entity.balance0 = event.params.balance0
+  // entity.balance1 = event.params.balance1
   entity.timestampUp = event.block.timestamp
   entity.save()
 }
@@ -45,8 +45,7 @@ export function handleSync(event: Sync): void {
 
   if(!entity) return
 
-  entity.reserve0 = event.params.reserve0
-  entity.reserve1 = event.params.reserve1
+  entity.reserve = event.params.reserve
   entity.reserveUpTimestamp = event.block.timestamp
   entity.save()
 }

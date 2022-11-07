@@ -6,8 +6,6 @@ import "./Exchange.sol";
 import "@uniswap/lib/contracts/libraries/TransferHelper.sol";
 import "./interfaces/ISwapRouter02.sol";
 
-// import "@uniswap/v3-periphery/contracts/interfaces/ISwapRouter.sol";
-
 contract UniswapExchange is Exchange {
     ISwapRouter02 public immutable _swapRouter;
 

@@ -17,8 +17,7 @@ type Alp @entity {
   id: ID!
   token0: Bytes! # address
   token1: Bytes! # address
-  reserve0: BigInt
-  reserve1: BigInt
+  reserve: BigInt
   timestamp: BigInt!
   reserveUpTimestamp: BigInt
 }
@@ -36,5 +35,6 @@ type Position @entity {
   endTimestamp: BigInt
   amountToAlp: BigInt
   amountToTrader: BigInt
+  amountToLiquidator: BigInt
   liquidator: Bytes
 }

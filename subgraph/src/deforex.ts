@@ -65,6 +65,9 @@ export function handlePositionLiquidation(event: PositionLiquidation): void {
 
   entity.status = 2;
   entity.endTimestamp = event.block.timestamp;
-  entity.amountToAlp = event.params.amountToAlp;
+  entity.amountToAlp = event.params.alpAmount;
+  entity.amountToLiquidator = event.params.liquidatorAmount
+  entity.amountToTrader = event.params.traderAmount
+
   entity.save();
 }
